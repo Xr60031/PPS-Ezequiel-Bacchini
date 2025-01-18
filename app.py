@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import render_template, redirect, request, Response, session
 
-app = Flask(__name__,template_folder='template')
+app = Flask(__name__,template_folder='FACTURADOR-ELECTRONICO-AFIP-ARCA')
 
 @app.route('/')
 def home():
