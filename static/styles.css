@@ -1,0 +1,397 @@
+p{
+  font-size: large;
+}
+
+h1,h2,h3,h4,h5,h6{
+  color: rgb(218, 218, 56)
+}
+
+body{
+  background-color:  #1E1E1E;
+  text-align:center;
+  color:#E0E0E0;
+  font-family: "League Spartan", sans-serif;
+  font-optical-sizing: auto;
+}
+
+.AccesoDirecto{
+    padding-block: min(5vh, 5rem);
+}
+
+#MainMenu{
+    width: 400px;
+}
+
+.barranav{
+    border-color: #4A90E2;
+    border-style: solid;
+}
+
+.enlaceAD{
+    color: #4A90E2;
+}
+
+#barraDeNavegacion{
+    background-color: black;
+    color: #4A90E2;
+}
+
+.botonInfo{
+    background-color: #357ABD;
+    color:#4A90E2;
+    border-color: #4A90E2;
+    border-style: solid;
+}
+
+.boxAD{
+    display: block;
+    width: fit-content;
+    margin-left: 20px;
+    margin-right: 20px;
+    border: 1px solid #4A90E2;
+    text-decoration: none;
+    color: #4A90E2;
+    padding: 6px 10px;
+    margin-top: 0px;
+    text-align: center;
+    position: relative;
+    transition: color .3s;
+}
+
+.boxAD.alternativo {
+    border-color: #e24a4ad5;
+    color: #E0E0E0 ;
+}
+
+.boxAD.alternativo::before {
+    background-color: #F78C8C;
+}
+
+.boxAD.alternativo:hover{
+    color: black;
+}
+
+.boxAD::before{
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    background-color:#357ABD;
+    z-index: -1;
+    left: 100%;
+    width: 0%;
+    transition: .3s;
+}
+
+.boxAD:hover{
+    color: #E0E0E0;
+}
+
+.boxAD:hover::before{
+    left: 0%;
+    width: 100%;
+    transition: width .3s;
+}
+
+.navbar-toggler{
+    width: 47px;
+    height: 34px;
+    background-color: black;
+    border-color: #FFFFFF;
+}
+
+.navbar-toggler .line{
+    width: 100%;
+    float: left;
+    height: 2px;
+    background-color: #357ABD;
+    margin: 2px 0px;
+}
+
+input[type="submit"].boxAD {
+    display: block;
+    width: auto;
+    margin-left: 20px;
+    margin-right: 20px;
+    border: 1px solid #e24a4ad5;
+    text-decoration: none;
+    color: #E0E0E0;
+    background-color: transparent;
+    padding: 6px 10px;
+    margin-top: 0px;
+    text-align: center;
+    position: relative;
+    transition: color .3s, background-color .3s;
+    cursor: pointer;
+}
+
+input[type="submit"].boxAD:hover {
+    color: black;
+    background-color: #F78C8C
+}
+
+button.enlaceAD.boxAD {
+    display: block;
+    width: auto;
+    margin-left: 20px;
+    margin-right: 20px;
+    border: 1px solid #e24a4ad5;
+    text-decoration: none;
+    color: #E0E0E0;
+    background-color: transparent;
+    padding: 6px 10px;
+    margin-top: 0px;
+    text-align: center;
+    position: relative;
+    transition: color .3s, background-color .3s;
+    cursor: pointer;
+    font: inherit; 
+}
+
+button.enlaceAD.boxAD:hover {
+    color: black;
+    background-color: #e24a4ad5; 
+}
+
+#items_ {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.input-group {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 250px;
+}
+.input-group h3 {
+    margin: 0 0 5px;
+    font-size: 16px;
+}
+
+.centered{
+    height:100vh;
+    background-color: #1E1E1E;
+    display:flex;
+    justify-content: center;
+    align-items:center;
+}
+
+.hidden{
+    overflow: hidden;
+}
+
+/*Para remover puntos de las listas*/
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#items_ {
+  display: flex;
+  flex-direction: column;
+}
+
+#button{
+  display: block;
+  width: fit-content;
+  margin-left: 20px;
+  margin-right: 20px;
+  border: 1px solid #4A90E2;
+  text-decoration: none;
+  color: #4A90E2;
+  padding: 6px 10px;
+  margin-top: 0px;
+  text-align: center;
+  position: relative;
+  transition: color .3s;
+  background-color: #1E1E1E;
+}
+
+#button::before{
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color:#357ABD;
+  z-index: -1;
+  left: 100%;
+  width: 0%;
+  transition: .3s;
+}
+
+#button:hover{
+  color: #E0E0E0;
+}
+
+#button:hover::before{
+  left: 0%;
+  width: 100%;
+  transition: width .3s;
+}
+
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #1E1E1E;
+  z-index: 9999;
+  transition: opacity 0.75s, visibility 0.75s;
+}
+
+.loader-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.spinner {
+  width: 75px;
+  height: 75px;
+  border: 15px solid #E0E0E0;
+  border-top-color: #4A90E2;
+  border-radius: 50%;
+  animation: loading 1s ease infinite, colorChange 2s ease infinite;
+}
+
+@keyframes loading {
+  from {
+      transform: rotate(0turn);
+  }
+  to {
+      transform: rotate(1turn);
+  }
+}
+
+@keyframes colorChange {
+  0% {
+    border-top-color: #4A90E2;
+  }
+  50% {
+    border-top-color: #e24a4ad5;
+  }
+  100% {
+    border-top-color: #4A90E2;
+  }
+}
+
+.pantalla_exito{ 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(30, 30, 30, 0.75);
+  z-index: 9999;
+  transition: opacity 0.75s, visibility 0.75s;
+}
+
+.pantalla_exito-hidden{ 
+  opacity: 0;
+  visibility: hidden;
+}
+
+.accion_item{ 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(30, 30, 30, 0.75);
+  z-index: 9999;
+  transition: opacity 0.75s, visibility 0.75s;
+}
+
+.accion_item-hidden{ 
+  opacity: 0;
+  visibility: hidden;
+}
+
+#items-container {
+  max-height: 50%;
+  overflow-y: auto;
+  border: 1px solid #4A90E2;
+  padding: 10px;
+  width: 85%;
+  margin: 0 auto;
+  display: block;
+}
+
+
+.tabla-centrada {
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.tabla-centrada th,
+.tabla-centrada td {
+    border: 1px solid #E0E0E0 !important;
+    padding: 8px 12px;
+    text-align: center;
+}
+
+.tabla-centrada th {
+    background-color: #fcda1d56;
+}
+
+/*Para el popup de las cookies*/
+
+.cookie_popup{
+  position: fixed;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  background: #E0E0E0;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  text-align: center;
+  z-index: 10000;
+  width: 90%;
+  max-width: 450px;
+  display: none;
+  color:#1E1E1E;
+}
+
+.cookie_button{
+  padding: 0.5rem 1rem;
+    background-color: #4A90E2;
+    color: #1E1E1E;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cookie_overlay{
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  display: none;
+}
+
+/* Facturador Unico Toggles */
+.quantity-input, .discount-input {
+  width: 60px;
+  padding: 2px 4px; 
+  font-size: 0.9em; 
+  box-sizing: border-box;
+}

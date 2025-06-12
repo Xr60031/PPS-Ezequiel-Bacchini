@@ -18,9 +18,9 @@ from builtins import input
 from builtins import str
 
 __author__ = "Mariano Reingart (reingart@gmail.com)"
-__copyright__ = "Copyright (C) 2011-2021 Mariano Reingart"
+__copyright__ = "Copyright (C) 2011-2025 Mariano Reingart"
 __license__ = "LGPL-3.0-or-later"
-__version__ = "3.28b"
+__version__ = "3.28c"
 
 import datetime
 import os
@@ -54,8 +54,8 @@ http://www.sistemasagiles.com.ar/trac/wiki/PyAfipWs
 
 # definición del formato del archivo de intercambio:
 
-if not "--pyfepdf" in sys.argv:
-    TIPOS_REG = "0", "1", "2", "3"
+if not '--pyfepdf' in sys.argv:
+    TIPOS_REG = '0', '1', '2', '3', 'A'
     ENCABEZADO = [
         ("tipo_reg", 1, N),  # 0: encabezado
         ("fecha_cbte", 8, A),
@@ -89,6 +89,7 @@ if not "--pyfepdf" in sys.argv:
         ("err_code", 100, A),
         ("err_msg", 1000, A),
         ("fecha_pago", 8, A),
+        ('cancela_misma_moneda_ext', 1, A), # opcional S o N
     ]
 
     DETALLE = [
@@ -115,6 +116,12 @@ if not "--pyfepdf" in sys.argv:
         ("cbte_nro", 8, N),
         ("cbte_cuit", 11, N),
     ]
+
+    ACTIVIDAD = [
+        ('tipo_reg', 1, A), # A: actividad
+        ('actividad_id', 6, N),
+        ]
+
 else:
     print("!" * 78)
     print("importando formato segun pyfepdf")
@@ -139,6 +146,7 @@ def autorizar(ws, entrada, salida):
     detalles = []
     permisos = []
     cbtasocs = []
+    actividades = []
     encabezado = []
     if "/dbf" in sys.argv:
         formatos = [
@@ -165,6 +173,9 @@ def autorizar(ws, entrada, salida):
             elif str(linea[0]) == TIPOS_REG[3]:
                 cbtasoc = leer(linea, CMP_ASOC)
                 cbtasocs.append(cbtasoc)
+            elif str(linea[0])==TIPOS_REG[4]:
+                acrividad = leer(linea, ACTIVIDAD)
+                actividades.append(acrividad)
             else:
                 print("Tipo de registro incorrecto:", linea[0])
 
@@ -192,6 +203,8 @@ def autorizar(ws, entrada, salida):
         ws.AgregarPermiso(**permiso)
     for cbtasoc in cbtasocs:
         ws.AgregarCmpAsoc(**cbtasoc)
+    for actividad in actividades:
+        ws.AgregarActividad(**actividad)
 
     if DEBUG:
         # print f.to_dict()
@@ -391,6 +404,7 @@ def main():
                 ("Detalle", DETALLE),
                 ("Permiso", PERMISO),
                 ("Comprobante Asociado", CMP_ASOC),
+                ('Actividades', ACTIVIDAD),
             ]:
                 if not "/dbf" in sys.argv:
                     comienzo = 1
@@ -476,6 +490,7 @@ def main():
                 incoterms,
                 idioma_cbte,
                 incoterms_ds,
+                cancela_misma_moneda_ext="N"
             )
 
             # Agrego un item:

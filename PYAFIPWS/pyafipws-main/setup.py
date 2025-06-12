@@ -12,7 +12,7 @@ from __future__ import absolute_import
 __author__ = "Mariano Reingart (reingart@gmail.com)"
 __copyright__ = "Copyright (C) 2008-2021 Mariano Reingart"
 
-from setuptools import setup
+from distutils.core import setup
 import glob
 import os
 import subprocess

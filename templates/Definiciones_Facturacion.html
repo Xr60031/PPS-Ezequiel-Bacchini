@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facturar único</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='Facturador_Logo.jpg') }}" type="image/x-icon">
+</head>
+<body>
+    <div style="text-align: justify;">
+        <h1>Definiciones de Facturación</h1>
+        <br>
+        <h5>Identificador de la factura</h5>
+        <p>Un número con el que puedas identificar la factura</p>
+        <p>Si no hiciste ninguna factura poné 1</p>
+        <p>Si ya facturaste se recomienda poner el número del identificador de tu factura anterior + 1, Factura anterior:</p>
+        
+
+        <br>
+
+        <h5>Tipo de factura:</h5>
+        <p>Factura C (Factura que emiten los monotributistas y excentos en IVA cuando venden un producto o servicio. No incluye IVA, porque los estos no lo cobran.)</p>
+        
+        <br><br>
+
+        <h5>Nombre y apellido del cliente</h5>
+        <p>El nombre y apellido del cliente</p>
+        
+        <br>
+
+        <h5>Tipo Documento:</h5>
+        <p>Es el tipo de documento del cliente</p>
+        <li><p>● CUIT</p></li>
+        <li><p>● DNI</p></li>
+        <li><p>● CDI (Es un número que se le asigna a los extranjeros que no tienen DNI o Cédula de Identidad argentina, pero necesitan realizar trámites fiscales en Argentina.)</p></li>
+        <li><p>● CI EXTRANJERA (Es un documento de identidad oficial para los extranjeros que viven en Argentina)</p></li>
+        <li><p>● PASAPORTE</p></li>
+        <li><p>● OTRO</p></li>
+
+        
+        <br><br>
+        
+        <h5>Número de documento del cliente</h5>
+        <p>El número de documento del cliente</p>
+        
+        <br>
+
+        <h5>El concepto de venta cliente</h5>
+        <p>Son las condiciones del pago</p>
+        <li><p>● Contado (El pago se realiza de forma completa y al instante.)</p></li>
+        <li><p>● Crédito a 30 días (El pago se realiza 30 días después de la compra.)</p></li>
+        <li><p>● Pago anticipado (El pago se hace antes de recibir el producto o servicio.)</p></li>
+        
+        <br><br>
+        
+        <h5>El concepto de IVA cliente</h5>
+        <p>Se refiere a cómo se detalla el Impuesto al Valor Agregado (IVA) en la factura.</p>
+        <li><p>● Consumidor Final (Persona que compra para uso personal)</option>
+        <li><p>● Monotributista (Persona o empresa que paga un monto fijo de impuestos cada mes y no cobra IVA.)</p></li>
+        <li><p>● Responsable Inscripto (Persona o empresa registrada en AFIP que cobra y paga IVA, y tiene que hacer trámites más complejos.)</p></li>
+        <li><p>● Responsable no inscripto (Persona o empresa que realiza actividades comerciales, pero no está registrada para cobrar IVA o no tiene la obligación de hacerlo)</p></li>
+        <li><p>● No inscripto (Persona o empresa que no está registrada en AFIP para ninguna actividad conectada a impuestos.)</p></li>
+        
+        <br><br>
+
+        <h5>El concepto de la venta</p></h5> 
+        <p>Corta explicación de qué estás vendiendo o haciendo.</p>
+        <p>(ATENCION: si seleccionaste PRODUCTOS, no hace falta rellenar los siguientes campos de fecha)</p>
+        <li><p>● Producto/s</p></li>
+        <li><p>● Servicio/s</p></li>
+        <li><p>● Producto/s y Servicio/s</p></li>
+        
+        <br><br>
+        
+        <h5>Fecha de servicio desde</h5>
+        <p>El día en que empieza el servicio o venta.</p>
+        
+        <br><br>
+        
+        <h5>Fecha de servicio hasta</h5>
+        <p>El día en que termina el servicio o venta.</p>
+        
+        <br><br>
+        
+        <h5>Fecha de vencimiento de pago</h5>
+        <p>El último día para pagar lo que debe el cliente.</p>
+    </div>
+</body>
+</html>

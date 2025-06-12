@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Facturador HelPy</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+        <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+        <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
+        <link rel="icon" href="{{ url_for('static', filename='Facturador_Logo.jpg') }}" type="image/x-icon">
+        <script src="/static/js/scriptGlobal.js"></script>
+    </head>
+    <body>
+        <!--Seccion de enlaces y acceso directo-->
+        <section class="AccesoDirecto">
+            <div class="container barranav">
+                <nav class="navbar navbar-expand-lg fixed-top" id="barraDeNavegacion">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="{{url_for('index')}}"><h6 class="enlaceAD boxAD">Menú Principal</h6></a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="line"></span> 
+                            <span class="line"></span> 
+                            <span class="line"></span>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-center" id="navbarNav"> 
+                            <ul class="navbar-nav"> 
+                                <li class="nav-item"> <a class="nav-link" href="{{url_for('documentacion')}}" target="_blank"><h6 class="enlaceAD boxAD">Documentación y Tutoriales</h6></a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{url_for('sis_info')}}" target="_blank"><h6 class="enlaceAD boxAD">Información sobre el sistema</h6></a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{url_for('ayuda')}}" target="_blank"><h6 class="enlaceAD boxAD">Ayuda</h6></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </section>
+        <br>
+        <!---->
+        
+        <h2><u>Iniciar Sesion</u></h2>
+        <h3>Como Subir tus archivos al sistema</h3>
+        <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
+        
+        <h3>Subí tus archivos de Certificado y Llave privada para empezar a facturar:</h3>
+        
+        <!--Agregar Clave Privada y Certificado-->
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <label for="certificado"><p>Seleccioná el archivo del Certificado:</p></label>
+            <input type="file" id="certificado" name="certificado" required>
+            <br>
+            
+            <label for="llave"><p>Seleccioná el archivo de la Llave:</p></label>
+            <input type="file" id="llave" name="llave" required>
+            <br>
+            
+            <h5 style="display: flex; justify-content: center;"><button type="submit" class="enlaceAD boxAD alternativo">Iniciar Sesion</button></h5>
+            <br>
+            <!-- Mostrar el mensaje flash con el botón -->
+            {% with messages = get_flashed_messages() %} 
+                {% if messages %}
+                    <div id="flash-message" style="border: 1px solid whitesmoke; background-color: rgba(255, 0, 0, 0.76); color:white; padding: 10px; margin: 10px; display: inline-block;">
+                        <ul>
+                            {% for message in messages %} 
+                                <li><p>{{ message }}</p></li>
+                            {% endfor %}
+                        </ul>
+                        <h5 style="display: flex; justify-content: center;"><button onclick="deleteMessage()" id="button">Eliminar mensaje</button></h5>
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+        </form>
+
+        <h4>¿Necesitas que otra persona nueva inicie sesión? Hacé click acá</h4>
+        <p>Esto te va a descargar un archivo con las configuraciones que el sistema tenía hechas para vos.</p>
+        <form action="{{ url_for('borrar_sesion') }}" method="POST">
+            <h5 style="display: flex; justify-content: center;"><button type="submit" class="enlaceAD boxAD alternativo">Guardar datos</button></h5>
+        </form>
+
+    </body>
+</html>

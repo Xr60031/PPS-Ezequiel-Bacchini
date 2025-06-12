@@ -26,6 +26,7 @@ import os
 import sys
 import tempfile
 import traceback
+## TODO: fix sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import qrcode
 
@@ -153,6 +154,7 @@ INSTALL_DIR = PyQR.InstallDir = get_install_dir()
 
 
 def main():
+    url = None
     if "--register" in sys.argv or "--unregister" in sys.argv:
         import pythoncom
         if TYPELIB:
