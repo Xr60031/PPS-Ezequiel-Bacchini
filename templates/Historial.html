@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='Facturador_Logo.jpg') }}" type="image/x-icon">
+</head>
+    
+    <body>
+        <!--Seccion de enlaces y acceso directo-->
+        <section class="AccesoDirecto">
+            <div class="container barranav">
+                <nav class="navbar navbar-expand-lg fixed-top" id="barraDeNavegacion">
+                    <div class="container-fluid">
+                        <a class="navbar-brand" href="{{url_for('index_')}}"><h6 class="enlaceAD boxAD">Menú Principal</h6></a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="line"></span> 
+                            <span class="line"></span> 
+                            <span class="line"></span>
+                        </button>
+                        <div class="collapse navbar-collapse justify-content-center" id="navbarNav"> 
+                            <ul class="navbar-nav"> 
+                                <li class="nav-item"> <a class="nav-link" href="{{url_for('menu_facturador_')}}"><h6 class="enlaceAD boxAD">Menu Facturación</h6></a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{url_for('config')}}"><h6 class="enlaceAD boxAD">Configuraciones</h6></a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{url_for('documentacion')}}" target="_blank"><h6 class="enlaceAD boxAD">Documentación y Tutoriales</h6></a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{url_for('sis_info')}}" target="_blank"><h6 class="enlaceAD boxAD">Información sobre el sistema</h6></a></li>
+                                <li class="nav-item"> <a class="nav-link" href="{{url_for('ayuda')}}" target="_blank"><h6 class="enlaceAD boxAD">Ayuda</h6></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </section>
+        <br>
+        <!---->
+
+        <label for="items_">Elige el Identificador de la factura para buscarla:</label>
+        <label for="search-box"></label>
+        <label for="search-box">Buscar producto/servicio:</label>
+        <input type="text" id="search-box" oninput="filterItems()" placeholder="Buscar producto o servicio...">
+        <p>(Si no ves uno de estos campos en tus productos significa que no se lo indicaste cuando agregaste el producto o servicio)</p>
+        <div style="overflow-x: auto;">
+            <div id="items-container">
+                <table class="tabla-centrada">
+                    <thead>
+                    <tr>
+                        <tr>
+                        <td>Hacer Nota de Crédito</td>
+                        <td>Identificador Factura</td>
+                        <td>Tipo Factura/Nota</td>
+                        <td>Nombre y apellido cliente</td>
+                        <td>Tipo de Documento</td>
+                        <td>Numero de documento cliente</td>
+                        <td>Condicion de venta cliente</td>
+                        <td>Condicion IVA cliente</td>
+                        <td>Concepto</td>
+                        <td>Fecha Servicio Desde</td>
+                        <td>Fecha Servicio Hasta</td>
+                        <td>Fecha Vencimiento de pago</td>
+                        <td>Producto/Servicio</td>
+                        <td>Porcentaje Bonificado</td>
+                        <td>Cantidad</td>
+                        <td>Codigo Producto</td>
+                        <td>Descripcion</td>
+                        <td>Precio unitario</td>
+                        <td>Impuesto Adicional</td>
+                        <td>Importe Bonificado</td>
+                        <td>Subtotal</td>
+                        <td>Importe Neto</td>
+                        <td>Importe Total</td>
+                        <td>Importe Tributo</td>
+                        <td>ID Documento</td>
+                        <td>ID Concepto</td>
+                        <td>ID Tributo</td>
+                        <td>Descripcion</td>
+                        <td>Alicuota Impuesto Adicional</td>
+                        <td>Nombre Apellido Vendedor</td>
+                        <td>CUIT Vendedor</td>
+                        <td>Nombre Empresa</td>
+                        <td>Punto de venta</td>
+                        <td>Razon Social</td>
+                        <td>Domicilio</td>
+                        <td>Condicion Frente al IVA</td>
+                        <td>Ingresos Brutos</td>
+                        <td>Fecha Inicio</td>
+                        <td>Impuesto Adicional Global</td>
+                        <td>Descripcion impuesto adicional global</td>
+                        <td>Alicuota</td>
+                        <td>ID tributo Global</td>
+                        <td>CAE NÚMERO</td>
+                        <td>CAE FECHA VENCIMIENTO</td>
+                        <td>Número de comprobante</td>
+                    </tr>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {% set mostrados = [] %}
+                        {% for i in range(historial|length) %}
+                            {% set clave = historial[i][0] if historial[i]|length > 0 and historial[i][0] is not none else '' %}
+                            <tr class="checkbox" data-name="{{ clave }}">
+                                <td>
+                                    {% if clave not in mostrados %}
+                                        <input type="checkbox" name="selected_item" id="item{{ loop.index }}" class="product-checkbox"
+                                            data-product="{{ loop.index }}"
+                                            data-name="{{ clave }}"
+                                            value="{{ clave }}">
+                                        {% set _ = mostrados.append(clave) %}
+                                    {% endif %}
+                                </td>
+                                {% for j in range(44) %}
+                                <td>
+                                    {{ historial[i][j] if j < historial[i]|length and historial[i][j] is not none else "" }}
+                                </td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                </tbody>
+                </table>
+            </div>
+        </div>
+        <script>
+            const selectedItems = [];
+
+            document.querySelectorAll('.product-checkbox').forEach((checkbox, index) => {
+                checkbox.addEventListener('change', () => {
+                    const itemData = JSON.parse(checkbox.value);
+                    const row = checkbox.closest('tr');
+                    const quantityInput = row.querySelector('.quantity-input');
+                    const discountInput = row.querySelector('.discount-input');
+
+                    if (checkbox.checked) {
+                    row.querySelector('.quantity-cell').style.display = 'table-cell';
+                    row.querySelector('.discount-cell').style.display = 'table-cell';
+                    const newItem = {
+                        ...itemData,
+                        cantidad: parseInt(quantityInput.value) || 1,
+                        importe_bonificado: parseFloat(discountInput.value) || 0,
+                    };
+                    selectedItems.push(newItem);
+                    quantityInput.addEventListener('input', () => {
+                        const idx = selectedItems.findIndex(item => item.id === itemData.id);
+                        if (idx !== -1) {
+                        selectedItems[idx].cantidad = parseInt(quantityInput.value) || 1;
+                        }
+                    });
+                    discountInput.addEventListener('input', () => {
+                        const idx = selectedItems.findIndex(item => item.id === itemData.id);
+                        if (idx !== -1) {
+                        selectedItems[idx].importe_bonificado = parseFloat(discountInput.value) || 0;
+                        }
+                    });
+                    } else {
+                    row.querySelector('.quantity-cell').style.display = 'none';
+                    row.querySelector('.discount-cell').style.display = 'none';
+                    const indexInArray = selectedItems.findIndex(item => item.id === itemData.id);
+                    if (indexInArray !== -1) {
+                        selectedItems.splice(indexInArray, 1);
+                    }
+                    }
+                });
+                });
+
+                document.querySelector('form').addEventListener('submit', function() {
+                document.getElementById('items-json').value = JSON.stringify(selectedItems);
+            });
+        </script>
+        <script>
+            function filterItems() {
+                let searchQuery = document.getElementById("search-box").value.toLowerCase();
+                let rows = document.querySelectorAll("#items-container tbody tr");
+
+                rows.forEach(row => {
+                    let input = row.querySelector("input.product-checkbox");
+                    if (input) {
+                        let name = input.getAttribute("data-name") ? input.getAttribute("data-name").toLowerCase() : "";
+                        if (name.includes(searchQuery)) {
+                            row.style.display = "table-row";
+                        } else {
+                            row.style.display = "none";
+                        }
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>
