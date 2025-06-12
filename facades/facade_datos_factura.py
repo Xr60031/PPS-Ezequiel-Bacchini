@@ -1,5 +1,5 @@
-from ExcelManager.datos_factura_manager import armar_biblioteca_factura, obtener_datos_factura
-
+from ExcelManager.obtener_datos_factura import obtener_datos_factura
+from Funciones.biblioteca_factura import armar_biblioteca_factura
 class Facade_datos_factura():
     def __init__(self):
         self

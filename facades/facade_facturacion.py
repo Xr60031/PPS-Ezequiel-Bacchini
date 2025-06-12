@@ -1,4 +1,4 @@
-from ExcelManager.excel_manager import facturacion
+from Funciones.facturar import facturacion
 
 class Facade_facturacion():
     def __init__(self):

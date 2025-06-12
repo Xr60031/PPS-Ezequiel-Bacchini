@@ -1,4 +1,5 @@
-from ExcelManager.usuario_manager import obtener_datos_usuario, armar_biblioteca_vendedor
+from ExcelManager.obtener_datos_usuario import obtener_datos_usuario
+from Funciones.biblioteca_usuario import armar_biblioteca_vendedor
 
 class Facade_usuario_manager():
     def __init__(self):
