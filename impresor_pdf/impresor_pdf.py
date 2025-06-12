@@ -1,5 +1,4 @@
 import json
-from datetime import datetime
 from impresor_pdf.strategies.facturaC import Factura_C
 from impresor_pdf.strategies.notaCredito import Nota_Credito
 import urllib.parse

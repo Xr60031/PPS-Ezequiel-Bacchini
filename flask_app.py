@@ -1,19 +1,19 @@
 from flask import Flask, send_file, render_template, request, make_response, redirect, url_for, Response, session, flash, jsonify
 
-from facades.facade_google_apis import Facade_API_google
-from facades.facade_facturacion import Facade_facturacion
-from facades.facade_json import Facade_Json
-from facades.Persistencia.facade_usuario import Facade_usuario_manager
-from facades.Persistencia.facade_datos_factura import Facade_datos_factura
-from facades.Persistencia.facade_dataframes import Facade_dataframe
-from facades.Persistencia.facade_configuracion import Facade_Configuracion
-from facades.Persistencia.facade_items import Facade_Items
-from facades.Persistencia.facade_historial import Facade_Historial
+from Facades.facade_google_apis import Facade_API_google
+from Facades.facade_facturacion import Facade_facturacion
+from Facades.facade_json import Facade_Json
+from Facades.facade_usuario import Facade_usuario_manager
+from Facades.facade_datos_factura import Facade_datos_factura
+from Facades.facade_dataframes import Facade_dataframe
+from Facades.facade_configuracion import Facade_Configuracion
+from Facades.facade_items import Facade_Items
+from Facades.facade_historial import Facade_Historial
 
-from funciones.verificador_CUIT import verificar_cuit
-from funciones.verificar_formateo_datos import verificar_formateo_datos
-from funciones.formatear_items_FU import formatear_items_facturador_unico, agregar_items_tributos_resultados
-import funciones.verificador_inicio_sesion as validar_inicio_sesion
+from Funciones.verificador_CUIT import verificar_cuit
+from Funciones.verificar_formateo_datos import verificar_formateo_datos
+from Funciones.formatear_items_FU import formatear_items_facturador_unico, agregar_items_tributos_resultados
+from Funciones.verificador_inicio_sesion import leer_certificado, leer_llave
 
 import interfaz_wsaa
 from Constantes import constantes
@@ -406,7 +406,7 @@ def upload_file():
         certificado = request.files.get('certificado')
         certificado_legible = certificado.read().decode('utf-8')
 
-        if not validar_inicio_sesion.leer_certificado(certificado_legible) and not validar_inicio_sesion.leer_llave(llave_legible):
+        if not leer_certificado(certificado_legible) or not leer_llave(llave_legible):
             flash(constantes_.llave_certificado_no_validos_alerta)
             return redirect(url_for('inicio_sesion'))
         

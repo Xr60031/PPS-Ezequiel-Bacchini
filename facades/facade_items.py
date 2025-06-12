@@ -1,5 +1,4 @@
-
-from ExcelManager.product_manager import agregar_producto_servicio, modificar_producto_servicio, eliminar_producto_servicio, obtener_productos_servicios
+from ExcelManager.item_manager import agregar_producto_servicio, modificar_producto_servicio, eliminar_producto_servicio, obtener_productos_servicios
 
 class Facade_Items():
     def __init__(self):

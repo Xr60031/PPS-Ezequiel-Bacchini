@@ -1,4 +1,4 @@
-from funciones.obtener_ID_tributo import obtener_ID_tributo
+from Funciones.obtenerdor_IDs import obtener_ID_tributo
 
 def formatear_items_facturador_unico(items, items_formateados, tributos_formateados):
     i=0
