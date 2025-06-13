@@ -3,8 +3,6 @@ import datetime
 from interfaz_wsaa import InterfazWSAA
 
 wsfev1_lib = importlib.import_module("PYAFIPWS.pyafipws-main.wsfev1")
-#
-import json
 
 wsfev1 = wsfev1_lib.WSFEv1()
 wsfev1.LanzarExcepciones = True
@@ -46,6 +44,7 @@ class InterfazWSFEv1():
         
     ]
 
+    #Reemplazar cuit, clave y key por las propias para poder utilizar la función de prueba
     def inicializar(self):
         ok = wsfev1.Conectar(
             None,
@@ -61,12 +60,12 @@ class InterfazWSFEv1():
         # obteniendo el TA para pruebas
         ta = InterfazWSAA().Crear_Ticket_Acceso_Firmado(
             service="wsfe",
-            certificado="certificado_lore.crt",
-            clave="clave_privada_20236720838_20250324192703.key",
-            cuit="20236720838"
+            certificado="path a archivo de certificado.crt",
+            clave="path a archivo de clave_privada.key",
+            cuit="cuit vendedor"
         )
         wsfev1.SetTicketAcceso(ta)
-        wsfev1.Cuit = "20236720838"
+        wsfev1.Cuit = "cuit vendedor"
     
 
     def facturar_prueba(self):
@@ -96,7 +95,7 @@ class InterfazWSFEv1():
         #fecha_serv_hasta = fecha
 
         moneda_id = "PES"
-        moneda_ctz = "1.000"                                                ### ESTABLECE TODOS LOS DATOS
+        moneda_ctz = "1.000" ### ESTABLECE TODOS LOS DATOS
         cancela_misma_moneda_ext='N'
         condicion_iva_receptor_id=5
 
@@ -104,7 +103,7 @@ class InterfazWSFEv1():
 
         for i in range(reg_x_req):
 
-            resultado = wsfev1.CrearFactura(                                            ### CREA LA FACTURA CON LOS DATOS
+            resultado = wsfev1.CrearFactura(### CREA LA FACTURA CON LOS DATOS
                 concepto,
                 tipo_doc,
                 nro_doc,
@@ -168,10 +167,11 @@ class InterfazWSFEv1():
             print("Vencimiento", wsfev1.Vencimiento)
             print("Observaciones", wsfev1.Obs)
 
+    #URL de produccion "https://servicios1.afip.gov.ar/wsfev1/service.asmx?WSDL"
     def conectar(self, llave_, certificado_, cuit_):
         ok = wsfev1.Conectar(
             None,
-            "https://wswhomo.afip.gov.ar/wsfev1/service.asmx?WSDL", # es el URL de homologación
+            "https://wswhomo.afip.gov.ar/wsfev1/service.asmx?WSDL", # URL de homologación
             None,
             None,
             r"CERTIFICADOS\cacert.pem"

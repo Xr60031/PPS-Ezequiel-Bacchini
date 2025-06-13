@@ -11,3 +11,8 @@ cant_datos_tributos = 5-1
 cant_filas_a_saltear = cant_datos_tributos-2
 #Cantidad de variables hasta finalizar de iterar en la lista
 numero_finalizacion = limite_hasta_tributos+16
+
+#Columna de ID de factura en el Excel
+columna_id_excel = 1
+#Columna de Producto/Servicio de factura en el Excel
+columna_item = 12
