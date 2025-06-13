@@ -78,7 +78,7 @@ def escribir_historial(datos_historial, historial_hoja, row):
 
 def obtener_row_historial(dataframe_historial):
   row = 2
-  while dataframe_historial.cell(row=row, column=1).value:
+  while dataframe_historial.cell(row=row, column=constantes_historial.columna_id_excel).value or dataframe_historial.cell(row=row, column=constantes_historial.columna_item).value:
     row += 1
   
   return row
