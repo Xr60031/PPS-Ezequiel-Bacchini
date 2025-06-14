@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
     <link rel="icon" href="{{ url_for('static', filename='Facturador_Logo.jpg') }}" type="image/x-icon">
+    <script src="/static/js/scriptGlobal.js"></script>
 
 </head>
 <div class="pantalla_exito pantalla_exito-hidden">
@@ -66,7 +67,7 @@
         {% endwith %}
         <h3>Más información de como utilizarlo debajo de la planilla</h3>
         <form action="/facturacion" method="POST" style="text-align: center;" onsubmit="mostrarExito(event)">
-            <input type="hidden" name="modo_facturacion" value="Multiple">
+            <input type="hidden" name="modo_facturacion" value="Factura Multiple">
             <p style="display: flex; justify-content: center;"><button type="submit" class="enlaceAD boxAD alternativo">Facturar</button></p>
         </form>
         <iframe src="{{ embed_link }}" width="85%" height="500" frameborder="0"> </iframe>

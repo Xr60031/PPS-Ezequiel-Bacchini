@@ -73,9 +73,6 @@
                         <td>Importe Neto</td>
                         <td>Importe Total</td>
                         <td>Importe Tributo</td>
-                        <td>ID Documento</td>
-                        <td>ID Concepto</td>
-                        <td>ID Tributo</td>
                         <td>Descripcion</td>
                         <td>Alicuota Impuesto Adicional</td>
                         <td>Nombre Apellido Vendedor</td>
@@ -90,7 +87,6 @@
                         <td>Impuesto Adicional Global</td>
                         <td>Descripcion impuesto adicional global</td>
                         <td>Alicuota</td>
-                        <td>ID tributo Global</td>
                         <td>CAE NÚMERO</td>
                         <td>CAE FECHA VENCIMIENTO</td>
                         <td>Número de comprobante</td>
@@ -104,14 +100,14 @@
                             <tr class="checkbox" data-name="{{ clave }}">
                                 <td>
                                     {% if clave not in mostrados %}
-                                        <input type="checkbox" name="selected_item" id="item{{ loop.index }}" class="product-checkbox"
+                                        <input type="radio" name="selected_item" id="item{{ loop.index }}" class="product-checkbox"
                                             data-product="{{ loop.index }}"
                                             data-name="{{ clave }}"
                                             value="{{ clave }}">
                                         {% set _ = mostrados.append(clave) %}
                                     {% endif %}
                                 </td>
-                                {% for j in range(44) %}
+                                {% for j in range(40) %}
                                 <td>
                                     {{ historial[i][j] if j < historial[i]|length and historial[i][j] is not none else "" }}
                                 </td>

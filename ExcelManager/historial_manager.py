@@ -1,6 +1,5 @@
 from openpyxl import load_workbook
 from Constantes import constantes_historial
-
 def obtener_historial(path_excel):
     excel_dataframe=load_workbook(path_excel, data_only=True)
     historial= excel_dataframe["Historial"]
@@ -9,7 +8,7 @@ def obtener_historial(path_excel):
     row = 2
     while historial.cell(row=row, column=1).value:
       columna = 1
-      while(columna < 45):
+      while(columna < 41):
         datos_actual.append(historial.cell(row=row, column=columna).value)
         columna += 1
       datos_totales.append(datos_actual)
@@ -20,7 +19,6 @@ def obtener_historial(path_excel):
 
 #Escribe el historial 
 def escribir_historial(datos_historial, historial_hoja, row):
-
   cant_var = 1
   i = 0
   while i < constantes_historial.limite_hasta_items:
@@ -40,6 +38,7 @@ def escribir_historial(datos_historial, historial_hoja, row):
       historial_hoja.cell(row=row, column=cant_var, value=productos_servicios[j][k])
       k += 1
       cant_var += 1
+    historial_hoja.cell(row=row, column=constantes_historial.columna_id_excel, value=datos_historial[0])
     row += 1
     j += 1
 

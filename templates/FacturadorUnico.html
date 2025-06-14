@@ -10,6 +10,14 @@
     <link rel="icon" href="{{ url_for('static', filename='Facturador_Logo.jpg') }}" type="image/x-icon">
     <script src="/static/js/scriptGlobal.js"></script>
 </head>
+<div class="pantalla_exito pantalla_exito-hidden">
+    <h2 id="mensaje_exito">Facturado Exitosamente</h2>
+    <form id="formulario_exito" action="/menu_facturador" method="POST" onsubmit="mostrarLoader(event)" style="display: none;">
+        <h5 style="display: inline-block;">
+            <button type="submit" name="accion" value="FM" class="enlaceAD boxAD alternativo">Aceptar</button>
+        </h5>
+    </form>
+</div>
 <body>
     <section class="AccesoDirecto">
         <div class="container barranav">
@@ -47,8 +55,8 @@
 
     <h2>Ingrese los datos a continuación para luego generar la factura:</h2>
     
-    <form action="/facturacion" id="facturaForm" method="POST">
-        <input type="hidden" name="modo_facturacion" value="Unico">
+    <form action="/facturacion" id="facturaForm" method="POST" onsubmit="mostrarExito(event)">
+        <input type="hidden" name="modo_facturacion" value="Factura Unico">
 
         <br>
         <p>Un número con el que puedas identificar la factura, no puede ser igual a un identificador que ya hayas puesto</p>
@@ -267,6 +275,26 @@
                     }
                 }
             });
+        }
+    </script>
+    <script>
+        function mostrarExito(event_) {
+            const pantalla = document.querySelector(".pantalla_exito");
+            const mensaje = document.getElementById("mensaje_exito");
+            const formulario = document.getElementById("formulario_exito");
+
+            pantalla.classList.remove("pantalla_exito-hidden");
+            document.body.style.overflow = "hidden";
+            mensaje.textContent = "Facturando...";
+
+            setTimeout(() => {
+                mensaje.textContent = "Facturación Exitosa";
+                formulario.style.display = "block";
+            }, 10000);
+        }
+
+        function mostrarLoader(event) {
+            event.target.submit();
         }
     </script>
 </body>
