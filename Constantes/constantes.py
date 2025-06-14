@@ -16,8 +16,8 @@ def get_copy_path(output_file_name):
 #Devuelve el path de donde se encuentra la plantilla de Excel
 excel_template_path = 'ExcelManager/Plantilla/Plantilla_Factura.xlsx'
 #Devuelve el nombre del ZIP de facturación
-def zip_name(CUIT, FECHA):
-    return f"facturacion_{CUIT}_{FECHA}.zip"
+def zip_name(CUIT, FECHA, ACCION):
+    return f"{ACCION}_{CUIT}_{FECHA}.zip"
 
 #Devuelve formateado el nombre del certificado
 def get_certificado_name(CUIT):

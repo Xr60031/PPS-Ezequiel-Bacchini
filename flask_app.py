@@ -10,9 +10,11 @@ from Facades.facade_configuracion import Facade_Configuracion
 from Facades.facade_items import Facade_Items
 from Facades.facade_historial import Facade_Historial
 
+from Funciones.Obtener_datos_facturacion.obtenedor_FM import Obtenedor_FM
+from Funciones.Obtener_datos_facturacion.obtenedor_FU import Obtenedor_FU
+
 from Funciones.verificador_CUIT import verificar_cuit
 from Funciones.verificar_formateo_datos import verificar_formateo_datos
-from Funciones.formatear_items_FU import formatear_items_facturador_unico, agregar_items_tributos_resultados
 from Funciones.verificador_inicio_sesion import leer_certificado, leer_llave
 
 import interfaz_wsaa
@@ -281,43 +283,33 @@ def facturacion():
     modo_factura = request.form.get("modo_facturacion")
 
     destination_path = API_Google.descargar_excel(constantes_.excel_con_borrado_de_drive, session.get('excelID'), session.get('excel_name'))
-    usuario_manager = Facade_usuario_manager()
-    datos_usuario = usuario_manager.obtener_datos_usuario(destination_path)
-    datos_usuario = usuario_manager.armar_biblioteca_vendedor(datos_usuario)
     
     datos_factura_manager = Facade_datos_factura()
-    if(modo_factura == "Unico"):
-        items = request.form.getlist("selected_item")
-        items_dict = [json_biblioteca.loads(p) for p in items]
-        items_formateados = []
-        tributos_formateados = []
-        formatear_items_facturador_unico(items_dict, items_formateados, tributos_formateados)
-        datos_form = []
-        datos_form.append(request.form.get("id_factura"))
-        datos_form.append(request.form.get("tipo_factura"))
-        datos_form.append(request.form.get("nombre_apellido_cliente"))
-        datos_form.append(request.form.get("tipo_doc"))
-        datos_form.append(request.form.get("numero_doc_cliente"))
-        datos_form.append(request.form.get("concepto_venta"))
-        datos_form.append(request.form.get("concepto_iva"))
-        datos_form.append(request.form.get("concepto"))
-        datos_form.append(request.form.get("fecha_desde"))
-        datos_form.append(request.form.get("fecha_hasta"))
-        datos_form.append(request.form.get("fecha_vto_pago"))
-        datos_form = datos_factura_manager.armar_biblioteca_factura(datos_form)
-        agregar_items_tributos_resultados(items_formateados, tributos_formateados, datos_form, datos_usuario)
-        datos_factura = []
-        datos_factura.append(datos_form)
-    elif (modo_factura == "Multiple"):
-        datos_factura = datos_factura_manager.obtener_datos_factura(destination_path, datos_usuario)
-        if(verificar_formateo_datos(datos_factura) == False):
-            flash(constantes_.factura_datos_faltantes_alerta)
-            return render_template('FacturadorMultiple.html', embed_link=session.get('embed'), estado = session.get('descargar_excel'))
-        
+    dataframe_manager = Facade_dataframe()
+    usuario_manager = Facade_usuario_manager()
+
+    datos_usuario = usuario_manager.obtener_datos_usuario(destination_path)
+    datos_usuario = usuario_manager.armar_biblioteca_vendedor(datos_usuario)
+    data_source = None
+
+    if(modo_factura == "Factura Unico"):
+        data_source = request
+        obtenedor = Obtenedor_FU()
+    elif (modo_factura == "Factura Multiple"):
+        data_source = destination_path
+        obtenedor = Obtenedor_FM()
+    elif (modo_factura == "Nota Credito"):
+        pass
+    
+    datos_factura = obtenedor.obtener_datos_facturacion(data_source, datos_factura_manager, datos_usuario)
+
+    if(verificar_formateo_datos(datos_factura) == False):
+        print("Datos INVALIDOS")
+        flash(constantes_.factura_datos_faltantes_alerta)
+        return render_template('FacturadorMultiple.html', embed_link=session.get('embed'), estado = session.get('descargar_excel'))
+
     copy_path_certificado = escribir_certificado()
     copy_path_llave = escribir_llave()
-
-    dataframe_manager = Facade_dataframe()
 
     if not session.get('ticket_tiempo_creacion'):
         session['ticket_creado'] = False
@@ -345,7 +337,7 @@ def facturacion():
 
     zip_file.seek(0)
 
-    return make_response(send_file(zip_file, as_attachment=True, download_name=constantes_.zip_name(session.get('CUIT'), datetime.now())))
+    return make_response(send_file(zip_file, as_attachment=True, download_name=constantes_.zip_name(session.get('CUIT'), datetime.now(), modo_factura)))
 
 # GENERA EL ARCHIVO DE LA LLAVE PRIVADA Y LO DESCARGA
 @app.route('/hacer_llave', methods=['POST'])
@@ -499,15 +491,21 @@ def eliminar_archivo():
     time.sleep(5)
     os.remove('session_data.json')
 
+def default_serializer(obj):
+    if isinstance(obj, datetime):
+        return obj.isoformat()
+    # Podés agregar más tipos si querés
+    return str(obj)
+
 @app.route('/borrar_sesion', methods=['POST'])
 def borrar_sesion():
     session_data = dict(session)
     with open('session_data.json', 'w') as file:
-        json.dump(session_data, file)
+        json.dump(session_data, file, default_serializer)
 
     response = send_file('session_data.json', as_attachment=True)
 
-    session['configuracion_inicial'] = None
+    session['configuracion_inicial'] = False
     session['Nombre'] = None
     session['Empresa'] = None
     session['CUIT'] = None

@@ -14,8 +14,8 @@ class Facade_Json():
     def __init__(self):
         self
 
-    def dump(self, session_data, file):
-        return json.dump(serialize_data(session_data), file)
+    def dump(self, session_data, file, default):
+        return json.dump(serialize_data(session_data), file, default=default)
     
     def load(self, file):
         return json.load(file)
