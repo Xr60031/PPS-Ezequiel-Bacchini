@@ -31,51 +31,50 @@
             </nav>
         </div>
     </section>
-    <br>
     <!---->
+    <div class="marco_div">
+      <h2>Bienvenido al sistema de facturación HelPy</h2>
+      <h3>Estás en el <b>Menu principal</b></h3>
+      <br>
 
-    <h2>Bienvenido al sistema de facturación HelPy</h2>
-    <h3>Estás en el <b>Menu principal</b></h3>
-    <br>
+      <h4>Para emitir facturas, primero necesitás una <b>llave</b> y un <b>certificado</b>.</h4>
+      <h4>Si ya los tenés tu llave y certificado, iniciá sesión tocando el botón "Iniciar sesión".</h4>
+      <h5 style="display: flex; justify-content: center;"><a href="{{url_for('inicio_sesion')}}" rel="noopener noreferrer" class="enlaceAD boxAD alternativo animado">Iniciar sesión</a></h5>
+      
+      <br><br>
+      
+      <h4>Si aún no los tenés, tocá el botón "Ir a crear llave y certificado".</h4>
+      <h5 style="display: flex; justify-content: center;"><a href="{{url_for('crear_cuenta')}}" rel="noopener noreferrer" class="enlaceAD boxAD alternativo animado">Ir a crear llave y certificado</a></h5>
 
-    <h4>Para emitir facturas, primero necesitás una <b>llave</b> y un <b>certificado</b>.</h4>
-    <h4>Si ya los tenés tu llave y certificado, iniciá sesión tocando el botón "Iniciar sesión".</h4>
-    <h5 style="display: flex; justify-content: center;"><a href="{{url_for('inicio_sesion')}}" rel="noopener noreferrer" class="enlaceAD boxAD alternativo">Iniciar sesión</a></h5>
-    
-    <br><br>
-    
-    <h4>Si aún no los tenés, tocá el botón "Ir a crear llave y certificado".</h4>
-    <h5 style="display: flex; justify-content: center;"><a href="{{url_for('crear_cuenta')}}" rel="noopener noreferrer" class="enlaceAD boxAD alternativo">Ir a crear llave y certificado</a></h5>
+      <div id="cookie-overlay" class="cookie_overlay"></div>
 
-    <div id="cookie-overlay" class="cookie_overlay"></div>
-
-<!-- Modal de cookies -->
-<div id="cookie-modal" class="cookie_popup">
-  <h5 style="margin-bottom: 1rem; color:black">
-    Este sitio utiliza cookies para guardar información técnica necesaria para su funcionamiento. Al continuar, aceptás su uso.
-  </h5>
-  <h6 style="color:black">Para más información haga click aquí:<a href="{{url_for('informacion_cookies')}}" rel="noopener noreferrer" style="display: flex; justify-content: center;"><h6 class="enlaceAD boxAD">Más Información</h6></a></h6>
-  <button onclick="aceptarCookies()" class="cookie_button">
-    Aceptar
-  </button>
-</div>
-
-<script>
-  function aceptarCookies() {
-    document.cookie = "cookies_aceptadas=true; path=/; max-age=" + 60 * 60 * 24 * 365 * 100;
-    document.getElementById('cookie-modal').style.display = 'none';
-    document.getElementById('cookie-overlay').style.display = 'none';
-  }
-
-  function mostrarModalSiEsNecesario() {
-    if (!document.cookie.includes("cookies_aceptadas=true")) {
-      document.getElementById('cookie-modal').style.display = 'block';
-      document.getElementById('cookie-overlay').style.display = 'block';
+      <!-- Modal de cookies -->
+      <div id="cookie-modal" class="cookie_popup">
+        <h5 style="margin-bottom: 1rem; color:black">
+          Este sitio utiliza cookies para guardar información técnica necesaria para su funcionamiento. Al continuar, aceptás su uso.
+        </h5>
+        <h6 style="color:black">Para más información haga click aquí:<a href="{{url_for('informacion_cookies')}}" rel="noopener noreferrer" style="display: flex; justify-content: center;"><h6 class="enlaceAD boxAD">Más Información</h6></a></h6>
+        <button onclick="aceptarCookies()" class="cookie_button">
+          Aceptar
+        </button>
+      </div>
+  </div>
+  <script>
+    function aceptarCookies() {
+      document.cookie = "cookies_aceptadas=true; path=/; max-age=" + 60 * 60 * 24 * 365 * 100;
+      document.getElementById('cookie-modal').style.display = 'none';
+      document.getElementById('cookie-overlay').style.display = 'none';
     }
-  }
 
-  window.onload = mostrarModalSiEsNecesario;
-</script>
+    function mostrarModalSiEsNecesario() {
+      if (!document.cookie.includes("cookies_aceptadas=true")) {
+        document.getElementById('cookie-modal').style.display = 'block';
+        document.getElementById('cookie-overlay').style.display = 'block';
+      }
+    }
+
+    window.onload = mostrarModalSiEsNecesario;
+  </script>
 
 </body>
 </html>

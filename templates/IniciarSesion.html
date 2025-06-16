@@ -33,48 +33,48 @@
                 </nav>
             </div>
         </section>
-        <br>
         <!---->
-        
-        <h2><u>Iniciar Sesion</u></h2>
-        <h3>Como Subir tus archivos al sistema</h3>
-        <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
-        
-        <h3>Subí tus archivos de Certificado y Llave privada para empezar a facturar:</h3>
-        
-        <!--Agregar Clave Privada y Certificado-->
-        <form action="/upload" method="POST" enctype="multipart/form-data">
-            <label for="certificado"><p>Seleccioná el archivo del Certificado:</p></label>
-            <input type="file" id="certificado" name="certificado" required>
-            <br>
-            
-            <label for="llave"><p>Seleccioná el archivo de la Llave:</p></label>
-            <input type="file" id="llave" name="llave" required>
-            <br>
-            
-            <h5 style="display: flex; justify-content: center;"><button type="submit" class="enlaceAD boxAD alternativo">Iniciar Sesion</button></h5>
-            <br>
+        <div class="marco_div">
+            <h2><u>Iniciar Sesion</u></h2>
             <!-- Mostrar el mensaje flash con el botón -->
-            {% with messages = get_flashed_messages() %} 
+            {% with messages = get_flashed_messages() %}
                 {% if messages %}
-                    <div id="flash-message" style="border: 1px solid whitesmoke; background-color: rgba(255, 0, 0, 0.76); color:white; padding: 10px; margin: 10px; display: inline-block;">
+                    <div id="flash-message" style="background-color: #1a1a1a;  border: 1px solid red; padding: 10px; margin: 10px; display: inline-block;">
                         <ul>
-                            {% for message in messages %} 
-                                <li><p>{{ message }}</p></li>
+                            {% for message in messages %}
+                                <li><h5>{{ message }}</h5></li>
                             {% endfor %}
                         </ul>
-                        <h5 style="display: flex; justify-content: center;"><button onclick="deleteMessage()" id="button">Eliminar mensaje</button></h5>
+                        <h5 style="display: flex; justify-content: center;"><button onclick="deleteMessage()" class="enlaceAD boxAD alternativo animado">Eliminar mensaje</button></h5>
                     </div>
                 {% endif %}
             {% endwith %}
+            <br>
+            <!---->
+            <h3>Como Subir tus archivos al sistema</h3>
+            <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
+            
+            <h3>Subí tus archivos de Certificado y Llave privada para empezar a facturar:</h3>
+            
+            <!--Agregar Clave Privada y Certificado-->
+            <form action="/upload" method="POST" enctype="multipart/form-data">
+                <label for="certificado"><p>Seleccioná el archivo del Certificado:</p></label>
+                <input type="file" id="certificado" name="certificado" required>
+                <br>
+                
+                <label for="llave"><p>Seleccioná el archivo de la Llave:</p></label>
+                <input type="file" id="llave" name="llave" required>
+                <br>
+                
+                <h5 style="display: flex; justify-content: center;"><button type="submit" class="enlaceAD boxAD alternativo animado">Iniciar Sesion</button></h5>
+                <br>
+            </form>
 
-        </form>
-
-        <h4>¿Necesitas que otra persona nueva inicie sesión? Hacé click acá</h4>
-        <p>Esto te va a descargar un archivo con las configuraciones que el sistema tenía hechas para vos.</p>
-        <form action="{{ url_for('borrar_sesion') }}" method="POST">
-            <h5 style="display: flex; justify-content: center;"><button type="submit" class="enlaceAD boxAD alternativo">Guardar datos</button></h5>
-        </form>
-
+            <h4>¿Necesitas que otra persona nueva inicie sesión? Hacé click acá</h4>
+            <p>Esto te va a descargar un archivo con las configuraciones que el sistema tenía hechas para vos.</p>
+            <form action="{{ url_for('borrar_sesion') }}" method="POST">
+                <h5 style="display: flex; justify-content: center;"><button type="submit" class="enlaceAD boxAD alternativo animado">Guardar datos</button></h5>
+            </form>
+        </div>
     </body>
 </html>

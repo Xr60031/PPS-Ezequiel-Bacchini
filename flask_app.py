@@ -12,6 +12,7 @@ from Facades.facade_historial import Facade_Historial
 
 from Funciones.Obtener_datos_facturacion.obtenedor_FM import Obtenedor_FM
 from Funciones.Obtener_datos_facturacion.obtenedor_FU import Obtenedor_FU
+from Funciones.Obtener_datos_facturacion.obtenedor_NC import Obtenedor_NC
 
 from Funciones.verificador_CUIT import verificar_cuit
 from Funciones.verificar_formateo_datos import verificar_formateo_datos
@@ -299,9 +300,13 @@ def facturacion():
         data_source = destination_path
         obtenedor = Obtenedor_FM()
     elif (modo_factura == "Nota Credito"):
-        pass
+        data_source = request.form.get("selected_items_json")
+        obtenedor = Obtenedor_NC()
     
     datos_factura = obtenedor.obtener_datos_facturacion(data_source, datos_factura_manager, datos_usuario)
+    for dato in datos_factura.items():
+        print(dato)
+    return render_template('FacturadorMenu.html')
 
     if(verificar_formateo_datos(datos_factura) == False):
         print("Datos INVALIDOS")
@@ -494,7 +499,6 @@ def eliminar_archivo():
 def default_serializer(obj):
     if isinstance(obj, datetime):
         return obj.isoformat()
-    # Podés agregar más tipos si querés
     return str(obj)
 
 @app.route('/borrar_sesion', methods=['POST'])

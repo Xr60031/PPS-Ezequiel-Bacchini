@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
     <link rel="icon" href="{{ url_for('static', filename='Facturador_Logo.jpg') }}" type="image/x-icon">
     <script src="/static/js/scriptGlobal.js"></script>
-
+    <script src="/static/js/pantalla_procesamiento_intermedio.js"></script>
 </head>
 <div class="pantalla_exito pantalla_exito-hidden">
     <h2 id="mensaje_exito">Facturado Exitosamente</h2>
@@ -27,62 +27,60 @@
         <div class="spinner"></div>
         <h1>CARGANDO FACTURADOR MULTIPLE</h1>
     </div>
-    <div>
-        <section class="AccesoDirecto">
-            <div class="container barranav">
-                <nav class="navbar navbar-expand-lg fixed-top" id="barraDeNavegacion">
-                <div class="container-fluid">
-                        <a class="navbar-brand" href="{{url_for('index_')}}"><h6 class="enlaceAD boxAD">Menú Principal</h6></a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="line"></span> 
-                        <span class="line"></span> 
-                        <span class="line"></span>
-                        </button>
-                        <div class="collapse navbar-collapse justify-content-center" id="navbarNav"> 
-                            <ul class="navbar-nav"> 
-                                <li class="nav-item"> <a class="nav-link" href="{{url_for('menu_facturador_')}}"><h6 class="enlaceAD boxAD">Menu Facturación</h6></a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{url_for('documentacion')}}" target="_blank"><h6 class="enlaceAD boxAD">Documentación y Tutoriales</h6></a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{url_for('sis_info')}}" target="_blank"><h6 class="enlaceAD boxAD">Información sobre el sistema</h6></a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{url_for('ayuda')}}" target="_blank"><h6 class="enlaceAD boxAD">Ayuda</h6></a></li>
-                            </ul>
-                        </div>
-                </div>
-                </nav>
+    <section class="AccesoDirecto">
+        <div class="container barranav">
+            <nav class="navbar navbar-expand-lg fixed-top" id="barraDeNavegacion">
+            <div class="container-fluid">
+                    <a class="navbar-brand" href="{{url_for('index_')}}"><h6 class="enlaceAD boxAD">Menú Principal</h6></a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="line"></span> 
+                    <span class="line"></span> 
+                    <span class="line"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarNav"> 
+                        <ul class="navbar-nav"> 
+                            <li class="nav-item"> <a class="nav-link" href="{{url_for('menu_facturador_')}}"><h6 class="enlaceAD boxAD">Menu Facturación</h6></a></li>
+                            <li class="nav-item"> <a class="nav-link" href="{{url_for('documentacion')}}" target="_blank"><h6 class="enlaceAD boxAD">Documentación y Tutoriales</h6></a></li>
+                            <li class="nav-item"> <a class="nav-link" href="{{url_for('sis_info')}}" target="_blank"><h6 class="enlaceAD boxAD">Información sobre el sistema</h6></a></li>
+                            <li class="nav-item"> <a class="nav-link" href="{{url_for('ayuda')}}" target="_blank"><h6 class="enlaceAD boxAD">Ayuda</h6></a></li>
+                        </ul>
+                    </div>
             </div>
-        </section>
-        <br>
-        <!---->
+            </nav>
+        </div>
+    </section>
+    <!---->
+    <div class="marco_div">
         <h2>Facturador Múltiple</h2> 
-        {% with messages = get_flashed_messages() %} 
+        <!-- Mostrar el mensaje flash con el botón -->
+        {% with messages = get_flashed_messages() %}
             {% if messages %}
-                <div id="flash-message" style="border: 1px solid whitesmoke; background-color: rgba(22, 247, 108, 0.76); color:white; padding: 10px; margin: 10px; display: inline-block;">
+                <div id="flash-message" style="background-color: #1a1a1a;  border: 1px solid red; padding: 10px; margin: 10px; display: inline-block;">
                     <ul>
-                        {% for message in messages %} 
-                            <li><p>{{ message }}</p></li>
+                        {% for message in messages %}
+                            <li><h5>{{ message }}</h5></li>
                         {% endfor %}
                     </ul>
-                    <h5 style="display: flex; justify-content: center;"><button onclick="deleteMessage()" id="button">Eliminar mensaje</button></h5>
+                    <h5 style="display: flex; justify-content: center;"><button onclick="deleteMessage()" class="enlaceAD boxAD alternativo animado">Eliminar mensaje</button></h5>
                 </div>
             {% endif %}
         {% endwith %}
-        <h3>Más información de como utilizarlo debajo de la planilla</h3>
+        <br>
+        <!---->
+        <h3>¿Como Facturar usando el facturador múltiple?</h3>
+        <p>Seguí el tutorial a continuación para aprender a facturar con el facturador múltiple</p>
+        <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
         <form action="/facturacion" method="POST" style="text-align: center;" onsubmit="mostrarExito(event)">
             <input type="hidden" name="modo_facturacion" value="Factura Multiple">
-            <p style="display: flex; justify-content: center;"><button type="submit" class="enlaceAD boxAD alternativo">Facturar</button></p>
+            <p style="display: flex; justify-content: center;"><button type="submit" class="enlaceAD boxAD alternativo animado">Facturar</button></p>
         </form>
         <iframe src="{{ embed_link }}" width="85%" height="500" frameborder="0"> </iframe>
         
-        <h3>¿Como Facturar usando el facturador múltiple?</h3>
-        <p>Seguí el tutorial a continuación para facturar</p>
-        <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
-
         <h4>¿Necesitas agregar, modificar o borrar un producto o servicio en tu plantilla? Haz click en "Menú Items" para hacerlo</h4>
-        <h5 style="display: flex; justify-content: center;"><a href="{{url_for('menu_items')}}" rel="noopener noreferrer" class="enlaceAD boxAD alternativo">Menú Items</a></h5>
+        <h5 style="display: flex; justify-content: center;"><a href="{{url_for('menu_items')}}" rel="noopener noreferrer" class="enlaceAD boxAD alternativo animado">Menú Items</a></h5>
         <br>
         <h4>¿Necesitas revisar que significaba un campo? Haz click en "Definiciones Facturación" para revisarlo</h4>
-        <h5 style="display: flex; justify-content: center;"><a href="{{url_for('definiciones_facturacion')}}" target="_blank" rel="noopener noreferrer" class="enlaceAD boxAD alternativo">Definiciones Facturación</a></h5>
-        
-        
+        <h5 style="display: flex; justify-content: center;"><a href="{{url_for('definiciones_facturacion')}}" target="_blank" rel="noopener noreferrer" class="enlaceAD boxAD alternativo aimado">Definiciones Facturación</a></h5>    
     </div>
     <script>
         window.onload = function() {
@@ -92,26 +90,6 @@
                 loader.style.display = "none";
             }, 3000);
         };
-    </script>
-    <script>
-        function mostrarExito(event_) {
-            const pantalla = document.querySelector(".pantalla_exito");
-            const mensaje = document.getElementById("mensaje_exito");
-            const formulario = document.getElementById("formulario_exito");
-
-            pantalla.classList.remove("pantalla_exito-hidden");
-            document.body.style.overflow = "hidden";
-            mensaje.textContent = "Facturando...";
-
-            setTimeout(() => {
-                mensaje.textContent = "Facturación Exitosa";
-                formulario.style.display = "block";
-            }, 10000);
-        }
-
-        function mostrarLoader(event) {
-            event.target.submit();
-        }
     </script>
 </body>
 </html>
