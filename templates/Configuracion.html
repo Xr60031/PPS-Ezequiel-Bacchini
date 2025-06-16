@@ -34,187 +34,185 @@
           </nav>
       </div>
   </section>
-  <br>
   <!---->
-  <h1>Configuraciones de la plantilla de Excel</h1>
-  <p>Este archivo te permite subir la información para que el sistema genere las facturas automáticamente. Si necesitás una nueva plantilla, hacé clic en "Generar plantilla nueva".</p>
-  
-  {% with messages = get_flashed_messages() %} 
-    {% if messages %}
-        <div id="flash-message" style="border: 1px solid whitesmoke; background-color: rgba(255, 0, 0, 0.76); color:white; padding: 10px; margin: 10px; display: inline-block;">
-            <ul>
-                {% for message in messages %} 
-                    <li><p>{{ message }}</p></li>
-                {% endfor %}
-            </ul>
-            <h5 style="display: flex; justify-content: center;"><button onclick="deleteMessage()" id="button">Eliminar mensaje</button></h5>
-        </div>
-    {% endif %}
-  {% endwith %}
-  
-  <h2>Elegí lo que queres hacer:</h2>
-  <div class="toggle-buttons">
-    <h5>
-      <button class="toggle" style="display: inline-block;" id="button" onclick="changeContent(1)">Modiciar mi Plantilla</button>
-      <button class="toggle" style="display: inline-block;" id="button" onclick="changeContent(2)">Crear una Plantilla nueva</button>
-    </h5>
-  </div>
-  <div id="content">
-    <div id="content-1" class="content-item" style="display: none; border: 2px solid #4A90E2;">
-      <h3>Modificar mi plantilla de facturación</h3>
-      <p>En este video te dejamos un video de como rellenar tus datos personales para modificar correctamente la planilla:</h2>
-      <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
-      <br>
-        
-      <h4>Datos personales</h4>
-      <form action="/save_configuracion" enctype="multipart/form-data" method="POST">
-
-        <h5>Ingresa los datos personales que vas a cambiar para completar automáticamente las facturas.</h5>
-        <label for="excel">Elegí el archivo de tu plantilla de Excel:</label>
-        <input type="file" id="excel" name="excel" required>
-
-        <br><br>
-
-        <input type="text" name="name" placeholder="Tu Nombre:">
-        
-        <br><br>
-
-        <input type="text" name="CUIT" placeholder="Tu CUIT:">
-
-        <br><br>
-
-        <input type="text" name="empresa" placeholder="Nombre Empresa:">
-        
-        <br><br>
-
-        <input type="text" name="pventa" placeholder="Punto de venta:">
-        
-        <br><br>
-
-        <input type="text" name="razonsocial" placeholder="Tu Razón Social:">
-        
-        <br><br>
-
-        <input type="text" name="domicilio" placeholder="Tu domicilio fiscal:">
-        
-        <br><br>
-
-        <input type="text" name="condicionIVA" placeholder="Tu condición frente al IVA:">
-        
-        <br><br>
-
-        <input type="text" name="ingresosbrutos" placeholder="Tu ingresosbrutos:">
-        
-        <br><br>
+  <div class="marco_div">
+    <h1>Configuraciones de la plantilla de Excel</h1>
+    <p>Este archivo te permite subir la información para que el sistema genere las facturas automáticamente. Si necesitás una nueva plantilla, hacé clic en "Generar plantilla nueva".</p>
     
-        <label for="fecha_inicio">Selecciona la fecha de inicio:</label>
-        <input type="date" id="fecha_inicio" name="fechaInicio">
-        
-        <br><br>
-
-        <h5>Los campos opcionales pueden dejarse vacíos si no son necesarios para tu caso.</h5>
-
-        <input type="text" name="iag" placeholder="Impuesto adicional global:">
-        
-        <input type="text" name="d_iag" placeholder="Descripcion Impuesto adicional global:">
-        
-        <input type="text" name="alicuota" placeholder="Alícuota:">
-        
-        <br>
-        
-      <h5 style="display: flex; justify-content: center;"><input type="submit" value="Guardar cambios" class="enlaceAD boxAD"></h5>
-      </form>
+    {% with messages = get_flashed_messages() %} 
+      {% if messages %}
+          <div id="flash-message" style="border: 1px solid whitesmoke; background-color: rgba(255, 0, 0, 0.76); color:white; padding: 10px; margin: 10px; display: inline-block;">
+              <ul>
+                  {% for message in messages %} 
+                      <li><p>{{ message }}</p></li>
+                  {% endfor %}
+              </ul>
+              <h5 style="display: flex; justify-content: center;"><button onclick="deleteMessage()" id="button">Eliminar mensaje</button></h5>
+          </div>
+      {% endif %}
+    {% endwith %}
+    
+    <h2>Elegí lo que queres hacer:</h2>
+    <div class="toggle-buttons">
+      <h5>
+        <button class="toggle" style="display: inline-block;" id="button" onclick="changeContent(1)">Modiciar mi Plantilla</button>
+        <button class="toggle" style="display: inline-block;" id="button" onclick="changeContent(2)">Crear una Plantilla nueva</button>
+      </h5>
     </div>
-    <div id="content-2" class="content-item" style="display: none; border: 2px solid #4A90E2;">
-      <h2>Armando tu plantilla de facturación:</h2>
-      <p>En este video te dejamos un video de como rellenar tus datos personales para generar correctamente la planilla</p>
-      <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
-      
-      <h5>Ingresa los siguientes datos para completar automáticamente tu información personal en las facturas.</h5>
-      <form action="/save_configuracion_inicial" method="POST" onsubmit="redirectAfterSubmit(); mostrarLoader(event)" >
-      
-        <p>El punto de venta es un número que identifica desde dónde se hacen las facturas.</p>
-        <p>Tu punto de venta: <input type="number" name="pventa" placeholder="Punto de venta:" required></p>
+    <div id="content">
+      <div id="content-1" class="content-item" style="display: none; border: 2px solid #4A90E2;">
+        <h2>Modificar mi plantilla de facturación</h2>
+        <p>En este video te dejamos un video de como rellenar tus datos personales para modificar correctamente la planilla:</h2>
+        <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
+        <h4>Datos personales</h4>
+        <form action="/save_configuracion" enctype="multipart/form-data" method="POST">
+
+          <h5>Ingresa los datos personales que vas a cambiar para completar automáticamente las facturas.</h5>
+          <label for="excel">Elegí el archivo de tu plantilla de Excel:</label>
+          <input type="file" id="excel" name="excel" required>
+
+          <br><br>
+
+          <input type="text" name="name" placeholder="Tu Nombre:">
           
-        <br>
-  
-        <p>La razón social es el nombre oficial de una empresa o negocio.</p>
-        <p>Tu razón social: <input type="text" name="razonsocial" placeholder="Razón Social:" required></p>
-        
-        <br>
-  
-        <p>El domicilio fiscal es la dirección oficial para temas de impuestos.</p>
-        <p>Tu domicilio fiscal:<input type="text" name="domicilio" placeholder="Domicilio fiscal:" required></p>
-        
-        <br>
-  
-        <p>La condición frente al IVA indica cómo una persona o empresa paga el Impuesto al Valor Agregado (IVA).</p>
-        <label for="condicionIVA">Condición frente al IVA:</label>
-        <select name="condicionIVA" id="condicionIVA" required>
-            <option value="Monostributista">Monostributista (Paga una cantidad fija cada mes y no agrega IVA en sus facturas.)</option>
-        </select>
-        <br>
-  
-        <p>El número de Ingresos Brutos es el número que te identifica como contribuyente del impuesto sobre los Ingresos Brutos en una provincia.</p>
-        <p>Tu número de ingresos brutos suele ser tu CUIT sin guiones</p>
-        <p>Número de ingresos brutos:<input type="number" name="ingresosbrutos" placeholder="Ingresosbrutos:" required></p>
-        
-        <br>
-        
-        <p>La fecha de inicio para la facturación en AFIP/ARCA es el día en que empezaste a vender productos o servicios de manera oficial.</p>
-        <p>Si armaste hoy tu cuenta de AFIP/ARCA con este sistema pone la fecha de hoy.</p>
-        <label for="fecha_inicio">Selecciona la fecha de inicio:</label>
-        <input type="date" id="fecha_inicio" name="fecha_inicio" required>
-        
-        <br><br>
+          <br><br>
 
-        <h5>Los campos opcionales pueden dejarse vacíos si no son necesarios para tu caso.</h5>
-  
-        <p>Un impuesto adicional es un pago extra que se suma a los impuestos normales.</p>
-        <p>Este impuesto adicional se aplica en todos los productos y servicios que factures.</p>
-        <label for="iag">Impuesto adicional:</label>
-        <select name="iag" id="iag">
-          <option value="">No tiene</option>
-          <option value="Impuesto_Nacional">Impuesto Nacional (Impuesto que cobra el gobierno nacional, como el IVA o Ganancias.)</option>
-          <option value="Tributo_Municipal">Tributo Municipal (Impuesto que cobra la municipalidad, como la tasa de seguridad e higiene.)</option>
-          <option value="Impuestos_Internos">Impuestos Internos (Impuestos especiales para ciertos productos, como cigarrillos o bebidas alcohólicas.)</option>
-          <option value="IIBB">IIBB (Ingresos Brutos, impuesto que cobran las provincias sobre las ventas.)</option>
-          <option value="Percepción_de_IVA">Percepción de IVA (Adelanto del IVA que se cobra en algunas compras o ventas.)</option>
-          <option value="Percepción_de_IIBB">Percepción de IIBB (Adelanto del impuesto a los Ingresos Brutos que se cobra en algunas operaciones.)</option>
-          <option value="Percepciones_por_Tributos_Municipales">Percepciones por Tributos Municipales (Adelantos de impuestos municipales que se cobran en algunas facturas.)</option>
-          <option value="Otras_Percepciones">Otras Percepciones (Otros adelantos de impuestos que no entran en las categorías anteriores.)</option>
-          <option value="Percepción_de_IVA_a_no_Categorizado">Percepción de IVA a no Categorizado (Cobro extra de IVA a quienes no están registrados en AFIP.)</option>
-          <option value="Otros">Otros (Cualquier otro impuesto o percepción que no esté en la lista.)</option>
-        </select>
-  
-        <br><br>
-  
-        <input type="text" name="d_iag" placeholder="(Opcional) Descripcion Impuesto adicional global:" style="width: 300px; padding: 5px; font-size: 14px;">
+          <input type="text" name="CUIT" placeholder="Tu CUIT:">
+
+          <br><br>
+
+          <input type="text" name="empresa" placeholder="Nombre Empresa:">
+          
+          <br><br>
+
+          <input type="text" name="pventa" placeholder="Punto de venta:">
+          
+          <br><br>
+
+          <input type="text" name="razonsocial" placeholder="Tu Razón Social:">
+          
+          <br><br>
+
+          <input type="text" name="domicilio" placeholder="Tu domicilio fiscal:">
+          
+          <br><br>
+
+          <input type="text" name="condicionIVA" placeholder="Tu condición frente al IVA:">
+          
+          <br><br>
+
+          <input type="text" name="ingresosbrutos" placeholder="Tu ingresosbrutos:">
+          
+          <br><br>
+      
+          <label for="fecha_inicio">Selecciona la fecha de inicio:</label>
+          <input type="date" id="fecha_inicio" name="fechaInicio">
+          
+          <br><br>
+
+          <h5>Los campos opcionales pueden dejarse vacíos si no son necesarios para tu caso.</h5>
+
+          <input type="text" name="iag" placeholder="Impuesto adicional global:">
+          
+          <input type="text" name="d_iag" placeholder="Descripcion Impuesto adicional global:" style="width: 100%; max-width: 300px; min-width: 200px; box-sizing: border-box;">
+          
+          <input type="text" name="alicuota" placeholder="Alícuota:">
+          
+          <br><br>
+          
+        <h5 style="display: flex; justify-content: center;"><button type="submit" value="Guardar cambios" class="enlaceAD boxAD alternativo animado">Guardar cambios</h5>
+        </form>
+      </div>
+      <div id="content-2" class="content-item" style="display: none; border: 2px solid #4A90E2;">
+        <h2>Armando tu plantilla de facturación:</h2>
+        <p>En este video te dejamos un video de como rellenar tus datos personales para generar correctamente la planilla</p>
+        <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
+        <h5>Ingresa los siguientes datos para completar automáticamente tu información personal en las facturas.</h5>
+        <form action="/save_configuracion_inicial" method="POST" onsubmit="redirectAfterSubmit(); mostrarLoader(event)" >
         
-        <br><br>
-  
-        <p>La alícuota es el porcentaje que se usa para calcular un impuesto. Por ejemplo, si el IVA es del 21%, ese 21% es la alícuota que se aplica sobre el precio de un producto o servicio.</p>
-        <input type="number" name="alicuota" placeholder="(Opcional) Alicuota:">
-        
-        <br><br>
-  
-        <h5>Los siguientes datos solo se completan si no creaste tu llave y certificado con este sistema:</h5>
-        <p>Tu CUIT: <input type="number" name="CUIT" placeholder="Tu CUIT:"></p>
-  
-        <br>
-  
-        <p>Tu nombre y apellido: <input type="text" name="nombre_apellido" placeholder="Tu Nombre y apellido:"></p>
-  
-        <br>
-  
-        <p>El nombre de la empresa: <input type="text" name="nombre_empresa" placeholder="El nombre de la empresa:"></p>
-  
-        <br>
-        <h5 style="display: flex; justify-content: center;"><input type="submit" value="Generar plantilla nueva" class="enlaceAD boxAD alternativo"></h5>
-      </form>
+          <p>El punto de venta es un número que identifica desde dónde se hacen las facturas.</p>
+          <p>Tu punto de venta: <input type="number" name="pventa" placeholder="Punto de venta:" required></p>
+            
+          <br>
+    
+          <p>La razón social es el nombre oficial de una empresa o negocio.</p>
+          <p>Tu razón social: <input type="text" name="razonsocial" placeholder="Razón Social:" required></p>
+          
+          <br>
+    
+          <p>El domicilio fiscal es la dirección oficial para temas de impuestos.</p>
+          <p>Tu domicilio fiscal:<input type="text" name="domicilio" placeholder="Domicilio fiscal:" required></p>
+          
+          <br>
+    
+          <p>La condición frente al IVA indica cómo una persona o empresa paga el Impuesto al Valor Agregado (IVA).</p>
+          <label for="condicionIVA">Condición frente al IVA:</label>
+          <select name="condicionIVA" id="condicionIVA" required style="width: 85%;">
+              <option value="Monostributista">Monostributista (Paga una cantidad fija cada mes y no agrega IVA en sus facturas.)</option>
+          </select>
+          <br>
+    
+          <p>El número de Ingresos Brutos es el número que te identifica como contribuyente del impuesto sobre los Ingresos Brutos en una provincia.</p>
+          <p>Tu número de ingresos brutos suele ser tu CUIT sin guiones</p>
+          <p>Número de ingresos brutos:<input type="number" name="ingresosbrutos" placeholder="Ingresosbrutos:" required></p>
+          
+          <br>
+          
+          <p>La fecha de inicio para la facturación en AFIP/ARCA es el día en que empezaste a vender productos o servicios de manera oficial.</p>
+          <p>Si armaste hoy tu cuenta de AFIP/ARCA con este sistema pone la fecha de hoy.</p>
+          <label for="fecha_inicio">Selecciona la fecha de inicio:</label>
+          <input type="date" id="fecha_inicio" name="fecha_inicio" required>
+          
+          <br><br>
+
+          <h5>Los campos opcionales pueden dejarse vacíos si no son necesarios para tu caso.</h5>
+    
+          <p>Un impuesto adicional es un pago extra que se suma a los impuestos normales.</p>
+          <p>Este impuesto adicional se aplica en todos los productos y servicios que factures.</p>
+          <label for="iag">Impuesto adicional:</label>
+          <select name="iag" id="iag" style="width: 85%;">
+            <option value="">No tiene</option>
+            <option value="Impuesto_Nacional">Impuesto Nacional (Impuesto que cobra el gobierno nacional, como el IVA o Ganancias.)</option>
+            <option value="Tributo_Municipal">Tributo Municipal (Impuesto que cobra la municipalidad, como la tasa de seguridad e higiene.)</option>
+            <option value="Impuestos_Internos">Impuestos Internos (Impuestos especiales para ciertos productos, como cigarrillos o bebidas alcohólicas.)</option>
+            <option value="IIBB">IIBB (Ingresos Brutos, impuesto que cobran las provincias sobre las ventas.)</option>
+            <option value="Percepción_de_IVA">Percepción de IVA (Adelanto del IVA que se cobra en algunas compras o ventas.)</option>
+            <option value="Percepción_de_IIBB">Percepción de IIBB (Adelanto del impuesto a los Ingresos Brutos que se cobra en algunas operaciones.)</option>
+            <option value="Percepciones_por_Tributos_Municipales">Percepciones por Tributos Municipales (Adelantos de impuestos municipales que se cobran en algunas facturas.)</option>
+            <option value="Otras_Percepciones">Otras Percepciones (Otros adelantos de impuestos que no entran en las categorías anteriores.)</option>
+            <option value="Percepción_de_IVA_a_no_Categorizado">Percepción de IVA a no Categorizado (Cobro extra de IVA a quienes no están registrados en AFIP.)</option>
+            <option value="Otros">Otros (Cualquier otro impuesto o percepción que no esté en la lista.)</option>
+          </select>
+    
+          <br><br>
+    
+          <input type="text" name="d_iag" placeholder="(Opcional) Descripcion Impuesto adicional global:" style="width: 300px; padding: 5px; font-size: 14px;">
+          
+          <br><br>
+    
+          <p>La alícuota es el porcentaje que se usa para calcular un impuesto. Por ejemplo, si el IVA es del 21%, ese 21% es la alícuota que se aplica sobre el precio de un producto o servicio.</p>
+          <input type="number" name="alicuota" placeholder="(Opcional) Alicuota:">
+          
+          <br><br>
+    
+          <h5>Los siguientes datos solo se completan si no creaste tu llave y certificado con este sistema:</h5>
+          <p>Tu CUIT: <input type="number" name="CUIT" placeholder="Tu CUIT:"></p>
+    
+          <br>
+    
+          <p>Tu nombre y apellido: <input type="text" name="nombre_apellido" placeholder="Tu Nombre y apellido:"></p>
+    
+          <br>
+    
+          <p>El nombre de la empresa: <input type="text" name="nombre_empresa" placeholder="El nombre de la empresa:"></p>
+    
+          <br>
+          <h5 style="display: flex; justify-content: center;"><button type="submit" value="Generar plantilla nueva" class="enlaceAD boxAD alternativo animado">Generar plantilla nueva</h5>
+        </form>
+      </div>
     </div>
+    <li class="nav-item" style="display: flex; justify-content: center;"> <a class="nav-link" href="{{url_for('menu_facturador')}}"><h5 class="enlaceAD boxAD animado">Menu Facturación</h5></a></li>
   </div>
-  <li class="nav-item" style="display: flex; justify-content: center;"> <a class="nav-link" href="{{url_for('menu_facturador')}}"><h6 class="enlaceAD boxAD">Menu Facturación</h6></a></li>
   <script>
     function changeContent(toggleId) {
       // Oculta todos los contenidos

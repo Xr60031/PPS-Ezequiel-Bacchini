@@ -10,8 +10,8 @@ def obtener_datos_hoja_item_actual(items, datos_hoja_factura):
     descripcion_tributo_adicional = items.cell(row=row_, column=6).value
     alicuota = float(items.cell(row=row_, column=7).value or 0)
     
-    importe_bonificado = datos_hoja_factura[0]*precio_unitario*(100-datos_hoja_factura[1])/100
-    subtotal = importe_bonificado*(100-alicuota)/100
+    importe_bonificado = 0
+    subtotal = 0
 
     datos_hoja_item = [
         codigo_producto,

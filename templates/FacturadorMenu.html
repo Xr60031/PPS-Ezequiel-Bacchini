@@ -38,52 +38,55 @@
             </nav>
         </div>
     </section>
-    <br>
     <!---->
-    <h1>Modos de facturación</h1>
-    <h2>Seleccioná cómo querés facturar:</h2>
-    <p>En este video te dejamos un breve video de las diferencias entre los modos de facturación</p>
-    <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
-    
-    <form action="/load_facturador" method="POST" enctype="multipart/form-data" onsubmit="mostrarLoader(event)">
-
-        <label for="excel">Elegí el archivo de la plantilla de Excel:</label>
-        <input type="file" id="excel" name="excel" required>
-        <p>(Si necesitas una plantilla nueva o modificar los datos de tu plantilla se puede hacer en Configuraciones)</p>
-        <br><br>
-
-        {% with messages = get_flashed_messages() %} 
+    <div class="marco_div">
+        <h1>Modos de facturación</h1>
+        <!-- Mostrar el mensaje flash con el botón -->
+        {% with messages = get_flashed_messages() %}
             {% if messages %}
-                <div id="flash-message" style="border: 1px solid whitesmoke; background-color: rgba(255, 0, 0, 0.76); color:white; padding: 10px; margin: 10px; display: inline-block;">
+                <div id="flash-message" style="background-color: #1a1a1a;  border: 1px solid red; padding: 10px; margin: 10px; display: inline-block;">
                     <ul>
-                        {% for message in messages %} 
-                            <li><p>{{ message }}</p></li>
+                        {% for message in messages %}
+                            <li><h5>{{ message }}</h5></li>
                         {% endfor %}
                     </ul>
-                    <h5 style="display: flex; justify-content: center;"><button onclick="deleteMessage()" id="button">Eliminar mensaje</button></h5>
+                    <h5 style="display: flex; justify-content: center;"><button onclick="deleteMessage()" class="enlaceAD boxAD alternativo animado">Eliminar mensaje</button></h5>
                 </div>
             {% endif %}
         {% endwith %}
+        <br>
+        <!---->
+        <h2>Seleccioná cómo querés facturar:</h2>
+        <p>En este video te dejamos un breve video de las diferencias entre los modos de facturación</p>
+        <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
+        
+        <form action="/load_facturador" method="POST" enctype="multipart/form-data" onsubmit="mostrarLoader(event)">
 
-        <h3><b>Factura única</b></h3>
-        <p>Para hacer una factura a la vez.</p>
-        <h5 style="display: flex; justify-content: center;"><button type="submit" name="accion" value="f_unico" class="enlaceAD boxAD alternativo">Facturador Único</button></h5>
-        <br><br>
-        
-        <h3><b>Múltiples Facturas</b></h3>
-        <p>Para hacer varias facturas al mismo tiempo.</p>
-        <h5 style="display: flex; justify-content: center;"><button type="submit" name="accion" value="f_multiple" class="enlaceAD boxAD alternativo">Facturación Múltiple</button></h5>
-        <br><br>
-        
-        <h3><b>Menú Items</b></h3>
-        <p>¿Necesitas agregar, modificar o borrar un producto o servicio en tu plantilla? Haz click en "Menú Items" para hacerlo</p>
-        <h5 style="display: flex; justify-content: center;"><button type="submit" name="accion" value="menu_items" class="enlaceAD boxAD alternativo">Menú Items</a></h5>
-        <br><br>
-        
-        <h3><b>Historial</b></h3>
-        <p>Para ver información de facturas anteriores y hacer Notas de Crédito.</p>
-        <h5 style="display: flex; justify-content: center;"><button type="submit" name="accion" value="historial" class="enlaceAD boxAD alternativo">Historial Facturas</button></h5>
-    </form>
+            <label for="excel">Elegí el archivo de la plantilla de Excel:</label>
+            <input type="file" id="excel" name="excel" required>
+            <p>(Si necesitas una plantilla nueva o modificar los datos de tu plantilla se puede hacer en Configuraciones)</p>
+            <br><br>
+
+            <h3><b>Factura única</b></h3>
+            <p>Para hacer una factura a la vez.</p>
+            <h5 style="display: flex; justify-content: center;"><button type="submit" name="accion" value="f_unico" class="enlaceAD boxAD alternativo">Facturador Único</button></h5>
+            <br><br>
+            
+            <h3><b>Múltiples Facturas</b></h3>
+            <p>Para hacer varias facturas al mismo tiempo.</p>
+            <h5 style="display: flex; justify-content: center;"><button type="submit" name="accion" value="f_multiple" class="enlaceAD boxAD alternativo">Facturación Múltiple</button></h5>
+            <br><br>
+            
+            <h3><b>Menú Items</b></h3>
+            <p>¿Necesitas agregar, modificar o borrar un producto o servicio en tu plantilla? Haz click en "Menú Items" para hacerlo</p>
+            <h5 style="display: flex; justify-content: center;"><button type="submit" name="accion" value="menu_items" class="enlaceAD boxAD alternativo">Menú Items</a></h5>
+            <br><br>
+            
+            <h3><b>Historial</b></h3>
+            <p>Para ver información de facturas anteriores y hacer Notas de Crédito.</p>
+            <h5 style="display: flex; justify-content: center;"><button type="submit" name="accion" value="historial" class="enlaceAD boxAD alternativo">Historial Facturas</button></h5>
+        </form>
+    </div>
     <script>
         function mostrarLoader(event) {
             const loader = document.querySelector(".loader");
