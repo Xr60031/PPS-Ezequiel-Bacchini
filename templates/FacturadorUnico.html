@@ -65,7 +65,7 @@
             <br>
 
             <label for="tipo_fac">Tipo de factura:</label>
-            <select name="tipo_factura" id="concepto" required><option value="Factura C">Factura C (Factura que emiten los monotributistas y excentos en IVA cuando venden un producto o servicio. No incluye IVA, porque los estos no lo cobran.)</option></select>
+            <select name="tipo_factura" id="tipo_factura" required><option value="Factura C">Factura C (Factura que emiten los monotributistas y excentos en IVA cuando venden un producto o servicio. No incluye IVA, porque los estos no lo cobran.)</option></select>
             
             <br><br>
 
@@ -108,7 +108,6 @@
             <br><br>
 
             <p>El concepto de la venta es una breve explicación de qué estás vendiendo o haciendo.</p>
-            <p>(ATENCION: si seleccionaste PRODUCTOS, no hace falta rellenar los siguientes campos de fecha)</p>
             <label for="concepto">Concepto de la venta:</label>
             <select name="concepto" id="concepto" required>
                 <option value="PRODUCTOS">Producto/s</option>
@@ -116,24 +115,22 @@
                 <option value="PRODUCTOS Y SERVICIOS">Producto/s y Servicio/s</option>
             </select>
             
-            <br><br>
             
-            <p>El día en que empieza el servicio o venta.</p>
-            <label for="fecha">Selecciona la fecha de servicio desde:</label>
-            <input type="date" id="fecha_desde" name="fecha_desde">
-            
-            <br><br>
-            
-            <p>El día en que termina el servicio o venta.</p>
-            <label for="fecha">Selecciona la fecha de servicio hasta:</label>
-            <input type="date" id="fecha_hasta" name="fecha_hasta">
-            
-            <br><br>
-            
-            <p>El último día para pagar lo que debe.</p>
-            <label for="fecha">Selecciona la fecha de vencimiento de pago:</label>
-            <input type="date" id="fecha_vto_pago" name="fecha_vto_pago">
+            <p id="campo_fecha_desde">
+                <label for="fecha_desde">Selecciona la fecha de servicio desde:</label>
+                <input type="date" id="fecha_desde" name="fecha_desde">
+            </p>
 
+            <p id="campo_fecha_hasta">
+                <label for="fecha_hasta">Selecciona la fecha de servicio hasta:</label>
+                <input type="date" id="fecha_hasta" name="fecha_hasta">
+            </p>
+
+            <p id="campo_fecha_vto_pago">
+                <label for="fecha_vto_pago">Selecciona la fecha de vencimiento de pago:</label>
+                <input type="date" id="fecha_vto_pago" name="fecha_vto_pago">
+            </p>
+            
             <br><br>
 
             <label for="items_">Elige los productos o servicios:</label>
@@ -167,7 +164,7 @@
                             <th>Descripción Impuesto Adicional</th>
                             <th>Alicuota</th>
                             <th>Cantidad</th>
-                            <th>Importe Bonificado</th>
+                            <th>Importe Bonificado (%)</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -277,6 +274,36 @@
                 }
             });
         }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const conceptoSelect = document.getElementById("concepto");
+
+            const fechaDesdeCont = document.getElementById("campo_fecha_desde");
+            const fechaHastaCont = document.getElementById("campo_fecha_hasta");
+            const fechaVtoCont = document.getElementById("campo_fecha_vto_pago");
+
+            const fechaDesde = document.getElementById("fecha_desde");
+            const fechaHasta = document.getElementById("fecha_hasta");
+            const fechaVto = document.getElementById("fecha_vto_pago");
+
+            function toggleFechaFields() {
+            const valor = conceptoSelect.value;
+            const mostrar = (valor === "SERVICIOS" || valor === "PRODUCTOS Y SERVICIOS");
+
+            fechaDesdeCont.style.display = mostrar ? "block" : "none";
+            fechaHastaCont.style.display = mostrar ? "block" : "none";
+            fechaVtoCont.style.display = mostrar ? "block" : "none";
+
+            fechaDesde.required = mostrar;
+            fechaHasta.required = mostrar;
+            fechaVto.required = mostrar;
+            }
+
+            conceptoSelect.addEventListener("change", toggleFechaFields);
+
+            toggleFechaFields();
+        });
     </script>
 </body>
 </html>

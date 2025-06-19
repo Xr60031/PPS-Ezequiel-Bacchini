@@ -4,7 +4,7 @@ from Facades.facade_dataframes import Facade_dataframe
 from impresor_pdf.impresor_pdf import generar_pdf_
 from ExcelManager.historial_manager import escribir_historial, obtener_row_historial, guardar_historial
 
-from Funciones.armar_historial import build_datos_historial
+from Funciones.Ensambladores.armar_historial import build_datos_historial
 from Funciones.zip_manager import zip_write, zip_write_str
 import zipfile
 

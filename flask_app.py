@@ -14,9 +14,9 @@ from Funciones.Obtener_datos_facturacion.obtenedor_FM import Obtenedor_FM
 from Funciones.Obtener_datos_facturacion.obtenedor_FU import Obtenedor_FU
 from Funciones.Obtener_datos_facturacion.obtenedor_NC import Obtenedor_NC
 
-from Funciones.verificador_CUIT import verificar_cuit
-from Funciones.verificar_formateo_datos import verificar_formateo_datos
-from Funciones.verificador_inicio_sesion import leer_certificado, leer_llave
+from Funciones.Verificadores.verificador_CUIT import verificar_cuit
+from Funciones.Verificadores.verificar_formateo_datos import verificar_formateo_datos
+from Funciones.Verificadores.verificador_inicio_sesion import leer_certificado, leer_llave
 
 import interfaz_wsaa
 from Constantes import constantes
@@ -28,7 +28,6 @@ import threading
 import time
 import re
 from datetime import datetime, timedelta
-import json as json_biblioteca
 
 app = Flask(__name__)
 app.secret_key = 'clave_030'
@@ -304,14 +303,15 @@ def facturacion():
         obtenedor = Obtenedor_NC()
     
     datos_factura = obtenedor.obtener_datos_facturacion(data_source, datos_factura_manager, datos_usuario)
-    for dato in datos_factura.items():
-        print(dato)
-    return render_template('FacturadorMenu.html')
 
-    if(verificar_formateo_datos(datos_factura) == False):
-        print("Datos INVALIDOS")
-        flash(constantes_.factura_datos_faltantes_alerta)
-        return render_template('FacturadorMultiple.html', embed_link=session.get('embed'), estado = session.get('descargar_excel'))
+    if isinstance(datos_factura, dict):
+        datos_factura = [datos_factura]
+
+    for datos_actual in datos_factura:
+        print(datos_actual.items())
+        if(verificar_formateo_datos(datos_actual) == False):
+            flash(constantes_.factura_datos_faltantes_alerta)
+            return render_template('FacturadorMenu.html')
 
     copy_path_certificado = escribir_certificado()
     copy_path_llave = escribir_llave()
@@ -413,7 +413,8 @@ def upload_file():
         if(session.get('configuracion_inicial') == True):
             return render_template('FacturadorMenu.html')
         else:
-            return render_template('Configuracion_Inicial.html')
+            requiere_datos_adicionales = session.get('CUIT')==None or session.get('Nombre')==None or session.get('Empresa') == None
+            return render_template('Configuracion_Inicial.html', requiere_datos_adicionales = requiere_datos_adicionales)
     
     except Exception as e:
         flash(f"Error al procesar los archivos", "error")

@@ -199,7 +199,7 @@ class Factura_C(Strategy):
             self.hacer_Linea(pdf)
 
             pdf.set_font('Arial', style="B", size=10)
-            pdf.cell(0,identacion, F'Subtotal:$ {importe_total}', ln=True, align='R')
+            pdf.cell(0,identacion, F'Subtotal:$ {int((importe_total-importe_otros_tributos)*100)/100}', ln=True, align='R')
             pdf.cell(0,identacion, F'Importe Otros Tributos:$ {importe_otros_tributos}', ln=True, align='R')
             pdf.cell(0,identacion, F'Total:$ {importe_total}', ln=True, align='R')
             

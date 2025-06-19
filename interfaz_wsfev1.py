@@ -258,7 +258,7 @@ class InterfazWSFEv1():
                     str(tributo_factura_actual[numero][1]), # Descripcion
                     int(tributo_factura_actual[numero][2]), # Base Impositiva
                     int(tributo_factura_actual[numero][3]), # Alicuota
-                    int(tributo_factura_actual[numero][4])  # Importe
+                    float(tributo_factura_actual[numero][4])  # Importe
                 )  
 
         wsfev1.CAESolicitar()
@@ -269,6 +269,7 @@ class InterfazWSFEv1():
         print("CAE", cae)
         print("Vencimiento", wsfev1.Vencimiento)
         print("OBS", wsfev1.Obs)
+        print("XML", wsfev1.XmlRequest)
 
         datosCAE=[wsfev1.CAE, wsfev1.Vencimiento, int(wsfev1.CompUltimoAutorizado(tipo, datos_basicos_vendedor["Punto_de_venta"]))]
         return datosCAE
