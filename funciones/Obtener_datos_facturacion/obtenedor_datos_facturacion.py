@@ -21,13 +21,13 @@ class obtenedor_datos_facturacion(ABC):
             "tipo_factura_nota": datos_factura[1],
             "Nombre_y_Apellido_Cliente": datos_factura[2],
             "Tipo_Documento": datos_factura[3],
-            "Numero_de_documento_del_cliente": int(datos_factura[4]),
+            "Numero_de_documento_del_cliente": int(datos_factura[4] or 0),
             "Condicion_de_venta_Cliente": datos_factura[5],
             "Condicion_frente_al_IVA_Cliente": datos_factura[6],
             "Concepto": datos_factura[7],
-            "Fecha_servicio_desde": datos_factura[8],
-            "Fecha_servicio_hasta": datos_factura[9],
-            "Fecha_vencimiento_de_pago": datos_factura[10],
+            "Fecha_servicio_desde": datos_factura[8].strftime('%Y%m%d') if hasattr(datos_factura[8], 'strftime') else datos_factura[8],
+            "Fecha_servicio_hasta": datos_factura[9].strftime('%Y%m%d') if hasattr(datos_factura[9], 'strftime') else datos_factura[9],
+            "Fecha_vencimiento_de_pago": datos_factura[10].strftime('%Y%m%d') if hasattr(datos_factura[10], 'strftime') else datos_factura[10],
             "ID_doc": obtener_ID_documento(datos_factura[3]),
             "ID_concepto": obtener_ID_concepto(datos_factura[7]),
             "ID_factura_nota": obtener_ID_Factura(datos_factura[1]),
@@ -38,7 +38,8 @@ class obtenedor_datos_facturacion(ABC):
             "tributos": datos_factura[14],
             "items": datos_factura[15],
             "nro_cbte_anular" : None,
-            "fecha_emision" : (datetime.now()).strftime('%Y%m%d')
+            "nro_cbte": None,
+            "fecha_emision" : datetime.now().strftime('%Y%m%d')
         }
         return datos_factura
     
@@ -86,11 +87,21 @@ class obtenedor_datos_facturacion(ABC):
 
         imp_total = imp_neto + imp_tributo_total
 
-        datos_factura.append(imp_neto)
-        datos_factura.append(imp_total)
-        datos_factura.append(imp_tributo_total)
-        datos_factura.append(tributos)
-        datos_factura.append(productos_servicios)
+        datos_calculados = []
+        datos_calculados += datos_factura
+        datos_calculados.append(imp_neto)
+        datos_calculados.append(imp_total)
+        datos_calculados.append(imp_tributo_total)
+        datos_calculados.append(tributos)
+        datos_calculados.append(productos_servicios)
+        
+        return datos_calculados
 
-    def set_comprobante_anular(datos_factura, cbte_anular):
+    def set_comprobante_anular(self, datos_factura, cbte_anular):
         datos_factura["nro_cbte_anular"] = cbte_anular
+
+    def set_tipo_comprobante(self, datos_factura, tipo_cbte):
+        datos_factura["ID_factura_nota"] = tipo_cbte
+
+    def set_numero_comprobante(self, datos_factura, nro_cbte):
+        datos_factura["nro_cbte"] = nro_cbte

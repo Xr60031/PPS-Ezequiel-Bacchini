@@ -75,26 +75,29 @@
 
             <label for="tipo_doc">Tipo Documento:</label>
             <select name="tipo_doc" id="tipo_doc" required>
+                <option value="Consumidor Final">Consumidor Final (No requiere ingresar número de documento)</option>
                 <option value="CUIT">CUIT </option>
                 <option value="DNI">DNI </option>
                 <option value="CDI">CDI (Es un número que se le asigna a los extranjeros que no tienen DNI o Cédula de Identidad argentina, pero necesitan realizar trámites fiscales en Argentina.)</option>
                 <option value="CI EXTRANJERA">CI EXTRANJERA (Es un documento de identidad oficial para los extranjeros que viven en Argentina)</option>
                 <option value="PASAPORTE">PASAPORTE </option>
-                <option value="OTRO">OTRO </option>
             </select>
             
             <br><br>
             
-            <p>Ingrese el número de documento del cliente <input type="number" name="numero_doc_cliente" placeholder="Número de documento:" required></p>
-            
-            <br>
+            <p id="nro_doc">Ingrese el número de documento del cliente <input type="number" id="numero_doc_cliente" name="numero_doc_cliente" placeholder="Número de documento:"></p>
 
             <p>El concepto de venta son las condiciones del pago</p>
             <label for="concepto_venta">Concepto de venta cliente:</label>
             <select name="concepto_venta" id="concepto_venta" required>
-                <option value="Contado">Contado (El pago se realiza de forma completa y al instante.)</option>
-                <option value="Crédito a 30 días">Crédito a 30 días (El pago se realiza 30 días después de la compra.)</option>
-                <option value="Pago anticipado">Pago anticipado (El pago se hace antes de recibir el producto o servicio.)</option>
+                <option value="Contado">Contado (Pago inmediato en efectivo o similar)</option>
+                <option value="Cuenta Corriente">Cuenta Corriente (Se registra como deuda del cliente)</option>
+                <option value="Tarjeta de Crédito">Tarjeta de Crédito</option>
+                <option value="Tarjeta de Débito">Tarjeta de Débito</option>
+                <option value="Cheque">Cheque</option>
+                <option value="Transferencia">Transferencia bancaria</option>
+                <option value="Pago Anticipado">Pago Anticipado (Se paga antes de entregar)</option>
+                <option value="Crédito a 30 días">Crédito a 30 días</option>
             </select>
             
             <br><br>
@@ -103,6 +106,8 @@
             <label for="concepto_iva">Concepto del IVA cliente:</label>
             <select name="concepto_iva" id="concepto_iva" required>
                 <option value="Consumidor Final">Consumidor Final (Persona que compra para uso personal)</option>
+                <option value="Monotributista">Monotributista (Pequeño contribuyente que tributa un monto fijo mensual)</option>
+                <option value="Excento">Exento (Sujeto que no tributa IVA por su actividad)</option>
             </select>
             
             <br><br>
@@ -255,6 +260,25 @@
                 discountCell.style.display = 'none';
             }
             updateValue();
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const tipo_doc = document.getElementById("tipo_doc");
+            const nro_doc = document.getElementById("nro_doc");
+            const nro_doc_content = document.getElementById("numero_doc_cliente");
+
+            function toggleDocFields() {
+                const valor = tipo_doc.value;
+                const mostrar = (valor !== "Consumidor Final");
+
+                nro_doc.style.display = mostrar ? "block" : "none";
+                nro_doc_content.required = mostrar;
+            }
+
+            tipo_doc.addEventListener("change", toggleDocFields);
+
+            toggleDocFields();
         });
     </script>
     <script>

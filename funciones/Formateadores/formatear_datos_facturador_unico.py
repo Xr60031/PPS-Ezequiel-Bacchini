@@ -41,7 +41,7 @@ def formatear_items_(items, items_formateados, tributos_formateados):
         i += 1
     
 
-def armar_diccionario_item(data_source):
+def jsonify_items(data_source):
         items = data_source.form.getlist("selected_item")
         return [json_biblioteca.loads(p) for p in items]
     

@@ -29,6 +29,9 @@ import time
 import re
 from datetime import datetime, timedelta
 
+import traceback
+from Exceptions.Exceptions_Custom.exception_error_factura import ErrorFacturacion
+
 app = Flask(__name__)
 app.secret_key = 'clave_030'
 WSAA = interfaz_wsaa.InterfazWSAA()
@@ -302,13 +305,22 @@ def facturacion():
         data_source = request.form.get("selected_items_json")
         obtenedor = Obtenedor_NC()
     
-    datos_factura = obtenedor.obtener_datos_facturacion(data_source, datos_factura_manager, datos_usuario)
+    try:
+        datos_factura = obtenedor.obtener_datos_facturacion(data_source, datos_factura_manager, datos_usuario)
+    except Exception as e:
+        path_log = 'Exceptions/log_exceptions.txt'
+        with open(path_log, 'a', encoding='utf-8') as file:
+            file.write("\n")
+            file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            file.write(" " + str(e))
+            file.write(" " + traceback.format_exc())
+        flash(constantes.algo_salio_mal_alerta)
+        return render_template('FacturadorMenu.html')
 
     if isinstance(datos_factura, dict):
         datos_factura = [datos_factura]
 
     for datos_actual in datos_factura:
-        print(datos_actual.items())
         if(verificar_formateo_datos(datos_actual) == False):
             flash(constantes_.factura_datos_faltantes_alerta)
             return render_template('FacturadorMenu.html')
@@ -330,7 +342,19 @@ def facturacion():
 
     dataframe_historial = dataframe_manager.obtener_dataframe_historial(destination_path)
     
-    zip_file = facturador.facturacion(destination_path, copy_path_llave, copy_path_certificado, datos_usuario, datos_factura, dataframe_historial)
+    try:
+        zip_file = facturador.facturacion(destination_path, copy_path_llave, copy_path_certificado, datos_usuario, datos_factura, dataframe_historial)
+    except ErrorFacturacion as e:
+        flash(str(e.mensaje))
+        return render_template('FacturadorMenu.html')
+    except Exception as e:
+        path_log = 'Exceptions/log_exceptions.txt'
+        with open(path_log, 'a', encoding='utf-8') as file:
+            file.write("\n")
+            file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            file.write(" " + str(e))
+        flash(constantes.algo_salio_mal_alerta)
+        return render_template('FacturadorMenu.html')
 
     session['ticket_creado'] = True
     session['ticket_tiempo_creacion'] = datetime.now().isoformat()
