@@ -1,7 +1,7 @@
 from openpyxl import load_workbook
 from ExcelManager.obtener_datos_hoja_factura_actual import obtener_datos_hoja_factura_item_actual
 from ExcelManager.obtener_datos_hoja_item_actual import obtener_datos_hoja_item_actual
-from Funciones.armar_item import armar_datos_producto_servicio
+from Funciones.Ensambladores.armar_item import armar_datos_producto_servicio
 from Constantes import constantes_dato_factura
 
 def obtener_ID(factura_hoja, row):
@@ -54,11 +54,12 @@ def obtener_datos_factura(filename):
             productos_servicios = []
             tributos = []
             obtener_productos_servicios(excel_dataframe, datos_factura, row, productos_servicios, tributos)
-            datos_factura.append(productos_servicios)
             datos_factura.append(tributos)
+            datos_factura.append(productos_servicios)
             factura_hoja=excel_dataframe["Facturas_A_Realizar"]
             ID_anterior = ID
-        datos_facturas_total.append(datos_factura)
+        if(datos_factura != []):
+            datos_facturas_total.append(datos_factura)
         cant_var = 1
         row += 1
         ID = factura_hoja.cell(row=row, column=1).value

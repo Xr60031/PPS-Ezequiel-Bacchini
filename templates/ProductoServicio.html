@@ -128,14 +128,13 @@
                         <option value="Otros">Otros</option>
 
                     </select>
+                    <div id="concepto_extra">
+                        <input type="text" name="d_i_a" placeholder="Descripción impuesto adicional: ">
 
-                    <br><br>
-                    
-                    <input type="text" name="d_i_a" placeholder="Descripción impuesto adicional: ">
-
-                    <br><br>
-                    
-                    <input type="number" name="alicuota" placeholder="Alícuota: ">
+                        <br><br>
+                        
+                        <input type="number" name="alicuota" placeholder="Alícuota: ">
+                    </div>
 
                     <br><br>
                     
@@ -367,6 +366,27 @@
 
             document.body.style.overflow = "hidden";
         }
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const content1 = document.getElementById("content-1");
+
+            const iagSelect = content1.querySelector("#concepto");
+            const iagExtraFields = content1.querySelector("#concepto_extra");
+            const descripcionInput = content1.querySelector('input[name="d_i_a"]');
+            const alicuotaInput = content1.querySelector('input[name="alicuota"]');
+
+            function toggleFields() {
+                const mostrar = iagSelect.value !== "";
+
+                iagExtraFields.style.display = mostrar ? "block" : "none";
+                descripcionInput.required = mostrar;
+                alicuotaInput.required = mostrar;
+            }
+
+            iagSelect.addEventListener("change", toggleFields);
+            toggleFields(); // aplica en caso de valor ya cargado
+        });
     </script>
 </body>
 </html>

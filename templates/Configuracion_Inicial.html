@@ -72,7 +72,7 @@
         <select name="condicionIVA" id="condicionIVA" required>
             <option value="Monostributista">Monostributista (Paga una cantidad fija cada mes y no agrega IVA en sus facturas.)</option>
         </select>
-        <br>
+        <br><br>
 
         <p>El número de Ingresos Brutos es el número que te identifica como contribuyente del impuesto sobre los Ingresos Brutos en una provincia.</p>
         <p>Tu número de ingresos brutos suele ser tu CUIT sin guiones</p>
@@ -104,32 +104,29 @@
           <option value="Otros">Otros (Cualquier otro impuesto o percepción que no esté en la lista.)</option>
         </select>
 
-        <br><br>
+        <br>
 
-        <p>Los campos opcionales pueden dejarse vacíos si no son necesarios para tu caso.</p>
-
-        <input type="text" name="d_iag" placeholder="(Opcional) Descripcion Impuesto adicional global:" style="width: 300px; padding: 5px; font-size: 14px;">
+        <div id="iag_extra" style="display: none; margin-top: 15px;">
+          <p>Es una descripción de que habla sobre de que se trata el impuesto adicional ingresado</p>
+          <input type="text" name="d_iag" placeholder="Descripcion Impuesto adicional global:" style="width: 350px; max-width: 85%; padding: 5px; font-size: 14px;">
+          <br><br>
+          <p>La alícuota es el porcentaje que se usa para calcular un impuesto. Por ejemplo, si el IVA es del 21%, ese 21% es la alícuota que se aplica sobre el precio de un producto o servicio.</p>
+          <input type="number" name="alicuota" placeholder="Alicuota:">
+        </div>
         
-        <br><br>
-
-        <p>La alícuota es el porcentaje que se usa para calcular un impuesto. Por ejemplo, si el IVA es del 21%, ese 21% es la alícuota que se aplica sobre el precio de un producto o servicio.</p>
-        <input type="number" name="alicuota" placeholder="(Opcional) Alicuota:">
-        
-        <br><br>
-
-        <h5>Los siguientes datos solo se completan si no creaste tu llave y certificado con este sistema:</h5>
-        <p>Tu CUIT: <input type="number" name="CUIT" placeholder="Tu CUIT:"></p>
-
         <br>
 
-        <p>Tu nombre y apellido: <input type="text" name="nombre_apellido" placeholder="Tu Nombre y apellido:"></p>
+        {% if requiere_datos_adicionales %}
+          <p>Tu CUIT: <input type="number" name="CUIT" placeholder="Tu CUIT:"></p>
+          <br>
 
+          <p>Tu nombre y apellido: <input type="text" name="nombre_apellido" placeholder="Tu Nombre y apellido:"></p>
+          <br>
+
+          <p>El nombre de la empresa: <input type="text" name="nombre_empresa" placeholder="El nombre de la empresa:"></p>
+        {% endif %}
         <br>
-
-        <p>El nombre de la empresa: <input type="text" name="nombre_empresa" placeholder="El nombre de la empresa:"></p>
-
-        <br>
-        <h5 style="display: flex; justify-content: center;"><button type="submit" value="Guardar cambios e ir a iniciar sesión" class="enlaceAD boxAD alternativo animado">Guardar cambios e ir a iniciar sesión"</h5>
+        <h5 style="display: flex; justify-content: center;"><button type="submit" value="Guardar cambios e ir a iniciar sesión" class="enlaceAD boxAD alternativo animado">Guardar cambios e iniciar sesión</h5>
 
         
       </form>
@@ -150,6 +147,24 @@
             document.body.style.overflow = "hidden";
             document.body.style.pointerEvents = "none";
         }
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const iagSelect = document.getElementById("iag");
+        const iagExtraFields = document.getElementById("iag_extra");
+        const descripcionInput = document.querySelector('input[name="d_iag"]');
+        const alicuotaInput = document.querySelector('input[name="alicuota"]');
+
+        function toggleFields() {
+          const mostrar = iagSelect.value !== "";
+
+          iagExtraFields.style.display = mostrar ? "block" : "none";
+          descripcionInput.required = mostrar;
+          alicuotaInput.required = mostrar;
+        }
+
+        iagSelect.addEventListener("change", toggleFields);
+      });
     </script>
   </body>
 </html>

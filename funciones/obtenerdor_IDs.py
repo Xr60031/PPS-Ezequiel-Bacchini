@@ -15,12 +15,12 @@ def obtener_ID_tributo(impuesto):
 
 def obtener_ID_documento(documento):
     return{
+        'CONSUMIDOR FINAL' : 99,
         'CUIT' : 80,
         'CDI' : 87,
         'CI EXTRANJERA' : 91,
         'PASAPORTE' : 94,
-        'DNI' : 96,
-        'OTRO' : 99
+        'DNI' : 96
     }.get(documento)
 
 def obtener_ID_concepto(concepto):
@@ -37,5 +37,7 @@ def obtener_ID_Factura(tipo_factura):
 
 def obtener_ID_condicion_iva_cliente(tipo_iva):
     return{
-        'Consumidor Final': 5
+        'Consumidor Final': 5,
+        'Monotributista' : 6,
+        'Excento' : 4
     }.get(tipo_iva)

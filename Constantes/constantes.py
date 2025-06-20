@@ -42,4 +42,5 @@ cuit_no_valido_alerta = "Alerta: El CUIT ingresado no es válido"
 llave_no_generada_alerta = "Alerta: La llave no fue generada, primero genere la llave"
 #Devuelve el mensaje de alerta de que la llave o el certificado no son validos
 llave_certificado_no_validos_alerta = "Alerta: La llave o el certificado no son válidos"
-
+#Devuelve el mensaje de alerta de que ocurrio un error
+algo_salio_mal_alerta = "Alerta: Algo salió mal"

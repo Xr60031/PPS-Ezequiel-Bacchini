@@ -1,5 +1,6 @@
 from openpyxl import load_workbook
 from Constantes import constantes_historial
+from Constantes import constantes_items
 def obtener_historial(path_excel):
     excel_dataframe=load_workbook(path_excel, data_only=True)
     historial= excel_dataframe["Historial"]
@@ -52,23 +53,24 @@ def escribir_historial(datos_historial, historial_hoja, row):
 
   cant_var_ant = cant_var
   row_ant = row
-  j = 0
-  k = 1
+  
   tributos = datos_historial[constantes_historial.limite_hasta_tributos]
-  if len(tributos) > 0:
-    while j < len(tributos):
-      k = 0
-      cant_var = cant_var_ant
-      while k < constantes_historial.cant_datos_tributos:
-        historial_hoja.cell(row=row, column=cant_var, value=tributos[j][k])
-        k += 1
-        cant_var += 1
-      row += 1
-      j += 1
-  else:
-    cant_var += constantes_historial.cant_filas_a_saltear
-  i += 1
+  for producto_actual in productos_servicios:
+    j = 0
+    tributo_found = False
+    while j < len(tributos) and tributo_found == False:
+        if(tributos[j][constantes_items.pos_id_relacionado_tributo] == producto_actual[constantes_items.pos_producto_servicio]):
+            historial_hoja.cell(row=row, column=cant_var, value=tributos[j][constantes_items.pos_descripcion_impuesto_adicional])
+            cant_var +=1
+            historial_hoja.cell(row=row, column=cant_var, value=tributos[j][constantes_items.pos_alicuota_impuesto_adicional])
+            row+=1
+            tributo_found = True
+        j+=1
+    cant_var = cant_var_ant
+
   row = row_ant
+  cant_var = cant_var_ant + constantes_historial.cant_filas_a_saltear
+  i+=1
 
   while i < constantes_historial.numero_finalizacion:
     historial_hoja.cell(row=row, column=cant_var, value=datos_historial[i])

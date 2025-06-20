@@ -1,6 +1,7 @@
 import importlib
 import datetime
 from interfaz_wsaa import InterfazWSAA
+from Exceptions.Exceptions_Custom.exception_error_factura import ErrorFacturacion
 
 wsfev1_lib = importlib.import_module("PYAFIPWS.pyafipws-main.wsfev1")
 
@@ -190,10 +191,9 @@ class InterfazWSFEv1():
         wsfev1.SetTicketAcceso(ta)
         wsfev1.Cuit = cuit_
 
-    def hacer_nota_credito(self, punto_vta, cuit, nro_cbte_anular, fecha_cbte = None):
+    def hacer_nota_credito(self, tipo_comprobante, punto_vta, nro_cbte):
         # comprobantes asociados (notas de crédito / débito)
-        tipo_cbte_anular = 11 #Si tipo == 13
-        wsfev1.AgregarCmpAsoc(tipo_cbte_anular, punto_vta, nro_cbte_anular, cuit, fecha_cbte)
+        wsfev1.AgregarCmpAsoc(tipo_cbte = tipo_comprobante, punto_vta = punto_vta, nro_bte = nro_cbte)
     
     def facturar(self,datos_factura, datos_basicos_vendedor, tipo):
         
@@ -212,9 +212,9 @@ class InterfazWSFEv1():
 
         if tipo in (2, 3, 7, 8, 12, 13, 202, 203, 208, 213):
             self.hacer_nota_credito(
-                datos_basicos_vendedor["Punto_de_venta"],
-                datos_basicos_vendedor["CUIT"],
-                datos_factura["nro_cbte_anular"]
+                datos_basicos_vendedor["nro_cbte_anular"],
+                datos_factura["Punto_de_venta"],
+                datos_factura["nro_cbte"]
             )
 
         fecha_vto_pago = None
@@ -258,7 +258,7 @@ class InterfazWSFEv1():
                     str(tributo_factura_actual[numero][1]), # Descripcion
                     int(tributo_factura_actual[numero][2]), # Base Impositiva
                     int(tributo_factura_actual[numero][3]), # Alicuota
-                    int(tributo_factura_actual[numero][4])  # Importe
+                    float(tributo_factura_actual[numero][4])  # Importe
                 )  
 
         wsfev1.CAESolicitar()
@@ -269,11 +269,14 @@ class InterfazWSFEv1():
         print("CAE", cae)
         print("Vencimiento", wsfev1.Vencimiento)
         print("OBS", wsfev1.Obs)
+        print("XML", wsfev1.XmlRequest)
 
         datosCAE=[wsfev1.CAE, wsfev1.Vencimiento, int(wsfev1.CompUltimoAutorizado(tipo, datos_basicos_vendedor["Punto_de_venta"]))]
+        
+        if datosCAE[0] == '':
+            raise ErrorFacturacion(wsfev1.Obs)
+
         return datosCAE
-
-
 
 if __name__ == '__main__':
     intWSFEv1 = InterfazWSFEv1()
