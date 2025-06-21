@@ -70,17 +70,18 @@
         <h3>¿Como Facturar usando el facturador múltiple?</h3>
         <p>Seguí el tutorial a continuación para aprender a facturar con el facturador múltiple</p>
         <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
-        <form action="/facturacion" method="POST" style="text-align: center;" onsubmit="mostrarExito(event)">
-            <input type="hidden" name="modo_facturacion" value="Factura Multiple">
-            <p style="display: flex; justify-content: center;"><button type="submit" class="enlaceAD boxAD alternativo animado">Facturar</button></p>
-        </form>
-        <iframe src="{{ embed_link }}" width="85%" height="500" frameborder="0"> </iframe>
         
         <h4>¿Necesitas agregar, modificar o borrar un producto o servicio en tu plantilla? Haz click en "Menú Items" para hacerlo</h4>
         <h5 style="display: flex; justify-content: center;"><a href="{{url_for('menu_items')}}" rel="noopener noreferrer" class="enlaceAD boxAD alternativo animado">Menú Items</a></h5>
         <br>
         <h4>¿Necesitas revisar que significaba un campo? Haz click en "Definiciones Facturación" para revisarlo</h4>
-        <h5 style="display: flex; justify-content: center;"><a href="{{url_for('definiciones_facturacion')}}" target="_blank" rel="noopener noreferrer" class="enlaceAD boxAD alternativo aimado">Definiciones Facturación</a></h5>    
+        <h5 style="display: flex; justify-content: center;"><a href="{{url_for('definiciones_facturacion')}}" target="_blank" rel="noopener noreferrer" class="enlaceAD boxAD alternativo aimado">Definiciones Facturación</a></h5>
+
+        <form action="/facturacion" method="POST" style="text-align: center;" onsubmit="mostrarExito(event)">
+            <input type="hidden" name="modo_facturacion" value="Factura Multiple">
+            <p style="display: flex; justify-content: center;"><button type="submit" class="enlaceAD boxAD alternativo animado">Facturar</button></p>
+        </form>
+        <iframe src="{{ embed_link }}" width="85%" height="500" frameborder="0"> </iframe>    
     </div>
     <script>
         window.onload = function() {

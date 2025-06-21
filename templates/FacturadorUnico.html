@@ -75,7 +75,7 @@
 
             <label for="tipo_doc">Tipo Documento:</label>
             <select name="tipo_doc" id="tipo_doc" required>
-                <option value="Consumidor Final">Consumidor Final (No requiere ingresar número de documento)</option>
+                <option value="CONSUMIDOR FINAL">Consumidor Final (No requiere ingresar número de documento)</option>
                 <option value="CUIT">CUIT </option>
                 <option value="DNI">DNI </option>
                 <option value="CDI">CDI (Es un número que se le asigna a los extranjeros que no tienen DNI o Cédula de Identidad argentina, pero necesitan realizar trámites fiscales en Argentina.)</option>
@@ -270,7 +270,7 @@
 
             function toggleDocFields() {
                 const valor = tipo_doc.value;
-                const mostrar = (valor !== "Consumidor Final");
+                const mostrar = (valor !== "CONSUMIDOR FINAL");
 
                 nro_doc.style.display = mostrar ? "block" : "none";
                 nro_doc_content.required = mostrar;

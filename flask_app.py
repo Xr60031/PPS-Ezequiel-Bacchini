@@ -353,6 +353,7 @@ def facturacion():
             file.write("\n")
             file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             file.write(" " + str(e))
+            file.write(" " + traceback.format_exc())
         flash(constantes.algo_salio_mal_alerta)
         return render_template('FacturadorMenu.html')
 
