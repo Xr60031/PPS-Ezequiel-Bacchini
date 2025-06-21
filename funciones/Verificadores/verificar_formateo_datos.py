@@ -11,7 +11,7 @@ def verificar_formateo_datos(datos_factura):
         isinstance(datos_factura["Fecha_servicio_desde"],(str, type(None))) and
         isinstance(datos_factura["Fecha_servicio_hasta"],(str, type(None))) and
         isinstance(datos_factura["Fecha_vencimiento_de_pago"],(str, type(None))) and
-        isinstance(datos_factura["ID_doc"],int) and
+        isinstance(datos_factura["ID_doc"],(int, type(None))) and
         isinstance(datos_factura["ID_concepto"],int) and
         isinstance(datos_factura["ID_factura_nota"],int) and
         isinstance(datos_factura["ID_IVA_cliente"],int) and

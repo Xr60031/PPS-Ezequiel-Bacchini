@@ -61,13 +61,14 @@ class Facade_datos_factura():
                 i+=1
             items.append(items_actual)
 
-            tributos.append([
-                obtener_ID_tributo(lista[constantes_nota_credito.pos_impuesto_adicional]), # ID impuesto adicional 
-                lista[constantes_nota_credito.pos_descripcion_impuesto_adicional], # Descripcion 
-                lista[constantes_nota_credito.pos_subtotal], # Neto -> Subtotal
-                lista[constantes_nota_credito.pos_alicuota_impuesto_adicional], # Alicuota
-                lista[constantes_nota_credito.pos_subtotal] * lista[constantes_nota_credito.pos_alicuota_impuesto_adicional] # Importe tributo -> Subtotal * Alicuota
-            ])
+            if(lista[constantes_nota_credito.pos_impuesto_adicional]):
+                tributos.append([
+                    obtener_ID_tributo(lista[constantes_nota_credito.pos_impuesto_adicional]), # ID impuesto adicional 
+                    lista[constantes_nota_credito.pos_descripcion_impuesto_adicional], # Descripcion 
+                    lista[constantes_nota_credito.pos_subtotal], # Neto -> Subtotal
+                    lista[constantes_nota_credito.pos_alicuota_impuesto_adicional], # Alicuota
+                    lista[constantes_nota_credito.pos_subtotal] * lista[constantes_nota_credito.pos_alicuota_impuesto_adicional]/100 # Importe tributo -> Subtotal * Alicuota
+                ])
 
         if datos_usuario['iag']:
             pass

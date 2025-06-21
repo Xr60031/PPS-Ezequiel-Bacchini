@@ -274,7 +274,7 @@ class InterfazWSFEv1():
         datosCAE=[wsfev1.CAE, wsfev1.Vencimiento, int(wsfev1.CompUltimoAutorizado(tipo, datos_basicos_vendedor["Punto_de_venta"]))]
         
         if datosCAE[0] == '':
-            raise ErrorFacturacion(wsfev1.Obs)
+            raise ErrorFacturacion(wsfev1.Obs + wsfev1.Observaciones)
 
         return datosCAE
 
