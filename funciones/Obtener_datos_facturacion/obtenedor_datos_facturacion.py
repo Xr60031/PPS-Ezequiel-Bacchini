@@ -101,8 +101,9 @@ class obtenedor_datos_facturacion(ABC):
     def set_comprobante_anular(self, datos_factura, cbte_anular):
         datos_factura["nro_cbte_anular"] = cbte_anular
 
-    def set_tipo_comprobante(self, datos_factura, tipo_cbte):
+    def set_tipo_comprobante(self, datos_factura, tipo_cbte, nota_credito):
         datos_factura["ID_factura_nota"] = tipo_cbte
+        datos_factura["tipo_factura_nota"] = nota_credito
 
     def set_numero_comprobante(self, datos_factura, nro_cbte):
         datos_factura["nro_cbte"] = nro_cbte

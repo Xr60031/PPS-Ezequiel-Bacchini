@@ -67,9 +67,9 @@ class Facade_Historial():
                     historial_hoja.cell(row=row, column=cant_var, value=tributos[j][constantes_items.pos_descripcion_impuesto_adicional])
                     cant_var +=1
                     historial_hoja.cell(row=row, column=cant_var, value=tributos[j][constantes_items.pos_alicuota_impuesto_adicional])
-                    row+=1
                     tributo_found = True
                 j+=1
+                row+=1
             cant_var = cant_var_ant
 
         row = row_ant

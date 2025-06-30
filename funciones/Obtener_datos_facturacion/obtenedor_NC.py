@@ -9,7 +9,6 @@ class Obtenedor_NC(obtenedor_datos_facturacion):
         datos_procesados, nro_cbte = datos_factura_manager.obtener_datos_nota_credito(data_source, datos_usuario)
         biblioteca_factura = self.armar_biblioteca_factura(datos_procesados)
         self.set_comprobante_anular(biblioteca_factura, biblioteca_factura['ID_factura_nota'])
-        self.set_tipo_comprobante(biblioteca_factura, constantes_tipo_notas.tipo_nota_credito_c)
+        self.set_tipo_comprobante(biblioteca_factura, constantes_tipo_notas.tipo_nota_credito_c, constantes_tipo_notas.nombre_nota_credito)
         self.set_numero_comprobante(biblioteca_factura, nro_cbte)
-        print(biblioteca_factura)
         return biblioteca_factura

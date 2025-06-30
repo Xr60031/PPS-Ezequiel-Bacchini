@@ -193,7 +193,7 @@ class InterfazWSFEv1():
 
     def hacer_nota_credito(self, tipo_comprobante, punto_vta, nro_cbte):
         # comprobantes asociados (notas de crédito / débito)
-        wsfev1.AgregarCmpAsoc(tipo_cbte = tipo_comprobante, punto_vta = punto_vta, nro_bte = nro_cbte)
+        wsfev1.AgregarCmpAsoc(tipo = tipo_comprobante, pto_vta = punto_vta, nro = nro_cbte)
     
     def facturar(self,datos_factura, datos_basicos_vendedor, tipo):
         

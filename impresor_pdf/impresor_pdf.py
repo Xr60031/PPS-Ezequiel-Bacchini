@@ -92,7 +92,7 @@ class Impresor_PDF():
 		
 		if  tipo_factura_nota == 11:
 			strategy = Factura_C()
-		elif tipo_factura_nota == 0:
+		elif tipo_factura_nota == 13:
 			strategy = Nota_Credito()
 		
 		if strategy == None:
