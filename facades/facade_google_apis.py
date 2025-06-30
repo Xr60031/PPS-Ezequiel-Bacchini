@@ -26,7 +26,7 @@ class Facade_API_google():
     
     from openpyxl import load_workbook
 
-    def limpiar_excel(self, path):
+    def __limpiar_excel(self, path):
         wb = load_workbook(path, data_only=False)
         
         for i in range(5):
@@ -59,7 +59,7 @@ class Facade_API_google():
             wb.save(path)
 
     def subir_excel(self, path_excel, excel_name):
-        self.limpiar_excel(path_excel)
+        self.__limpiar_excel(path_excel)
 
         file_metadata = {
             "name": excel_name,

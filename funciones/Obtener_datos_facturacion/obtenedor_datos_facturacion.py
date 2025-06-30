@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from Funciones.obtenerdor_IDs import obtener_ID_concepto, obtener_ID_condicion_iva_cliente, obtener_ID_documento, obtener_ID_Factura
+from Funciones.obtenerdor_IDs import Obtenedor_ID
 from datetime import datetime
 from Constantes import constantes_items
 
@@ -16,6 +16,7 @@ class obtenedor_datos_facturacion(ABC):
 
     #Arma la biblioteca con los datos de la factura
     def armar_biblioteca_factura(self, datos_factura):
+        obtenedor_id = Obtenedor_ID()
         datos_factura = {
             "Identificador_Factura": int(datos_factura[0]),
             "tipo_factura_nota": datos_factura[1],
@@ -28,10 +29,10 @@ class obtenedor_datos_facturacion(ABC):
             "Fecha_servicio_desde": datos_factura[8].strftime('%Y%m%d') if hasattr(datos_factura[8], 'strftime') else datos_factura[8],
             "Fecha_servicio_hasta": datos_factura[9].strftime('%Y%m%d') if hasattr(datos_factura[9], 'strftime') else datos_factura[9],
             "Fecha_vencimiento_de_pago": datos_factura[10].strftime('%Y%m%d') if hasattr(datos_factura[10], 'strftime') else datos_factura[10],
-            "ID_doc": obtener_ID_documento(datos_factura[3]),
-            "ID_concepto": obtener_ID_concepto(datos_factura[7]),
-            "ID_factura_nota": obtener_ID_Factura(datos_factura[1]),
-            "ID_IVA_cliente": obtener_ID_condicion_iva_cliente(datos_factura[6]),
+            "ID_doc": obtenedor_id.obtener_ID_documento(datos_factura[3]),
+            "ID_concepto": obtenedor_id.obtener_ID_concepto(datos_factura[7]),
+            "ID_factura_nota": obtenedor_id.obtener_ID_Factura(datos_factura[1]),
+            "ID_IVA_cliente": obtenedor_id.obtener_ID_condicion_iva_cliente(datos_factura[6]),
             "Importe_Neto": self.truncar_a_dos_decimales(datos_factura[11]),
             "Importe_Total": self.truncar_a_dos_decimales(datos_factura[12]),
             "Importe_Tributo": self.truncar_a_dos_decimales(datos_factura[13]),

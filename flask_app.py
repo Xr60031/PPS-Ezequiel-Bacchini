@@ -14,9 +14,9 @@ from Funciones.Obtener_datos_facturacion.obtenedor_FM import Obtenedor_FM
 from Funciones.Obtener_datos_facturacion.obtenedor_FU import Obtenedor_FU
 from Funciones.Obtener_datos_facturacion.obtenedor_NC import Obtenedor_NC
 
-from Funciones.Verificadores.verificador_CUIT import verificar_cuit
-from Funciones.Verificadores.verificar_formateo_datos import verificar_formateo_datos
-from Funciones.Verificadores.verificador_inicio_sesion import leer_certificado, leer_llave
+from Funciones.Verificadores.verificador_CUIT import Verificador_CUIT
+from Funciones.Verificadores.verificar_formateo_datos import Verificador_Formateo_Datos_Facturacion
+from Funciones.Verificadores.verificador_inicio_sesion import Verificador_Inicio_Sesion
 
 import interfaz_wsaa
 from Constantes import constantes
@@ -320,8 +320,9 @@ def facturacion():
     if isinstance(datos_factura, dict):
         datos_factura = [datos_factura]
 
+    verificador_formateo_datos_facturacion = Verificador_Formateo_Datos_Facturacion()
     for datos_actual in datos_factura:
-        if(verificar_formateo_datos(datos_actual) == False):
+        if(verificador_formateo_datos_facturacion.verificar_formateo_datos(datos_actual) == False):
             flash(constantes_.factura_datos_faltantes_alerta)
             return render_template('FacturadorMenu.html')
 
@@ -372,8 +373,9 @@ def facturacion():
 # GENERA EL ARCHIVO DE LA LLAVE PRIVADA Y LO DESCARGA
 @app.route('/hacer_llave', methods=['POST'])
 def hacer_llave():
+    verificador_cuit = Verificador_CUIT()
     CUIT= request.form['CUIT']
-    if verificar_cuit(CUIT) == False:
+    if verificador_cuit.verificar_cuit(CUIT) == False:
         flash(constantes_.cuit_no_valido_alerta)
         return render_template('CrearCuenta.html')
     
@@ -422,13 +424,14 @@ def delete_message():
 # EN BASE A SI YA SE CONFIGURÓ EL SITIO POR PRIMERA VEZ
 @app.route('/upload', methods=['POST'])
 def upload_file():
+    verificador_inicio_sesion = Verificador_Inicio_Sesion()
     try:
         llave = request.files.get('llave')
         llave_legible = llave.read().decode('utf-8')
         certificado = request.files.get('certificado')
         certificado_legible = certificado.read().decode('utf-8')
 
-        if not leer_certificado(certificado_legible) or not leer_llave(llave_legible):
+        if not verificador_inicio_sesion.leer_certificado(certificado_legible) or not verificador_inicio_sesion.leer_llave(llave_legible):
             flash(constantes_.llave_certificado_no_validos_alerta)
             return redirect(url_for('inicio_sesion'))
         
