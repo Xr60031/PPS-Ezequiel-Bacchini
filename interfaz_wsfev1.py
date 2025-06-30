@@ -210,13 +210,6 @@ class InterfazWSFEv1():
         imp_op_ex = "0.00"
         cancela_misma_moneda_ext='N'
 
-        if tipo in (2, 3, 7, 8, 12, 13, 202, 203, 208, 213):
-            self.hacer_nota_credito(
-                datos_basicos_vendedor["nro_cbte_anular"],
-                datos_factura["Punto_de_venta"],
-                datos_factura["nro_cbte"]
-            )
-
         fecha_vto_pago = None
         fecha_servicio_desde = None
         fecha_servicio_hasta = None
@@ -249,6 +242,13 @@ class InterfazWSFEv1():
             cancela_misma_moneda_ext=cancela_misma_moneda_ext,
             condicion_iva_receptor_id=datos_factura["ID_IVA_cliente"]
         )
+
+        if tipo in (2, 3, 7, 8, 12, 13, 202, 203, 208, 213):
+            self.hacer_nota_credito(
+                datos_factura["nro_cbte_anular"],
+                datos_basicos_vendedor["Punto_de_venta"],
+                datos_factura["nro_cbte"]
+            )
         
         tributo_factura_actual = datos_factura["tributos"]
         if len(tributo_factura_actual) > 0:
@@ -269,12 +269,11 @@ class InterfazWSFEv1():
         print("CAE", cae)
         print("Vencimiento", wsfev1.Vencimiento)
         print("OBS", wsfev1.Obs)
-        print("XML", wsfev1.XmlRequest)
 
         datosCAE=[wsfev1.CAE, wsfev1.Vencimiento, int(wsfev1.CompUltimoAutorizado(tipo, datos_basicos_vendedor["Punto_de_venta"]))]
         
         if datosCAE[0] == '':
-            raise ErrorFacturacion(wsfev1.Obs + wsfev1.Observaciones)
+            raise ErrorFacturacion(wsfev1.Obs)
 
         return datosCAE
 
