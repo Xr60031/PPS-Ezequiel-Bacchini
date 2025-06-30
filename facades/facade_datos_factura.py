@@ -3,7 +3,7 @@ from Funciones.Formateadores.formatear_datos_facturador_unico import Formateador
 from Facades.facade_cleaner_hoja_facturacion import Cleaner_Facturacion_Hoja
 from Funciones.Formateadores.formatear_datos_nota_credito import Formateador_Nota_Credito
 from Funciones.obtenerdor_IDs import Obtenedor_ID
-from Constantes import constantes_datos_FM, constantes_nota_credito
+from Constantes import constantes_datos_FM, constantes_nota_credito, constantes_items
 
 class Facade_datos_factura():
     def __init__(self):
@@ -61,11 +61,11 @@ class Facade_datos_factura():
 
         for lista in datos_listados:
             i = 0
-            items_actual = []
+            item_actual = []
             for dato in range(constantes_nota_credito.pos_producto_servicio, constantes_nota_credito.pos_importe_neto):
-                items_actual.append(lista[dato])
+                item_actual.append(lista[dato])
                 i+=1
-            items.append(items_actual)
+            items.append(item_actual)
 
             if(lista[constantes_nota_credito.pos_impuesto_adicional]):
                 tributos.append([
@@ -73,7 +73,8 @@ class Facade_datos_factura():
                     lista[constantes_nota_credito.pos_descripcion_impuesto_adicional], # Descripcion 
                     lista[constantes_nota_credito.pos_subtotal], # Neto -> Subtotal
                     lista[constantes_nota_credito.pos_alicuota_impuesto_adicional], # Alicuota
-                    lista[constantes_nota_credito.pos_subtotal] * lista[constantes_nota_credito.pos_alicuota_impuesto_adicional]/100 # Importe tributo -> Subtotal * Alicuota
+                    lista[constantes_nota_credito.pos_subtotal] * lista[constantes_nota_credito.pos_alicuota_impuesto_adicional]/100, # Importe tributo -> Subtotal * Alicuota
+                    item_actual[constantes_items.pos_producto_servicio] # Identificador que relaciona el tributo al producto correspondiente
                 ])
 
         if datos_usuario['iag']:

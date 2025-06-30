@@ -46,8 +46,8 @@ class Nota_Credito(Strategy):
             identacion = 5
             identacion_grande = 15
             
-            tipo_factura="C"
-            codigo_tipo_factura="N 11"
+            tipo_factura="Crédito"
+            codigo_tipo_factura="N 13"
             iteracion = 1
             while iteracion < 3:
             
@@ -75,7 +75,8 @@ class Nota_Credito(Strategy):
 
                 pdf.set_font('Arial', style="B", size=20)
                 pdf.cell(0,identacion_grande, nombre_fantasia_facturante, align='L')
-                pdf.cell(0,identacion_grande, 'NOTA DE CRÉDITO', ln=True, align='R')
+                pdf.cell(0,identacion_grande, 'NOTA', ln=True, align='R')
+                pdf.cell(0,identacion_grande, 'CRÉDITO', ln=True, align='R')
 
                 pdf.set_font('Arial', style="B", size=10)
                 pdf.cell(0,identacion+2, F'Razón Social: {razon_social_facturante}', align='L')
@@ -261,9 +262,8 @@ class Nota_Credito(Strategy):
                 iteracion += 1
                 
             os.remove(qr_filename)
-            pdf.output(f"uploads/factura{nombre_apellido_cliente}.pdf")
-
+            
             answer = []
             answer.append(Identificador_factura)
-            answer.append(pdf)
+            answer.append(pdf.output(dest='S').encode('latin1'))
             return answer
