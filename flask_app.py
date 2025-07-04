@@ -333,7 +333,7 @@ def facturacion():
         session['ticket_creado'] = False
     else:
         creacion = datetime.fromisoformat(session.get('ticket_tiempo_creacion'))
-        session['ticket_creado'] = not (datetime.now() > creacion + timedelta(hours=2))
+        session['ticket_creado'] = not (datetime.now() > creacion + timedelta(minutes=40))
 
     if session.get('ticket_creado'):
         ticket_content = dataframe_manager.obtener_xml(destination_path)
@@ -343,6 +343,7 @@ def facturacion():
 
     dataframe_historial = dataframe_manager.obtener_dataframe_historial(destination_path)
     
+    print(datos_usuario)
     try:
         zip_file = facturador.facturacion(destination_path, copy_path_llave, copy_path_certificado, datos_usuario, datos_factura, dataframe_historial)
     except ErrorFacturacion as e:
@@ -358,8 +359,9 @@ def facturacion():
         flash(constantes.algo_salio_mal_alerta)
         return render_template('FacturadorMenu.html')
 
-    session['ticket_creado'] = True
-    session['ticket_tiempo_creacion'] = datetime.now().isoformat()
+    if session['ticket_creado'] == False:
+        session['ticket_creado'] = True
+        session['ticket_tiempo_creacion'] = datetime.now().isoformat()
 
     Thread(target=delete_file_after_download, args=(copy_path_llave,)).start()
     Thread(target=delete_file_after_download, args=(copy_path_certificado,)).start()

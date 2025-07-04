@@ -1,0 +1,69 @@
+
+2025-07-04 11:25:52 'NoneType' object has no attribute 'replace' Traceback (most recent call last):
+  File "c:\Users\eleze\Desktop\PPS\Facturador-Electronico-AFIP-ARCA\flask_app.py", line 347, in facturacion
+    zip_file = facturador.facturacion(destination_path, copy_path_llave, copy_path_certificado, datos_usuario, datos_factura, dataframe_historial)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\eleze\Desktop\PPS\Facturador-Electronico-AFIP-ARCA\Facades\facade_facturacion.py", line 45, in facturacion
+    pdf_contenido = impresor_pdf.generar_pdf_(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\eleze\Desktop\PPS\Facturador-Electronico-AFIP-ARCA\impresor_pdf\impresor_pdf.py", line 101, in generar_pdf_
+    return strategy.generar_pdf(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\eleze\Desktop\PPS\Facturador-Electronico-AFIP-ARCA\impresor_pdf\strategies\facturaC.py", line 70, in generar_pdf
+    pdf.cell(0,identacion_grande, nombre_fantasia_facturante, align='L')
+  File "C:\Python312\Lib\site-packages\fpdf\fpdf.py", line 150, in wrapper
+    return fn(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\fpdf\fpdf.py", line 755, in cell
+    txt2 = self._escape(txt)
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\fpdf\fpdf.py", line 1899, in _escape
+    return s.replace('\\','\\\\').replace(')','\\)').replace('(','\\(').replace('\r','\\r')
+           ^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'replace'
+
+2025-07-04 11:33:11 'NoneType' object has no attribute 'replace' Traceback (most recent call last):
+  File "c:\Users\eleze\Desktop\PPS\Facturador-Electronico-AFIP-ARCA\flask_app.py", line 347, in facturacion
+    zip_file = facturador.facturacion(destination_path, copy_path_llave, copy_path_certificado, datos_usuario, datos_factura, dataframe_historial)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\eleze\Desktop\PPS\Facturador-Electronico-AFIP-ARCA\Facades\facade_facturacion.py", line 45, in facturacion
+    pdf_contenido = impresor_pdf.generar_pdf_(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\eleze\Desktop\PPS\Facturador-Electronico-AFIP-ARCA\impresor_pdf\impresor_pdf.py", line 104, in generar_pdf_
+    return strategy.generar_pdf(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\eleze\Desktop\PPS\Facturador-Electronico-AFIP-ARCA\impresor_pdf\strategies\facturaC.py", line 70, in generar_pdf
+    pdf.cell(0,identacion_grande, nombre_fantasia_facturante, align='L')
+  File "C:\Python312\Lib\site-packages\fpdf\fpdf.py", line 150, in wrapper
+    return fn(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\fpdf\fpdf.py", line 755, in cell
+    txt2 = self._escape(txt)
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\fpdf\fpdf.py", line 1899, in _escape
+    return s.replace('\\','\\\\').replace(')','\\)').replace('(','\\(').replace('\r','\\r')
+           ^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'replace'
+
+2025-07-04 11:34:48 'NoneType' object has no attribute 'replace' Traceback (most recent call last):
+  File "c:\Users\eleze\Desktop\PPS\Facturador-Electronico-AFIP-ARCA\flask_app.py", line 348, in facturacion
+    zip_file = facturador.facturacion(destination_path, copy_path_llave, copy_path_certificado, datos_usuario, datos_factura, dataframe_historial)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\eleze\Desktop\PPS\Facturador-Electronico-AFIP-ARCA\Facades\facade_facturacion.py", line 45, in facturacion
+    pdf_contenido = impresor_pdf.generar_pdf_(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\eleze\Desktop\PPS\Facturador-Electronico-AFIP-ARCA\impresor_pdf\impresor_pdf.py", line 102, in generar_pdf_
+    return strategy.generar_pdf(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\eleze\Desktop\PPS\Facturador-Electronico-AFIP-ARCA\impresor_pdf\strategies\facturaC.py", line 70, in generar_pdf
+    pdf.cell(0,identacion_grande, nombre_fantasia_facturante, align='L')
+  File "C:\Python312\Lib\site-packages\fpdf\fpdf.py", line 150, in wrapper
+    return fn(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\fpdf\fpdf.py", line 755, in cell
+    txt2 = self._escape(txt)
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\site-packages\fpdf\fpdf.py", line 1899, in _escape
+    return s.replace('\\','\\\\').replace(')','\\)').replace('(','\\(').replace('\r','\\r')
+           ^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'replace'

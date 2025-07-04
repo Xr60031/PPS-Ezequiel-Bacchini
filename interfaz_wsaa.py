@@ -238,7 +238,7 @@ class InterfazWSAA():
     def Crear_Ticket_Acceso_Firmado(self, service="wsfe", certificado="", clave="", cuit=""):
         if not os.path.exists(f"uploads\Ticket_Acceso{cuit}.xml"):
             print("Creando TRA...")
-            tra = wsaa.CreateTRA(service, 60*2) #Es la cantidad de segundos que va a ser válido el TICKET
+            tra = wsaa.CreateTRA(service, 2400) #Es la cantidad de segundos que va a ser válido el TICKET
             print("Firmando TRA...")
             cms = self.sign_tra_for_afip(tra=tra, cert_path=certificado, privatekey_path=clave)
             print("Conectando...")

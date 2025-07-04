@@ -48,6 +48,7 @@ class Impresor_PDF():
 		biblioteca_datos_vendedor,
 		datos_CAE
 		):
+		
 		Identificador_factura = datos_CAE[2]
 		nombre_apellido_cliente =  datos_factura["Nombre_y_Apellido_Cliente"]
 		importe_total = datos_factura["Importe_Total"]

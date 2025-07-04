@@ -262,11 +262,10 @@ class InterfazWSFEv1():
                 )  
 
         wsfev1.CAESolicitar()
-        cae = wsfev1.CAESolicitar()
 
         print("Resultado", wsfev1.Resultado)
         print("Reproceso", wsfev1.Reproceso)
-        print("CAE", cae)
+        print("CAE", wsfev1.CAE)
         print("Vencimiento", wsfev1.Vencimiento)
         print("OBS", wsfev1.Obs)
 
