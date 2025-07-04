@@ -157,7 +157,7 @@
                     <p>(Si no ves uno de estos campos en tus productos significa que no se lo indicaste cuando agregaste el producto o servicio)</p>
                     <div style="overflow-x: auto;">
                         <table class="tabla-centrada">
-                            <thread>
+                            <thead>
                                 <tr>
                                     <th>Seleccionado</th>
                                     <th>Producto/Servicio</th>
@@ -167,7 +167,7 @@
                                     <th>Impuesto Adicional</th>
                                     <th>Alicuota</th>
                                 </tr>
-                            </thread>
+                            </thead>
                             <tbody>
                                 {% for fila in items %}
                                 <tr>
@@ -254,7 +254,7 @@
                     <p>(Si no ves uno de estos campos en tus productos significa que no se lo indicaste cuando agregaste el producto o servicio)</p>
                     <div style="overflow-x: auto;">
                         <table class="tabla-centrada">
-                            <thread>
+                            <thead>
                                 <tr>
                                     <th>Seleccionado</th>
                                     <th>Producto/Servicio</th>
@@ -264,7 +264,7 @@
                                     <th>Impuesto Adicional</th>
                                     <th>Alicuota</th>
                                 </tr>
-                            </thread>
+                            </thead>
                             <tbody>
                                 {% for fila in items %}
                                 <tr>
@@ -387,6 +387,27 @@
             iagSelect.addEventListener("change", toggleFields);
             toggleFields(); // aplica en caso de valor ya cargado
         });
+    </script>
+    <script>
+        function filterItems() {
+        let searchQuery = document.getElementById("search-box").value.toLowerCase();
+        let rows = document.querySelectorAll("table tbody tr");
+
+        rows.forEach(row => {
+            // Usar data-name si existe, si no usar texto de la fila
+            const input = row.querySelector("input.product-checkbox");
+            const name = input?.getAttribute("data-name")?.toLowerCase() ?? "";
+
+            // También considerar todo el texto visible
+            const rowText = row.textContent.toLowerCase();
+
+            if (name.includes(searchQuery) || rowText.includes(searchQuery)) {
+                row.style.display = "table-row";
+            } else {
+                row.style.display = "none";
+            }
+        });
+    }
     </script>
 </body>
 </html>
