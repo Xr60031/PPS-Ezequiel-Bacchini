@@ -415,3 +415,17 @@ ul {
   box-shadow: 0 2px 8px #3a3a3a ;
   font-family: Arial, sans-serif;
 }
+
+.contenedor_pto_venta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.contenedor_pto_venta img {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  border: 1px solid #ccc;
+}
