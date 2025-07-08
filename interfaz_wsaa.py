@@ -21,7 +21,7 @@ from cryptography.hazmat.primitives.asymmetric import padding
 import os
 
 
-wsaa_lib = importlib.import_module("PYAFIPWS.pyafipws-main.wsaa")
+wsaa_lib = importlib.import_module("PYAFIPWS.pyafipws.wsaa")
 
 wsaa = wsaa_lib.WSAA()
 
