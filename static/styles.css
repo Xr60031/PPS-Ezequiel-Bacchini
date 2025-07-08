@@ -429,3 +429,85 @@ ul {
   height: auto;
   border: 1px solid #ccc;
 }
+
+.responsive-video {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+}
+
+.responsive-video iframe {
+  width: 100%;
+  max-width: 800px;
+  aspect-ratio: 16 / 9;
+  border: none;
+}
+
+/*Para la tabla comparatica del menú de facturacion*/
+
+.comparativa-facturadores h2 {
+  text-align: center;
+  color: black;
+}
+
+.comparativa-facturadores table {
+  width: 100%;
+  max-width: 800px;
+  margin: auto;
+  border-collapse: collapse;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.comparativa-facturadores th,
+.comparativa-facturadores td {
+  padding: 16px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.comparativa-facturadores th {
+  background-color: rgb(218, 218, 56);
+  color: black;
+}
+
+/* Responsive (solo afecta esta tabla) */
+@media screen and (max-width: 600px) {
+  .comparativa-facturadores table,
+  .comparativa-facturadores thead,
+  .comparativa-facturadores tbody,
+  .comparativa-facturadores th,
+  .comparativa-facturadores td,
+  .comparativa-facturadores tr {
+    display: block;
+  }
+
+  .comparativa-facturadores th {
+    display: none;
+  }
+
+  .comparativa-facturadores td {
+    position: relative;
+    padding-left: 50%;
+    text-align: left;
+  }
+
+  .comparativa-facturadores td:nth-child(2)::before {
+    content: "Facturador Único";
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+
+  .comparativa-facturadores td:nth-child(3)::before {
+    content: "Facturador Múltiple";
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+}

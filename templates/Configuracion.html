@@ -63,8 +63,9 @@
       <div id="content-1" class="content-item" style="display: none; border: 2px solid #4A90E2;">
         <h2>Modificar mi plantilla de facturación</h2>
         <p>En este video te dejamos un video de como rellenar tus datos personales para modificar correctamente la planilla:</h2>
-        <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
-        <h4>Datos personales</h4>
+        <div class="responsive-video">
+          <iframe src="https://www.youtube.com/embed/10yaPZTur2Q" title="Configurar Plantilla" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>        <h4>Datos personales</h4>
+        </div>
         <form action="/save_configuracion" enctype="multipart/form-data" method="POST">
 
           <h5>Ingresa los datos personales que vas a cambiar para completar automáticamente las facturas.</h5>
@@ -135,13 +136,15 @@
           
           <br><br>
           
-        <h5 style="display: flex; justify-content: center;"><button type="submit" value="Guardar cambios" class="enlaceAD boxAD alternativo animado">Guardar cambios</h5>
+          <h5 style="display: flex; justify-content: center;"><button type="submit" value="Guardar cambios" class="enlaceAD boxAD alternativo animado">Guardar cambios</h5>
         </form>
       </div>
       <div id="content-2" class="content-item" style="display: none; border: 2px solid #4A90E2;">
         <h2>Armando tu plantilla de facturación:</h2>
         <p>En este video te dejamos un video de como rellenar tus datos personales para generar correctamente la planilla</p>
-        <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
+        <div class="responsive-video">
+          <iframe src="https://www.youtube.com/embed/7g4jMeBZExY?si=f0QmOwASh2rvFawX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>      
+        </div>
         <h5>Ingresa los siguientes datos para completar automáticamente tu información personal en las facturas.</h5>
         <form action="/save_configuracion_inicial" method="POST" onsubmit="redirectAfterSubmit(); mostrarLoader(event)" >
         

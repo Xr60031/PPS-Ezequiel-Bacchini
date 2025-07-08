@@ -47,7 +47,9 @@
             <h1>Historial - Notas de Crédito</h1>
             <h3>¿Como usar el historial y hacer notas de crédito?</h3>
             <p>Seguí el tutorial a continuación para aprender a usar el historial y como hacer notas de crédito</p>
-            <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
+            <div class="responsive-video">  
+                <iframe src="https://www.youtube.com/embed/m7WjqMNwoAE" title="Historial y Hacer Nota Crédito" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>  
             <form action="/facturacion" method="POST" style="text-align: center;" onsubmit="mostrarExito(event)">
                 <input type="hidden" name="modo_facturacion" value="Nota Credito">
                 <p style="display: flex; justify-content: center;"><button type="submit" class="enlaceAD boxAD alternativo animado">Hacer nota</button></p>
@@ -56,7 +58,8 @@
                 <label for="search-box"></label>
                 <label for="search-box">Buscar Identificador Factura:</label>
                 <input type="text" id="search-box" oninput="filterItems()" placeholder="Buscar Identificador Factura...">
-                <p>(Si no ves uno de estos campos en tus productos significa que no lo tenía al momento de ralizar la facturación/nota)</p>
+                <p>(Si no ves uno de estos campos en tus productos o servicios significa que no lo tenía al momento de ralizar la facturación/nota)</p>
+                <p>(Cada fila que no tiene datos como el tipo de factura solo contiene datos de Productos o Servicios y el identificador de la factura)</p>
                 <div style="overflow-x: auto;">
                     <div id="items-container">
                         <table class="tabla-centrada">
@@ -107,7 +110,7 @@
                             </tr>
                             </tr>
                             </thead>
-                                <tbody>
+                            <tbody>
                                 {% set mostrados = [] %}
                                 {% for i in range(historial|length) %}
                                     {% set fila = historial[i] %}
@@ -115,7 +118,8 @@
                                     {% set clave = fila[0] if fila|length > 0 and fila[0] is not none else '' %}
                                     <tr class="checkbox" data-name="{{ clave }}">
                                         <td>
-                                            {% if clave not in mostrados %}
+                                            {% set tipo = fila[3] if fila|length > 3 else '' %}
+                                            {% if clave not in mostrados and "Nota de Crédito" not in tipo %}
                                                 <input type="radio" name="selected_item" id="item{{ loop.index }}" class="product-checkbox"
                                                     data-product="{{ loop.index }}"
                                                     data-name="{{ clave }}"
@@ -201,6 +205,45 @@
             function mostrarLoader(event) {
                 event.target.submit
             }
+        </script>
+        <script>
+            window.onload = function() {
+                const filas = document.querySelectorAll('tr.checkbox');
+                const facturas = [];
+                const clavesNotasCredito = new Set();
+
+                filas.forEach((fila, idx) => {
+                    const clave = fila.getAttribute('data-name') || '';
+                    let tipoTexto = '';
+
+                    // Buscamos en todas las celdas el texto "factura" o "nota de crédito"
+                    for(let i=0; i < fila.cells.length; i++) {
+                        const texto = fila.cells[i].textContent.toLowerCase();
+                        if (texto.includes('nota de crédito')) {
+                            tipoTexto = 'nota de crédito';
+                            break;
+                        } else if (texto.includes('factura')) {
+                            tipoTexto = 'factura';
+                            // No break, por si hay nota después en otra celda (pero asumimos primera que encuentre)
+                        }
+                    }
+
+                    if(tipoTexto === 'nota de crédito') {
+                        clavesNotasCredito.add(clave);
+                    } else if (tipoTexto === 'factura') {
+                        facturas.push({ clave, fila });
+                    }
+                });
+
+                facturas.forEach(({ clave, fila }) => {
+                    if (clavesNotasCredito.has(clave)) {
+                        const radio = fila.querySelector('input[type="radio"]');
+                        if (radio) {
+                            radio.remove();
+                        }
+                    }
+                });
+            };
         </script>
     </body>
 </html>
