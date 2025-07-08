@@ -57,9 +57,47 @@
         <br>
         <!---->
         <h2>Seleccioná cómo querés facturar:</h2>
-        <p>En este video te dejamos un breve video de las diferencias entre los modos de facturación</p>
-        <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
-        
+        <p>Este cuadro te dice las diferencias entre los modos de facturación</p>
+        <div class="comparativa-facturadores">
+            <table>
+                <thead>
+                <tr>
+                    <th>Característica</th>
+                    <th>Facturador Único</th>
+                    <th>Facturador Múltiple</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>¿Cuántas facturas hace?</td>
+                    <td>Una sola por vez</td>
+                    <td>Muchas a la vez</td>
+                </tr>
+                <tr>
+                    <td>¿Es rápido?</td>
+                    <td>Sí, muy rápido</td>
+                    <td>No tanto, es más lento</td>
+                </tr>
+                <tr>
+                    <td>¿Guía para usarlo?</td>
+                    <td>Sí, te va guiando paso a paso</td>
+                    <td>Está en otra página</td>
+                </tr>
+                <tr>
+                    <td>¿Completás los datos fácil?</td>
+                    <td>Sí, podés hacer clic y se rellenan solos</td>
+                    <td>Tenés que escribir más cosas</td>
+                </tr>
+                <tr>
+                    <td>¿Para quién es?</td>
+                    <td>Para principiantes o casos simples</td>
+                    <td>Para quienes ya tienen más experiencia</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <br><br>
         <form action="/load_facturador" method="POST" enctype="multipart/form-data" onsubmit="mostrarLoader(event)">
 
             <label for="excel">Elegí el archivo de la plantilla de Excel:</label>

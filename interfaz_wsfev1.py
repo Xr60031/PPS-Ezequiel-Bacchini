@@ -3,7 +3,7 @@ import datetime
 from interfaz_wsaa import InterfazWSAA
 from Exceptions.Exceptions_Custom.exception_error_factura import ErrorFacturacion
 
-wsfev1_lib = importlib.import_module("PYAFIPWS.pyafipws-main.wsfev1")
+wsfev1_lib = importlib.import_module("PYAFIPWS.pyafipws.wsfev1")
 
 wsfev1 = wsfev1_lib.WSFEv1()
 wsfev1.LanzarExcepciones = True
@@ -262,12 +262,6 @@ class InterfazWSFEv1():
                 )  
 
         wsfev1.CAESolicitar()
-
-        print("Resultado", wsfev1.Resultado)
-        print("Reproceso", wsfev1.Reproceso)
-        print("CAE", wsfev1.CAE)
-        print("Vencimiento", wsfev1.Vencimiento)
-        print("OBS", wsfev1.Obs)
 
         datosCAE=[wsfev1.CAE, wsfev1.Vencimiento, int(wsfev1.CompUltimoAutorizado(tipo, datos_basicos_vendedor["Punto_de_venta"]))]
         

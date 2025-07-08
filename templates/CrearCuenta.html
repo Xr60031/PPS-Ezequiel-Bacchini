@@ -55,7 +55,9 @@
         <h3><u>Paso 1:</u> Verificar tu cuenta en AFIP/ARCA</h3>
         <h4>Antes de facturar, asegurate de que tu cuenta en AFIP/ARCA esté activa.</h4>
         <p>Si no la tenés activa, seguí este tutorial:</p>
-        <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
+        <div class="responsive-video">
+            <iframe src="https://www.youtube.com/embed/5D86vHPPLno" title="Crear Cuenta AFIP" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
         <!-- Tutorial de como activar la cuenta de AFIP/ARCA -->
         <p>Ir a descargar la aplicación de AFIP/ARCA: <a href="https://play.google.com/store/apps/details?id=ar.gob.afip.mobile.android.contribuyentes.mi_afip&hl=es_AR" rel="noopener noreferrer" target="_blank">Hacé clic aquí</a></p>
         <p>Ir al sitio de AFIP/ARCA: <a href="https://www.afip.gob.ar/landing/default.asp" rel="noopener noreferrer" target="_blank">Hacé clic aquí</a></p>
@@ -63,9 +65,9 @@
         <h3><u>Paso 2:</u> Generar tu llave privada y solicitar el certificado</h3>
 
         <h3>Aca te dejamos un tutorial completo de como hacer tu llave y tu clave privada</h3>
-        <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
-
-        
+        <div class="responsive-video">
+            <iframe src="https://www.youtube.com/embed/6zMctDRGgv8?si=SzoUrXbqUOlpQrnm" title="Llave y Pedido Certificado" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
         <h4>Para usar el sistema de facturación, primero necesitás:</h4>
         <ul style="display: flex; justify-content: center; flex-direction: column; align-items: center; list-style-position: inside;">
             <li><p>• Generar tu llave privada</p></li>
@@ -105,17 +107,34 @@
         <h4>Para facturar, tenés que autorizar tu punto de venta en AFIP/ARCA.</h4>
         <p>El punto de venta es un número que identifica desde dónde se hacen las facturas. Es obligatorio para facturar en AFIP.</p>
         <p>Seguí este tutorial paso a paso:</p>
-        <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
+        <div class="responsive-video">
+            <iframe src="https://www.youtube.com/embed/i6g66WtAvKw" title="Habilitación de punto de venta" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
         <!--Aca habría un tutorial para la genraciòn del certificado-->
-        <p>Ir al sitio de AFIP/ARCA: <a>Hacé clic aquí</a></p>
-        
+        <p>Ir al sitio de AFIP/ARCA: <a href="https://www.afip.gob.ar/" target="_blank" rel="noopener noreferrer">Hacé clic aquí</a></p>
+        <div class="contenedor_pto_venta">
+            <figure>
+                <img src="static/Fotos_Pto_Venta/Paso1.png" alt="Paso 1" >
+                <figcaption>Paso 1 - Ingresar a la AFIP/ARCA</figcaption>
+            </figure>
+            <figure>
+                <img src="static/Fotos_Pto_Venta/Paso2.png" alt="Paso 2">
+                <figcaption>Paso 2 - Buscar Sistema Registral</figcaption>
+            </figure>
+            <figure>
+                <img src="static/Fotos_Pto_Venta/Paso3.png" alt="Paso 3">
+                <figcaption>Paso 3 - Ingresa a agregar un punto de venta</figcaption>
+            </figure>
+        </div>
+
         <h3><u>Paso 4:</u> Obtener tu certificado para facturar</h3>
         
         <h4>Seguí estos pasos en AFIP/ARCA para obtener tu certificado.</h4>
-        <iframe width="50%" height="25%" src="https://www.youtube.com/embed/VIDEO_ID_INEXISTENTE" frameborder="0" allowfullscreen></iframe>
-        
+        <div class="responsive-video">
+            <iframe src="https://www.youtube.com/embed/Y18X1Jh8SYg" title="Certificado Digital" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
         <!--Aca habría un tutorial para la genraciòn del certificado-->
-        <p>Ir al sitio de AFIP/ARCA: <a>Hacé clic aquí</a></p>
+        <p>Ir al sitio de AFIP/ARCA: <a href="https://www.afip.gob.ar/" target="_blank" rel="noopener noreferrer">Hacé clic aquí</a></p>
         <!--Botón para ir a la sección de facturar-->
         <h5 style="display: flex; justify-content: center;"><a href="{{url_for('inicio_sesion')}}" rel="noopener noreferrer" class="enlaceAD boxAD alternativo animado">Ir a iniciar sesion</a></h5>
     </div>
