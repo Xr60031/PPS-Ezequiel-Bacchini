@@ -1,173 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="icon" href="{{ url_for('static', filename='Facturador_Logo.jpg') }}" type="image/x-icon">
-    <title>Configuracion inicial HelPy</title>
-  </head>
-  <div class="loader loader-hidden">
-    <div class="spinner"></div>
-    <h1>PREPARANDO PARA DESCARGAR PLANTILLA, ESTO TOMARÁ UNOS INSTANTES</h1>
-  </div>
-  <body>
-    <!--Seccion de enlaces y acceso directo-->
-    <section class="AccesoDirecto">
-      <div class="container barranav">
-          <nav class="navbar navbar-expand-lg fixed-top" id="barraDeNavegacion">
-            <div class="container-fluid">
-                  <a class="navbar-brand" href="{{url_for('index')}}"><h6 class="enlaceAD boxAD">Menú Principal</h6></a>
-                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="line"></span> 
-                    <span class="line"></span> 
-                    <span class="line"></span>
-                  </button>
-                  <div class="collapse navbar-collapse justify-content-center" id="navbarNav"> 
-                      <ul class="navbar-nav"> 
-                          <li class="nav-item"> <a class="nav-link" href="{{url_for('documentacion')}}" target="_blank"><h6 class="enlaceAD boxAD">Documentación y Tutoriales</h6></a></li>
-                          <li class="nav-item"> <a class="nav-link" href="{{url_for('sis_info')}}" target="_blank"><h6 class="enlaceAD boxAD">Información sobre el sistema</h6></a></li>
-                          <li class="nav-item"> <a class="nav-link" href="{{url_for('ayuda')}}" target="_blank"><h6 class="enlaceAD boxAD">Ayuda</h6></a></li>
-                      </ul>
-                  </div>
-            </div>
-          </nav>
-      </div>
-    </section>
-    <!---->
-    <div class="marco_div">
-      <h1>Configuración inicial</h1>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=League+Spartan:wght@400;700&display=swap" rel="stylesheet">
+		<link rel="icon" href="{{ url_for('static', filename='Facturador_Logo.jpg') }}" type="image/x-icon">
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+		<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+		<title>Configuracion inicial HelPy</title>
+	</head>
+	<div class="loader loader-hidden">
+		<div class="spinner"></div>
+		<h1>PREPARANDO PARA DESCARGAR PLANTILLA, ESTO TOMARÁ UNOS INSTANTES</h1>
+	</div>
+	<body>
+		<!--Seccion de enlaces y acceso directo-->
+		<section class="AccesoDirecto">
+			<div class="container navbar">
+				<nav class="navbar-expand-lg fixed-top" id="barraDeNavegacion">
+					<div class="container-fluid">
+						<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+							<span class="navbar-toggler-icon"></span>
+						</button>
+						<div class="collapse navbar-collapse justify-content-center" id="navbarNav"> 
+                        		<ul class="navbar-nav"> 
+                                	<li class="nav-item"> <a class="nav-link" href="{{ url_for('index') }}"><h6 class="barraNavegacion">Menú Principal</h6></a></li>
+									<li class="nav-item"> <a class="nav-link" href="{{url_for('documentacion')}}" target="_blank"><h6 class="barraNavegacion">Documentación y Tutoriales</h6></a></li>
+									<li class="nav-item"> <a class="nav-link" href="{{url_for('sis_info')}}" target="_blank"><h6 class="barraNavegacion">Información sobre el sistema</h6></a></li>
+									<li class="nav-item"> <a class="nav-link" href="{{url_for('ayuda')}}" target="_blank"><h6 class="barraNavegacion">Ayuda</h6></a></li>
+									<li class="nav-item"> <button id="toggleTheme" class="nav-link"><h6 class="barraNavegacion">Cambiar tema</h6></button></li>
+								</ul>
+							</div>
+					</div>
+				</nav>
+			</div>
+		</section>
+		<!---->
+		<div class="marco_div texto_default">
+		<h1>Configuración inicial</h1>
 
-      <h2>Armando tu plantilla de facturación:</h2>
-      <p>En este video te dejamos un video de como rellenar tus datos personales para generar correctamente la planilla</p>
-      
-      <div class="responsive-video">
-        <iframe src="https://www.youtube.com/embed/7g4jMeBZExY?si=f0QmOwASh2rvFawX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>      
-      </div>
-      
-      <p>Ingresa los siguientes datos para completar automáticamente tu información personal en las facturas.</p>
-      <p>(Si necesitas cambiar algo más adelante, podrás hacerlo desde el menú de configuraciones)</p>
-      <br>
-      <h3>Plantilla de facturación</h3>
-      <p>Este archivo te permitirá subir la información para que el sistema genere las facturas automáticamente. Después de completar la configuración inicial, podrás agregar más datos de productos y servicios para que el sistema los guarde y los uses nuevamente. La plantilla se descargará automáticamente después de completar los siguientes campos y hacer clic en "Guardar Cambios":</p>    
-      <br>
-      <form action="/save_configuracion_inicial" method="POST" onsubmit="redirectAfterSubmit(); mostrarLoader(event)" >
-        
-        <p>El punto de venta es un número que identifica desde dónde se hacen las facturas.</p>
-        <p>Tu punto de venta: <input type="number" name="pventa" placeholder="Punto de venta:" required></p>
-          
-        <br>
+		<h2>Armando tu plantilla de facturación:</h2>
+		<p>En este video te dejamos un video de como rellenar tus datos personales para generar correctamente la planilla</p>
+		
+		<div class="responsive-video">
+			<iframe src="https://www.youtube.com/embed/7g4jMeBZExY?si=f0QmOwASh2rvFawX" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>      
+		</div>
+		
+		<p>Ingresa los siguientes datos para completar automáticamente tu información personal en las facturas.</p>
+		<p>(Si necesitas cambiar algo más adelante, podrás hacerlo desde el menú de configuraciones)</p>
+		<br>
+		<h3>Plantilla de facturación</h3>
+		<p>Este archivo te permitirá subir la información para que el sistema genere las facturas automáticamente. Después de completar la configuración inicial, podrás agregar más datos de productos y servicios para que el sistema los guarde y los uses nuevamente. La plantilla se descargará automáticamente después de completar los siguientes campos y hacer clic en "Guardar Cambios":</p>    
+		<br>
+		<form action="/save_configuracion_inicial" method="POST" onsubmit="redirectAfterSubmit(); mostrarLoader(event)" >
+			
+			<p>El punto de venta es un número que identifica desde dónde se hacen las facturas.</p>
+			<p>Tu punto de venta: <input type="number" name="pventa" placeholder="Punto de venta:" required></p>
+			
+			<br>
 
-        <p>La razón social es el nombre oficial de una empresa o negocio.</p>
-        <p>Tu razón social: <input type="text" name="razonsocial" placeholder="Razón Social:" required></p>
-        
-        <br>
+			<p>La razón social es el nombre oficial de una empresa o negocio.</p>
+			<p>Tu razón social: <input type="text" name="razonsocial" placeholder="Razón Social:" required></p>
+			
+			<br>
 
-        <p>El domicilio fiscal es la dirección oficial para temas de impuestos.</p>
-        <p>Tu domicilio fiscal:<input type="text" name="domicilio" placeholder="Domicilio fiscal:" required></p>
-        
-        <br>
+			<p>El domicilio fiscal es la dirección oficial para temas de impuestos.</p>
+			<p>Tu domicilio fiscal:<input type="text" name="domicilio" placeholder="Domicilio fiscal:" required></p>
+			
+			<br>
 
-        <p>La condición frente al IVA indica cómo una persona o empresa paga el Impuesto al Valor Agregado (IVA).</p>
-        <label for="condicionIVA">Condición frente al IVA:</label>
-        <select name="condicionIVA" id="condicionIVA" required>
-            <option value="Monostributista">Monostributista (Paga una cantidad fija cada mes y no agrega IVA en sus facturas.)</option>
-        </select>
-        <br><br>
+			<p>La condición frente al IVA indica cómo una persona o empresa paga el Impuesto al Valor Agregado (IVA).</p>
+			<label for="condicionIVA">Condición frente al IVA:</label>
+			<select name="condicionIVA" id="condicionIVA" required>
+				<option value="Monostributista">Monostributista (Paga una cantidad fija cada mes y no agrega IVA en sus facturas.)</option>
+				<option value="Responsable Inscripto">Responsable Inscripto (Sujeto que tributa IVA y debe discriminarlo en las facturas)</option>
+			</select>
+			<br><br>
 
-        <p>El número de Ingresos Brutos es el número que te identifica como contribuyente del impuesto sobre los Ingresos Brutos en una provincia.</p>
-        <p>Tu número de ingresos brutos suele ser tu CUIT sin guiones</p>
-        <p>Número de ingresos brutos:<input type="number" name="ingresosbrutos" placeholder="Ingresosbrutos:" required></p>
-        
-        <br>
-        
-        <p>La fecha de inicio para la facturación en AFIP/ARCA es el día en que empezaste a vender productos o servicios de manera oficial.</p>
-        <p>Si armaste hoy tu cuenta de AFIP/ARCA con este sistema pone la fecha de hoy.</p>
-        <label for="fecha_inicio">Selecciona la fecha de inicio:</label>
-        <input type="date" id="fecha_inicio" name="fecha_inicio" required>
-        
-        <br><br>
+			<p>El número de Ingresos Brutos es el número que te identifica como contribuyente del impuesto sobre los Ingresos Brutos en una provincia.</p>
+			<p>Tu número de ingresos brutos suele ser tu CUIT sin guiones</p>
+			<p>Número de ingresos brutos:<input type="number" name="ingresosbrutos" placeholder="Ingresosbrutos:" required></p>
+			
+			<br>
+			
+			<p>La fecha de inicio para la facturación en AFIP/ARCA es el día en que empezaste a vender productos o servicios de manera oficial.</p>
+			<p>Si armaste hoy tu cuenta de AFIP/ARCA con este sistema pone la fecha de hoy.</p>
+			<label for="fecha_inicio">Selecciona la fecha de inicio:</label>
+			<input type="date" id="fecha_inicio" name="fecha_inicio" required>
+			
+			<br><br>
 
-        <p>Un impuesto adicional es un pago extra que se suma a los impuestos normales.</p>
-        <p>Este impuesto adicional se aplica en todos los productos y servicios que factures.</p>
-        <label for="iag">Impuesto adicional:</label>
-        <select name="iag" id="iag">
-          <option value="">No tiene</option>
-          <option value="Impuesto_Nacional">Impuesto Nacional (Impuesto que cobra el gobierno nacional, como el IVA o Ganancias.)</option>
-          <option value="Tributo_Municipal">Tributo Municipal (Impuesto que cobra la municipalidad, como la tasa de seguridad e higiene.)</option>
-          <option value="Impuestos_Internos">Impuestos Internos (Impuestos especiales para ciertos productos, como cigarrillos o bebidas alcohólicas.)</option>
-          <option value="IIBB">IIBB (Ingresos Brutos, impuesto que cobran las provincias sobre las ventas.)</option>
-          <option value="Percepción_de_IVA">Percepción de IVA (Adelanto del IVA que se cobra en algunas compras o ventas.)</option>
-          <option value="Percepción_de_IIBB">Percepción de IIBB (Adelanto del impuesto a los Ingresos Brutos que se cobra en algunas operaciones.)</option>
-          <option value="Percepciones_por_Tributos_Municipales">Percepciones por Tributos Municipales (Adelantos de impuestos municipales que se cobran en algunas facturas.)</option>
-          <option value="Otras_Percepciones">Otras Percepciones (Otros adelantos de impuestos que no entran en las categorías anteriores.)</option>
-          <option value="Percepción_de_IVA_a_no_Categorizado">Percepción de IVA a no Categorizado (Cobro extra de IVA a quienes no están registrados en AFIP.)</option>
-          <option value="Otros">Otros (Cualquier otro impuesto o percepción que no esté en la lista.)</option>
-        </select>
+			<p>Un impuesto adicional es un pago extra que se suma a los impuestos normales.</p>
+			<p>Este impuesto adicional se aplica en todos los productos y servicios que factures.</p>
+			<label for="iag">Impuesto adicional:</label>
+			<select name="iag" id="iag">
+			<option value="">No tiene</option>
+			<option value="Impuesto_Nacional">Impuesto Nacional (Impuesto que cobra el gobierno nacional, como el IVA o Ganancias.)</option>
+			<option value="Tributo_Municipal">Tributo Municipal (Impuesto que cobra la municipalidad, como la tasa de seguridad e higiene.)</option>
+			<option value="Impuestos_Internos">Impuestos Internos (Impuestos especiales para ciertos productos, como cigarrillos o bebidas alcohólicas.)</option>
+			<option value="IIBB">IIBB (Ingresos Brutos, impuesto que cobran las provincias sobre las ventas.)</option>
+			<option value="Percepción_de_IVA">Percepción de IVA (Adelanto del IVA que se cobra en algunas compras o ventas.)</option>
+			<option value="Percepción_de_IIBB">Percepción de IIBB (Adelanto del impuesto a los Ingresos Brutos que se cobra en algunas operaciones.)</option>
+			<option value="Percepciones_por_Tributos_Municipales">Percepciones por Tributos Municipales (Adelantos de impuestos municipales que se cobran en algunas facturas.)</option>
+			<option value="Otras_Percepciones">Otras Percepciones (Otros adelantos de impuestos que no entran en las categorías anteriores.)</option>
+			<option value="Percepción_de_IVA_a_no_Categorizado">Percepción de IVA a no Categorizado (Cobro extra de IVA a quienes no están registrados en AFIP.)</option>
+			<option value="Otros">Otros (Cualquier otro impuesto o percepción que no esté en la lista.)</option>
+			</select>
 
-        <br>
+			<br>
 
-        <div id="iag_extra" style="display: none; margin-top: 15px;">
-          <p>Es una descripción de que habla sobre de que se trata el impuesto adicional ingresado</p>
-          <input type="text" name="d_iag" placeholder="Descripcion Impuesto adicional global:" style="width: 350px; max-width: 85%; padding: 5px; font-size: 14px;">
-          <br><br>
-          <p>La alícuota es el porcentaje que se usa para calcular un impuesto. Por ejemplo, si el IVA es del 21%, ese 21% es la alícuota que se aplica sobre el precio de un producto o servicio.</p>
-          <input type="number" name="alicuota" placeholder="Alicuota:">
-        </div>
-        
-        <br>
+			<div id="iag_extra" style="display: none; margin-top: 15px;">
+			<p>Es una descripción de que habla sobre de que se trata el impuesto adicional ingresado</p>
+			<input type="text" name="d_iag" placeholder="Descripcion Impuesto adicional global:" style="width: 350px; max-width: 85%; padding: 5px; font-size: 14px;">
+			<br><br>
+			<p>La alícuota es el porcentaje que se usa para calcular un impuesto. Por ejemplo, si el IVA es del 21%, ese 21% es la alícuota que se aplica sobre el precio de un producto o servicio.</p>
+			<input type="number" name="alicuota" placeholder="Alicuota:">
+			</div>
+			
+			<br>
 
-        {% if requiere_datos_adicionales %}
-          <p>Tu CUIT: <input type="number" name="CUIT" placeholder="Tu CUIT:"></p>
-          <br>
+			{% if requiere_datos_adicionales %}
+			<p>Tu CUIT: <input type="number" name="CUIT" placeholder="Tu CUIT:"></p>
+			<br>
 
-          <p>Tu nombre y apellido: <input type="text" name="nombre_apellido" placeholder="Tu Nombre y apellido:"></p>
-          <br>
+			<p>Tu nombre y apellido: <input type="text" name="nombre_apellido" placeholder="Tu Nombre y apellido:"></p>
+			<br>
 
-          <p>El nombre de la empresa: <input type="text" name="nombre_empresa" placeholder="El nombre de la empresa:"></p>
-        {% endif %}
-        <br>
-        <h5 style="display: flex; justify-content: center;"><button type="submit" value="Guardar cambios e ir a iniciar sesión" class="enlaceAD boxAD alternativo animado">Guardar cambios e iniciar sesión</h5>
+			<p>El nombre de la empresa: <input type="text" name="nombre_empresa" placeholder="El nombre de la empresa:"></p>
+			{% endif %}
+			<br>
+			<h5 style="display: flex; justify-content: center;"><button type="submit" value="Crear Plantilla" class="boton">Crear Plantilla Facturación</h5>
 
-        
-      </form>
-    </div>
-    <script>
-      function redirectAfterSubmit() {
-          setTimeout(function() {
-              window.location.href = "/menu_facturador";
-          }, 5000);
-      }
-      </script>
-      <script>
-        function mostrarLoader(event) {
-            const loader = document.querySelector(".loader");
-
-            loader.classList.remove("loader-hidden");
-
-            document.body.style.overflow = "hidden";
-            document.body.style.pointerEvents = "none";
-        }
-    </script>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const iagSelect = document.getElementById("iag");
-        const iagExtraFields = document.getElementById("iag_extra");
-        const descripcionInput = document.querySelector('input[name="d_iag"]');
-        const alicuotaInput = document.querySelector('input[name="alicuota"]');
-
-        function toggleFields() {
-          const mostrar = iagSelect.value !== "";
-
-          iagExtraFields.style.display = mostrar ? "block" : "none";
-          descripcionInput.required = mostrar;
-          alicuotaInput.required = mostrar;
-        }
-
-        iagSelect.addEventListener("change", toggleFields);
-      });
-    </script>
-  </body>
+			
+		</form>
+		</div>
+		<script src="{{ url_for('static', filename='js/configuracion/configuracion_inicial.js') }}" defer></script>
+		<script src="{{ url_for('static', filename='js/visual/cambiar_tema.js') }}"></script>
+	</body>
 </html>

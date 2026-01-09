@@ -1,4 +1,4 @@
-from Funciones.obtenerdor_IDs import Obtenedor_ID 
+from Funciones.ID.obtenerdor_IDs import Obtenedor_ID 
 import json as json_biblioteca
 
 class Formateador_Datos_Facturador_Unico():
@@ -51,14 +51,18 @@ class Formateador_Datos_Facturador_Unico():
             return [json_biblioteca.loads(p) for p in items]
         
     def armar_datos_form(self, datos_form, data_source):
-        datos_form.append(data_source.form.get("id_factura"))# 0
-        datos_form.append(data_source.form.get("tipo_factura"))# 1
-        datos_form.append(data_source.form.get("nombre_apellido_cliente"))# 2
-        datos_form.append(data_source.form.get("tipo_doc"))# 3
-        datos_form.append(data_source.form.get("numero_doc_cliente"))# 4
-        datos_form.append(data_source.form.get("concepto_venta"))# 5
-        datos_form.append(data_source.form.get("concepto_iva"))# 6
-        datos_form.append(data_source.form.get("concepto"))# 7
-        datos_form.append(data_source.form.get("fecha_desde"))# 8
-        datos_form.append(data_source.form.get("fecha_hasta"))# 9
-        datos_form.append(data_source.form.get("fecha_vto_pago"))# 10
+        datos_form.append(data_source.form.get("id_factura"))
+        datos_form.append(data_source.form.get("tipo_factura"))
+        datos_form.append(data_source.form.get("tipo_doc"))
+        datos_form.append(data_source.form.get("numero_doc_cliente"))
+        datos_form.append(data_source.form.get("nombre_apellido_cliente"))
+        datos_form.append(data_source.form.get("nro_telefono"))
+        datos_form.append(data_source.form.get("provincia"))
+        datos_form.append(data_source.form.get("localidad"))
+        datos_form.append(data_source.form.get("domicilio"))
+        datos_form.append(data_source.form.get("concepto_venta"))
+        datos_form.append(data_source.form.get("concepto_iva"))
+        datos_form.append(data_source.form.get("concepto"))
+        datos_form.append(data_source.form.get("fecha_desde"))
+        datos_form.append(data_source.form.get("fecha_hasta"))
+        datos_form.append(data_source.form.get("fecha_vto_pago"))

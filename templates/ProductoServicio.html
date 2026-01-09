@@ -3,147 +3,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agregar Producto</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
+    <title>Items</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=League+Spartan:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" href="{{ url_for('static', filename='Facturador_Logo.jpg') }}" type="image/x-icon">
     <script src="/static/js/scriptGlobal.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<div class="pantalla_exito pantalla_exito-hidden">
-    <h2 id="mensaje_exito">Descargando...</h2>
-    <form id="formulario_exito" action="/menu_facturador" method="POST" onsubmit="mostrarLoader(event)" style="display: none;">
-        <h5 style="display: inline-block;">
-            <button type="submit" name="accion" value="FM" class="enlaceAD boxAD alternativo animado">Volver al menú</button>
-        </h5>
-    </form>
-</div>
-
-<div class="loader loader-hidden">
-    <div class="spinner"></div>
-    <h1>VOLVIENDO AL FACTURADOR</h1>
-</div>
-
-<div class="accion_item accion_item-hidden" id="agregar">
-    <div class="spinner"></div>
-    <h1>AGREGANDO ITEM</h1>
-</div>
-
-<div class="accion_item accion_item-hidden" id="modificar">
-    <div class="spinner"></div>
-    <h1>MODIFICANDO ITEM</h1>
-</div>
-
-<div class="accion_item accion_item-hidden" id="eliminar">
-    <div class="spinner"></div>
-    <h1>ELIMINANDO ITEM</h1>
-</div>
 <body>
+    <div class="pantalla_exito pantalla_exito-hidden">
+        <h2 id="mensaje_exito" class="confirmacion-accion">Descargando...</h2>
+        <form id="formulario_exito" action="/menu_facturador" method="POST" onsubmit="mostrarLoader(event)" style="display: none;">
+            <h5 style="display: inline-block;">
+                <button type="submit" name="accion" value="FM" class="boton">Volver al menú</button>
+            </h5>
+        </form>
+    </div>
+
+    <div class="loader loader-hidden">
+        <div class="spinner"></div>
+        <h1 class="confirmacion-accion">VOLVIENDO AL FACTURADOR</h1>
+    </div>
+
+    <div class="loader loader-hidden" id="agregar">
+        <div class="spinner"></div>
+        <h1 class="confirmacion-accion">AGREGANDO ITEM</h1>
+    </div>
+
+    <div class="loader loader-hidden" id="modificar">
+        <div class="spinner"></div>
+        <h1 class="confirmacion-accion">MODIFICANDO ITEM</h1>
+    </div>
+
+    <div class="loader loader-hidden" id="eliminar">
+        <div class="spinner"></div>
+        <h1 class="confirmacion-accion">ELIMINANDO ITEM</h1>
+    </div>
+    <!--Seccion de enlaces y acceso directo-->
     <section class="AccesoDirecto">
-        <div class="container barranav">
-            <nav class="navbar navbar-expand-lg fixed-top" id="barraDeNavegacion">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="{{url_for('index_')}}"><h6 class="enlaceAD boxAD">Menú Principal</h6></a>
+        <div class="container navbar">
+            <nav class="navbar-expand-lg fixed-top" id="barraDeNavegacion">
+				<div class="container-fluid">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="line"></span> 
-                        <span class="line"></span> 
-                        <span class="line"></span>
+                        <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-center" id="navbarNav"> 
                         <ul class="navbar-nav"> 
-                            <li class="nav-item"> <a class="nav-link" href="{{url_for('menu_facturador_')}}"><h6 class="enlaceAD boxAD">Menu Facturación</h6></a></li>
-                            <li class="nav-item"> <a class="nav-link" href="{{url_for('documentacion')}}" target="_blank"><h6 class="enlaceAD boxAD">Documentación y Tutoriales</h6></a></li>
-                            <li class="nav-item"> <a class="nav-link" href="{{url_for('sis_info')}}" target="_blank"><h6 class="enlaceAD boxAD">Información sobre el sistema</h6></a></li>
-                            <li class="nav-item"> <a class="nav-link" href="{{url_for('ayuda')}}" target="_blank"><h6 class="enlaceAD boxAD">Ayuda</h6></a></li>
-                        </ul>
-                    </div>
-                </div>
+								<li class="nav-item"> <a class="nav-link" href="{{url_for('documentacion')}}" target="_blank"><h6 class="barraNavegacion">Tutoriales</h6></a></li>
+								<li class="nav-item"> <a class="nav-link" href="{{url_for('sis_info')}}" target="_blank"><h6 class="barraNavegacion">Sobre el sistema</h6></a></li>
+								<li class="nav-item"> <a class="nav-link" href="{{url_for('ayuda')}}" target="_blank"><h6 class="barraNavegacion">Ayuda</h6></a></li>
+                                <li class="nav-item"> <button id="toggleTheme" class="nav-link"><h6 class="barraNavegacion">Cambiar tema</h6></button></li>
+                            </ul>
+						</div>
+				</div>
             </nav>
         </div>
     </section>
-    <div class="marco_div">
+    <!---->
+    <div class="marco_div texto_default">
         <h1>Menú de productos y servicios</h1>
         <h2>Hacé click en el boton de lo que querés hacer:</h2>
         <div class="toggle-buttons">
-            <h5><button class="toggle" style="display: inline-block;" id="button" onclick="changeContent(1)">Agregar Producto/Servicio</button>
-                <button class="toggle" style="display: inline-block;" id="button" onclick="changeContent(2)">Modificar Producto/Servicio</button>
-                <button class="toggle" style="display: inline-block;" id="button" onclick="changeContent(3)">Eliminar Producto/Servicio</button>
-            </h5>
+            <p><button class="toggle boton" style="display: inline-block;" id="button" onclick="changeContent(1)">Agregar Producto/Servicio</button>
+                <button class="toggle boton" style="display: inline-block;" id="button" onclick="changeContent(2)">Modificar Producto/Servicio</button>
+                <button class="toggle boton" style="display: inline-block;" id="button" onclick="changeContent(3)">Eliminar Producto/Servicio</button>
+                <button class="toggle boton" style="display: inline-block;" id="button"><a class="nav-link" href="{{url_for('menu_facturador')}}">Volver al menú de Facturación</a></button>
+            </p>
         </div>
 
         <!-- Mostrar el mensaje flash con el botón -->
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div id="flash-message" style="background-color: #1a1a1a;  border: 1px solid red; padding: 10px; margin: 10px; display: inline-block;">
-                    <ul>
-                        {% for message in messages %}
-                            <li><h5>{{ message }}</h5></li>
-                        {% endfor %}
-                    </ul>
-                    <h5 style="display: flex; justify-content: center;"><button onclick="deleteMessage()" class="enlaceAD boxAD alternativo animado">Eliminar mensaje</button></h5>
-                </div>
-            {% endif %}
-        {% endwith %}
-        <!---->
-        <br><br>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div id="flash-message" class="flashalert confirmacion">
+                        <ul>
+                            {% for message in messages %}
+                                <li><h5 class="flashmessage">{{ message }}</h5></li>
+                            {% endfor %}
+                        </ul>
+                        <h5 style="display: flex; justify-content: center;"><button onclick="deleteMessage()" class="boton flash confirmacion">Eliminar mensaje</button></h5>
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <br>
         <div id="content">
-            <div id="content-1" class="content-item" style="display: none; border: 2px solid #4A90E2;">
-                <h3>Como agregar un producto o servicio</h3>
+            <div id="content-1" class="content-item">
+                <h1>Como agregar un producto o servicio</h1>
                 <p>Seguí el tutorial a continuación de como se agrega un producto o servicio</p>
                 <div class="responsive-video">
                     <iframe src="https://www.youtube.com/embed/l0b25Ejg2wo" title="Agregar Item" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
                 <!--Agregar item-->
-                <h3>Ingrese los datos a continuación para agregar un prducto o servicio a tu sistema:</h2>
-                <h4>Tenés que ponerle un nombre y un precio</h4>
-                <form action="/agregar_item" method="POST" onsubmit="mostrarAgregar(event)">
+                <div class="texto_default">
+                    <h3>Ingrese los datos a continuación para agregar un prducto o servicio a tu sistema:</h2>
+                    <p>Tu nuevo item tiene que tener nombre y precio.</p>
+                    <form action="/agregar_item" method="POST" onsubmit="mostrarAgregar(event)">
 
-                    <input required type="text" name="prod_ser" placeholder="Nombre del producto o servicio:">
-
-                    <br><br>
-
-                    <input required type="number" name="precio" placeholder="Precio unitario:">
-
-                    <br><br>
-
-                    <input type="text" name="codigo_prod_ser" placeholder="Ingrese el código de tu producto o servicio:">
-
-                    <br><br>
-
-                    <input type="text" name="desc" placeholder="Descripción del producto o servicio:">
-                    
-                    <br><br>
-                    
-                    <label for="concepto">Impuesto Adicional:</label>
-                    <select name="concepto" id="concepto">
-                        <option value="">No tiene</option>
-                        <option value="Impuestos Nacionales">Impuesto Nacional</option>
-                        <option value="Impuestos Provinciales">Tributo Municipal</option>
-                        <option value="Tributos Municipales">Impuestos Internos</option>
-                        <option value="IIBB">IIBB</option>
-                        <option value="Percepción de IVA">Percepción de IVA</option>
-                        <option value="Percepción de IIBB">Percepción de IIBB</option>
-                        <option value="Percepciones por Tributos Municipales">Percepciones por Tributos Municipales</option>
-                        <option value="Otras Percepciones">Otras Percepciones</option>
-                        <option value="Percepción de IVA a no Categorizado">Percepción de IVA a no Categorizado</option>
-                        <option value="Otros">Otros</option>
-
-                    </select>
-                    <div id="concepto_extra">
-                        <input type="text" name="d_i_a" placeholder="Descripción impuesto adicional: ">
+                        <input required type="text" name="prod_ser" placeholder="Nombre:">
 
                         <br><br>
-                        
-                        <input type="number" name="alicuota" placeholder="Alícuota: ">
-                    </div>
 
-                    <br><br>
-                    
-                    <h5 style="display: flex; justify-content: center;"><button type="submit" value="Agregar Item" class="enlaceAD boxAD alternativo animado">Agregar Item</h5>
-                </form> 
+                        <input required type="number" name="precio" placeholder="Precio unitario:">
+
+                        <br><br>
+
+                        <input type="text" name="codigo_prod_ser" placeholder="Código:">
+
+                        <br><br>
+
+                        <input type="text" name="desc" placeholder="Descripción del Item:">
+                        
+                        <br><br>
+                        
+                        <label for="concepto">Impuesto Adicional:</label>
+                        <select name="concepto" id="concepto">
+                            <option value="">No tiene</option>
+                            <option value="Impuestos Nacionales">Impuesto Nacional</option>
+                            <option value="Impuestos Provinciales">Tributo Municipal</option>
+                            <option value="Tributos Municipales">Impuestos Internos</option>
+                            <option value="IIBB">IIBB</option>
+                            <option value="Percepción de IVA">Percepción de IVA</option>
+                            <option value="Percepción de IIBB">Percepción de IIBB</option>
+                            <option value="Percepciones por Tributos Municipales">Percepciones por Tributos Municipales</option>
+                            <option value="Otras Percepciones">Otras Percepciones</option>
+                            <option value="Percepción de IVA a no Categorizado">Percepción de IVA a no Categorizado</option>
+                            <option value="Otros">Otros</option>
+
+                        </select>
+                        <div id="concepto_extra">
+                            <input type="text" name="d_i_a" placeholder="Descripción impuesto adicional: ">
+
+                            <br><br>
+                            
+                            <input type="number" name="alicuota" placeholder="Alícuota: " step="0.01">
+                        </div>
+
+                        <br><br>
+                        <h5 style="display: flex; justify-content: center;"><button type="submit" value="Agregar Item" class="boton">Agregar Item</h5>
+                    </form> 
+                </div>
             </div>
-            <div id="content-2" class="content-item" style="display: none; border: 2px solid #4A90E2;">
-                <h3>Como modificar un producto o servicio</h3>
+            <div id="content-2" class="content-item">
+                <h1>Como modificar un producto o servicio</h1>
                 <p>Seguí el tutorial a continuación de como se modifica un producto o servicio</p>
                 <div class="responsive-video">
                     <iframe src="https://www.youtube.com/embed/1NUEkMmz2wc" title="Modificar Item" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>                
@@ -151,12 +152,14 @@
                 <!--modificar_item item-->
                 <form action="/modificar_item" method="POST" onsubmit="mostrarModificar(event)">
                     <h3>Modificar producto o servicio</h3>
-                    <label for="items_">Eligí el producto o servicio a modificar:</label>
-                    <label for="search-box">Buscar producto/servicio:</label>
-                    <input type="text" id="search-box" placeholder="Escribe para buscar..." onkeyup="filterItems()">
-                    <p>La informacion de los items viene en este orden:</p>
-                    <p>Producto/Servicio, Código, Descripción, Precio Unitario, Impuesto Adicional, Descripción, Alícuota (%)</p>
-                    <p>(Si no ves uno de estos campos en tus productos significa que no se lo indicaste cuando agregaste el producto o servicio)</p>
+                    <div class="texto_default">
+                        <label for="items_">Eligí el producto o servicio a modificar:</label>
+                        <label for="search-box">Buscar producto/servicio:</label>
+                        <input type="text" id="search-box" placeholder="Escribe para buscar..." onkeyup="filterItems()">
+                        <p>La informacion de los items viene en este orden:</p>
+                        <p>Producto/Servicio, Código, Descripción, Precio Unitario, Impuesto Adicional, Descripción, Alícuota (%)</p>
+                        <p>(Si no ves uno de estos campos en tus productos significa que no se lo indicaste cuando agregaste el producto o servicio)</p>
+                    </div>
                     <div style="overflow-x: auto;">
                         <table class="tabla-centrada">
                             <thead>
@@ -168,6 +171,7 @@
                                     <th>Precio Unitario</th>
                                     <th>Impuesto Adicional</th>
                                     <th>Alicuota</th>
+                                    <th>Porcentaje</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -185,28 +189,31 @@
                                     <td>${{ fila[3] if fila[3] is not none else "" }}</td>
                                     <td>{{ fila[4] if fila[4] is not none else "" }}</td>
                                     <td>{{ fila[5] if fila[5] is not none else "" }}</td>
+                                    <td>{{ fila[6] if fila[6] is not none else "" }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                         </table>
                     </div>
 
-                    <h3>Ingrese los datos a continuación para modificar un producto o servicio de tu sistema:</h3>
-                
-                
-                    <input type="text" name="prod_ser" placeholder="Nombre del producto o servicio:">
-
-                    <br><br>
-
-                    <input type="text" name="codigo_prod_ser" placeholder="Ingrese el código de tu producto o servicio:">
-
-                    <br><br>
-
-                    <input type="text" name="desc" placeholder="Descripción del producto o servicio:">
+                    <br>
                     
+                    <h3>Ingrese los datos a continuación para modificar un producto o servicio de tu sistema:</h3>
+                    
+                    <input type="text" name="prod_ser" placeholder="Nombre:">
+
                     <br><br>
 
                     <input type="number" name="precio" placeholder="Precio unitario:">
+
+                    <br><br>
+
+                    <input type="text" name="codigo_prod_ser" placeholder="Código:">
+
+                    <br><br>
+
+                    <input type="text" name="desc" placeholder="Descripción del Item:">
+                    
 
                     <br><br>
                     
@@ -232,15 +239,15 @@
 
                     <br><br>
                     
-                    <input type="number" name="alicuota" placeholder="Alícuota: ">
+                    <input type="number" name="alicuota" placeholder="Alícuota: " step="0.01">
 
                     <br><br>
-                    
-                    <h5 style="display: flex; justify-content: center;"><button type="submit" value="Modificar Item" class="enlaceAD boxAD alternativo animado">Modificar Item</h5>
+                
+                    <h5 style="display: flex; justify-content: center;"><button type="submit" value="Modificar Item" class="boton">Modificar Item</h5>
                 </form> 
             </div>
-            <div id="content-3" class="content-item" style="display: none; border: 2px solid #4A90E2;">
-                <h3>Como eliminar un producto o servicio</h3>
+            <div id="content-3" class="content-item">
+                <h1>Como eliminar un producto o servicio</h1>
                 <p>Seguí el tutorial a continuación de como se elimina un producto o servicio</p>
                 <div class="responsive-video">
                     <iframe src="https://www.youtube.com/embed/LEhWi_nbPlk" title="Eliminar Item" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>                
@@ -266,6 +273,7 @@
                                     <th>Precio Unitario</th>
                                     <th>Impuesto Adicional</th>
                                     <th>Alicuota</th>
+                                    <th>Porcentaje</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -283,6 +291,7 @@
                                     <td>${{ fila[3] if fila[3] is not none else "" }}</td>
                                     <td>{{ fila[4] if fila[4] is not none else "" }}</td>
                                     <td>{{ fila[5] if fila[5] is not none else "" }}</td>
+                                    <td>{{ fila[6] if fila[6] is not none else "" }}</td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
@@ -291,126 +300,20 @@
 
                     <br>
 
-                    <h5 style="display: flex; justify-content: center;"><button type="submit" value="Eliminar Item" class="enlaceAD boxAD alternativo animado">Eliminar Item</h5>
+                    <h5 style="display: flex; justify-content: center;"><button type="submit" value="Eliminar Item" class="boton">Eliminar Item</h5>
                 </form>   
             </div>
             <br>
+
+            <h6>Una vez realizadas las modificaciones que necesites, hacé click en "Descargar Excel Actualizado"</h6>
             <form action="/descargar_archivo_excel" method="POST" onsubmit="mostrarExito(event)"> 
                 <div style="display: flex; justify-content: center;">
-                    <h5 style="display: inline-block;"><button type="submit" name="accion" class="enlaceAD boxAD alternativo animado">Descargar Excel actualizado</button></h5>
+                    <h5 style="display: inline-block;"><button type="submit" name="accion" class="boton">Descargar Excel actualizado</button></h5>
                 </div>
             </form>
         </div>
     </div>
-    <script>
-        function changeContent(toggleId) {
-        const contents = document.querySelectorAll('.content-item');
-        contents.forEach(content => content.style.display = 'none');
-
-        const selectedContent = document.getElementById(`content-${toggleId}`);
-        if (selectedContent) {
-            selectedContent.style.display = 'block';
-        }
-    }
-    </script>
-    <script>
-        function mostrarLoader(event) {
-            setTimeout(() => {
-                const loader = document.querySelector(".loader");
-
-                loader.classList.remove("loader-hidden");
-                document.body.style.overflow = "hidden";
-                document.body.style.pointerEvents = "none";
-            }, 5000);
-        }
-    </script>
-    <script>
-        function mostrarExito(event_) {
-            const pantalla = document.querySelector(".pantalla_exito");
-            const mensaje = document.getElementById("mensaje_exito");
-            const formulario = document.getElementById("formulario_exito");
-
-            pantalla.classList.remove("pantalla_exito-hidden");
-            document.body.style.overflow = "hidden";
-            mensaje.textContent = "Descargando...";
-            setTimeout(() => {
-                mensaje.textContent = "Descarga Exitosa";
-                formulario.style.display = "block";
-            }, 3000);
-        }
-
-        function mostrarLoader(event) {
-            event.target.submit();
-        }
-    </script>
-    <script>
-        function mostrarAgregar(eventA) {
-            const loader = document.getElementById("agregar");
-
-            loader.classList.remove("accion_item-hidden");
-
-            document.body.style.overflow = "hidden";
-        }
-    </script>
-    <script>
-        function mostrarModificar(eventM) {
-            const loader = document.getElementById("modificar");
-
-            loader.classList.remove("accion_item-hidden");
-
-            document.body.style.overflow = "hidden";
-        }
-    </script>
-    <script>
-        function mostrarEliminar(eventE) {
-            const loader = document.getElementById("eliminar");
-
-            loader.classList.remove("accion_item-hidden");
-
-            document.body.style.overflow = "hidden";
-        }
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const content1 = document.getElementById("content-1");
-
-            const iagSelect = content1.querySelector("#concepto");
-            const iagExtraFields = content1.querySelector("#concepto_extra");
-            const descripcionInput = content1.querySelector('input[name="d_i_a"]');
-            const alicuotaInput = content1.querySelector('input[name="alicuota"]');
-
-            function toggleFields() {
-                const mostrar = iagSelect.value !== "";
-
-                iagExtraFields.style.display = mostrar ? "block" : "none";
-                descripcionInput.required = mostrar;
-                alicuotaInput.required = mostrar;
-            }
-
-            iagSelect.addEventListener("change", toggleFields);
-            toggleFields(); // aplica en caso de valor ya cargado
-        });
-    </script>
-    <script>
-        function filterItems() {
-        let searchQuery = document.getElementById("search-box").value.toLowerCase();
-        let rows = document.querySelectorAll("table tbody tr");
-
-        rows.forEach(row => {
-            // Usar data-name si existe, si no usar texto de la fila
-            const input = row.querySelector("input.product-checkbox");
-            const name = input?.getAttribute("data-name")?.toLowerCase() ?? "";
-
-            // También considerar todo el texto visible
-            const rowText = row.textContent.toLowerCase();
-
-            if (name.includes(searchQuery) || rowText.includes(searchQuery)) {
-                row.style.display = "table-row";
-            } else {
-                row.style.display = "none";
-            }
-        });
-    }
-    </script>
+    <script src="{{ url_for('static', filename='js/producto_servicio.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/visual/cambiar_tema.js') }}"></script>
 </body>
 </html>

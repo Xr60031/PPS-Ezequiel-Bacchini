@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clientes Frecuentes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=League+Spartan:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="{{ url_for('static', filename='Facturador_Logo.jpg') }}" type="image/x-icon">
+    <script src="/static/js/scriptGlobal.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="pantalla_exito pantalla_exito-hidden">
+        <h2 id="mensaje_exito" class="confirmacion-accion">Descargando...</h2>
+        <form id="formulario_exito" action="/menu_facturador" method="POST" onsubmit="mostrarLoader(event)" style="display: none;">
+            <h5 style="display: inline-block;">
+                <button type="submit" name="accion" value="FM" class="boton">Volver al menú</button>
+            </h5>
+        </form>
+    </div>
+
+    <div class="loader loader-hidden">
+        <div class="spinner"></div>
+        <h1 class="confirmacion-accion">VOLVIENDO AL FACTURADOR</h1>
+    </div>
+
+    <div class="loader loader-hidden" id="agregar">
+        <div class="spinner"></div>
+        <h1 class="confirmacion-accion">AGREGANDO CLIENTE</h1>
+    </div>
+
+    <div class="loader loader-hidden" id="modificar">
+        <div class="spinner"></div>
+        <h1 class="confirmacion-accion">MODIFICANDO CLIENTE</h1>
+    </div>
+
+    <div class="loader loader-hidden" id="eliminar">
+        <div class="spinner"></div>
+        <h1 class="confirmacion-accion">ELIMINANDO CLIENTE</h1>
+    </div>
+    <!--Seccion de enlaces y acceso directo-->
+    <section class="AccesoDirecto">
+        <div class="container navbar">
+            <nav class="navbar-expand-lg fixed-top" id="barraDeNavegacion">
+				<div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarNav"> 
+                        <ul class="navbar-nav"> 
+								<li class="nav-item"> <a class="nav-link" href="{{url_for('documentacion')}}" target="_blank"><h6 class="barraNavegacion">Tutoriales</h6></a></li>
+								<li class="nav-item"> <a class="nav-link" href="{{url_for('sis_info')}}" target="_blank"><h6 class="barraNavegacion">Sobre el sistema</h6></a></li>
+								<li class="nav-item"> <a class="nav-link" href="{{url_for('ayuda')}}" target="_blank"><h6 class="barraNavegacion">Ayuda</h6></a></li>
+                                <li class="nav-item"> <button id="toggleTheme" class="nav-link"><h6 class="barraNavegacion">Cambiar tema</h6></button></li>
+                            </ul>
+						</div>
+				</div>
+            </nav>
+        </div>
+    </section>
+    <!---->
+    <div class="marco_div texto_default">
+        <h1>Menú de Clientes</h1>
+        <h2>Hacé click en el boton de lo que querés hacer:</h2>
+        <div class="toggle-buttons">
+            <p><button class="toggle boton" style="display: inline-block;" id="button" onclick="changeContent(1)">Agregar Cliente</button>
+                <button class="toggle boton" style="display: inline-block;" id="button" onclick="changeContent(2)">Modificar Cliente</button>
+                <button class="toggle boton" style="display: inline-block;" id="button" onclick="changeContent(3)">Eliminar Cliente</button>
+                <button class="toggle boton" style="display: inline-block;" id="button"><a class="nav-link" href="{{url_for('menu_facturador')}}">Volver al menú de Facturación</a></button>
+            </p>
+        </div>
+
+        <!-- Mostrar el mensaje flash con el botón -->
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div id="flash-message" class="flashalert confirmacion">
+                        <ul>
+                            {% for message in messages %}
+                                <li><h5 class="flashmessage">{{ message }}</h5></li>
+                            {% endfor %}
+                        </ul>
+                        <h5 style="display: flex; justify-content: center;"><button onclick="deleteMessage()" class="boton flash confirmacion">Eliminar mensaje</button></h5>
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <br>
+        <div id="content">
+            <div id="content-1" class="content-item">
+                <h1>Como agregar un Cliente</h1>
+                <p>Seguí el tutorial a continuación de como se agrega un cliente</p>
+                <div class="responsive-video">
+                    <iframe src="https://www.youtube.com/embed/l0b25Ejg2wo" title="Agregar Cliente" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <!--Agregar Cliente-->
+                <div class="texto_default">
+                    <h3>Ingrese los datos a continuación para agregar un Cliente a tu sistema:</h2>
+                    <p>Tu cliente tiene que tener X.</p>
+                    <form action="/agregar_cliente" method="POST" onsubmit="mostrarAgregar(event)">
+
+                        <input required type="text" name="nombre_apellido" placeholder="Nombre y apellido:">
+
+                        <br><br>
+                        <label for="tipo_doc">Tipo Documento:</label>
+                        <select name="tipo_doc" id="tipo_doc" required>
+                            <option value="CONSUMIDOR FINAL">Consumidor Final (No requiere ingresar número de documento)</option>
+                            <option value="CUIT">CUIT </option>
+                            <option value="DNI">DNI </option>
+                            <option value="CDI">CDI (Es un número que se le asigna a los extranjeros que no tienen DNI, pero necesitan realizar trámites fiscales en Argentina.)</option>
+                            <option value="CI EXTRANJERA">CI EXTRANJERA (Es un documento de identidad oficial para los extranjeros que viven en Argentina)</option>
+                            <option value="PASAPORTE">PASAPORTE </option>
+                        </select>
+                        <br><br>
+
+                        <input required type="number" name="nro_documento" placeholder="Numero de documento:">
+
+                        <br><br>
+
+                        <input type="number" name="nro_telefono" placeholder="Numero de telefono:">
+
+                        <br><br>
+
+                        <input type="text" name="provincia" placeholder="Provincia:">
+                        
+                        <br><br>
+                        
+                        <input type="text" name="localidad" placeholder="Localidad:">
+                        
+                        <br><br>
+
+                        <input type="text" name="domicilio" placeholder="Domicilio:">
+                        
+                        <br><br>
+                        
+                        <p>El concepto del IVA para el cliente se refiere a cómo se detalla el Impuesto al Valor Agregado (IVA) en la factura.</p>
+                        <label for="concepto_iva">Concepto del IVA cliente:</label>
+                        <select name="concepto_iva" id="concepto_iva" required>
+                            <option value="Consumidor Final">Consumidor Final (Persona que compra para uso personal)</option>
+                            <option value="Monotributista">Monotributista (Pequeño contribuyente que tributa un monto fijo mensual)</option>
+                            <option value="Excento">Exento (Sujeto que no tributa IVA por su actividad)</option>
+                            <option value="Responsable Inscripto">Responsable Inscripto (Sujeto que tributa IVA y debe discriminarlo en las facturas)</option>
+                        </select>
+                        <br><br>
+                        <h5 style="display: flex; justify-content: center;"><button type="submit" value="Agregar Cliente" class="boton">Agregar cliente</h5>
+                    </form> 
+                </div>
+            </div>
+            <div id="content-2" class="content-item">
+                <h1>Como modificar los datos de un cliente</h1>
+                <p>Seguí el tutorial a continuación de como se modifican los datos de un cliente</p>
+                <div class="responsive-video">
+                    <iframe src="https://www.youtube.com/embed/1NUEkMmz2wc" title="Modificar Cliente" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>                
+                </div>
+                <!--modificar cliente-->
+                <form action="/modificar_cliente" method="POST" onsubmit="mostrarModificar(event)">
+                    <h3>Modificar cliente</h3>
+                    <div class="texto_default">
+                        <label for="items_">Eligí el producto o servicio a modificar:</label>
+                        <label for="search-box">Buscar producto/servicio:</label>
+                        <input type="text" id="search-box" placeholder="Escribe para buscar..." onkeyup="filterItems()">
+                        <p>La informacion de los clientes viene en este orden:</p>
+                        <p>Nombre Apellido del Cliente, Tipo de Documento, Número de documento del cliente, Número de Teléfono, Provincia, Localidad, Domicilio, Condición IVA cliente</p>
+                        <p>(Si no ves uno de estos campos en los datos de tu cliente significa que no se lo indicaste cuando agregaste al cliente)</p>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="tabla-centrada">
+                            <thead>
+                                <tr>
+                                    <th>Seleccionado</th>
+                                    <th>Nombre y Apellido del Cliente</th>
+                                    <th>Tipo de Documento</th>
+                                    <th>Número de Documento del Cliente</th>
+                                    <th>Número de Teléfono</th>
+                                    <th>Provincia</th>
+                                    <th>Localidad</th>
+                                    <th>Domicilio</th>
+                                    <th>Condición IVA Cliente</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for fila in clientes %}
+                                <tr>
+                                    <td>
+                                        <input type="radio" name="selected_client" id="item{{ loop.index }}" class="product-checkbox"
+                                            data-product="{{ loop.index }}"
+                                            data-name="{{ fila[0] if fila[0] is not none else '' }}"
+                                            value="{{ fila[0] if fila[0] is not none else '' }}">
+                                    </td>
+                                    <td>{{ fila[0] if fila[0] is not none else "" }}</td>
+                                    <td>{{ fila[1] if fila[1] is not none else "" }}</td>
+                                    <td>{{ fila[2] if fila[2] is not none else "" }}</td>
+                                    <td>{{ fila[3] if fila[3] is not none else "" }}</td>
+                                    <td>{{ fila[4] if fila[4] is not none else "" }}</td>
+                                    <td>{{ fila[5] if fila[5] is not none else "" }}</td>
+                                    <td>{{ fila[6] if fila[6] is not none else "" }}</td>
+                                    <td>{{ fila[7] if fila[7] is not none else "" }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <br>
+                    
+                    <h3>Ingrese los datos a continuación para modificar un producto o servicio de tu sistema:</h3>
+                    
+                    <input type="text" name="nombre_apellido" placeholder="Nombre y apellido:">
+
+                    <br><br>
+                    <label for="tipo_doc">Tipo Documento:</label>
+                    <select name="tipo_doc" id="tipo_doc">
+                        <option value="CONSUMIDOR FINAL">Consumidor Final (No requiere ingresar número de documento)</option>
+                        <option value="CUIT">CUIT </option>
+                        <option value="DNI">DNI </option>
+                        <option value="CDI">CDI (Es un número que se le asigna a los extranjeros que no tienen DNI, pero necesitan realizar trámites fiscales en Argentina.)</option>
+                        <option value="CI EXTRANJERA">CI EXTRANJERA (Es un documento de identidad oficial para los extranjeros que viven en Argentina)</option>
+                        <option value="PASAPORTE">PASAPORTE </option>
+                    </select>
+                    <br><br>
+
+                    <input type="number" name="nro_documento" placeholder="Numero de documento:">
+
+                    <br><br>
+
+                    <input type="number" name="nro_telefono" placeholder="Numero de telefono:">
+
+                    <br><br>
+
+                    <input type="text" name="provincia" placeholder="Provincia:">
+                    
+                    <br><br>
+                    
+                    <input type="text" name="localidad" placeholder="Localidad:">
+                    
+                    <br><br>
+
+                    <input type="text" name="domicilio" placeholder="Domicilio:">
+                    
+                    <br><br>
+                    
+                    <p>El concepto del IVA para el cliente se refiere a cómo se detalla el Impuesto al Valor Agregado (IVA) en la factura.</p>
+                    <label for="concepto_iva">Concepto del IVA cliente:</label>
+                    <select name="concepto_iva" id="concepto_iva">
+                        <option value="Consumidor Final">Consumidor Final (Persona que compra para uso personal)</option>
+                        <option value="Monotributista">Monotributista (Pequeño contribuyente que tributa un monto fijo mensual)</option>
+                        <option value="Excento">Exento (Sujeto que no tributa IVA por su actividad)</option>
+                        <option value="Responsable Inscripto">Responsable Inscripto (Sujeto que tributa IVA y debe discriminarlo en las facturas)</option>
+                    </select>
+                    <br><br>
+                
+                    <h5 style="display: flex; justify-content: center;"><button type="submit" value="Modificar Cliente" class="boton">Modificar cliente</h5>
+                </form> 
+            </div>
+            <div id="content-3" class="content-item">
+                <h1>Como eliminar un Cliente</h1>
+                <p>Seguí el tutorial a continuación de como se elimina un cliente</p>
+                <div class="responsive-video">
+                    <iframe src="https://www.youtube.com/embed/LEhWi_nbPlk" title="Eliminar cliente" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>                
+                </div>
+                <!--Eliminar cliente-->
+                <form action="/eliminar_cliente" method="POST" onsubmit="mostrarEliminar(event)">
+                    <h3>Eliminar producto o servicio</h3>
+
+                    <label for="items_">Elegí el cliente a buscar:</label>
+                    <label for="search-box">Buscar cliente:</label>
+                    <input type="text" id="search-box" placeholder="Escribe para buscar..." onkeyup="filterItems()">
+                    <p>La informacion de los clientes viene en este orden:</p>
+                        <p>Nombre Apellido del Cliente, Tipo de Documento, Número de documento del cliente, Número de Teléfono, Provincia, Localidad, Domicilio, Condición IVA cliente</p>
+                    <p>(Si no ves uno de estos campos en los datos de tu cliente significa que no se lo indicaste cuando agregaste al cliente)</p>
+                    <div style="overflow-x: auto;">
+                        <table class="tabla-centrada">
+                            <thead>
+                                <tr>
+                                    <th>Seleccionado</th>
+                                    <th>Nombre y Apellido del Cliente</th>
+                                    <th>Tipo de Documento</th>
+                                    <th>Número de Documento del Cliente</th>
+                                    <th>Número de Teléfono</th>
+                                    <th>Provincia</th>
+                                    <th>Localidad</th>
+                                    <th>Domicilio</th>
+                                    <th>Condición IVA Cliente</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for fila in clientes %}
+                                <tr>
+                                    <td>
+                                        <input type="radio" name="selected_client" id="item{{ loop.index }}" class="product-checkbox"
+                                            data-product="{{ loop.index }}"
+                                            data-name="{{ fila[0] if fila[0] is not none else '' }}"
+                                            value="{{ fila[0] if fila[0] is not none else '' }}">
+                                    </td>
+                                    <td>{{ fila[0] if fila[0] is not none else "" }}</td>
+                                    <td>{{ fila[1] if fila[1] is not none else "" }}</td>
+                                    <td>{{ fila[2] if fila[2] is not none else "" }}</td>
+                                    <td>{{ fila[3] if fila[3] is not none else "" }}</td>
+                                    <td>{{ fila[4] if fila[4] is not none else "" }}</td>
+                                    <td>{{ fila[5] if fila[5] is not none else "" }}</td>
+                                    <td>{{ fila[6] if fila[6] is not none else "" }}</td>
+                                    <td>{{ fila[7] if fila[7] is not none else "" }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <br>
+
+                    <h5 style="display: flex; justify-content: center;"><button type="submit" value="Eliminar Cliente" class="boton">Eliminar cliente</h5>
+                </form>   
+            </div>
+            <br>
+
+            <h6>Una vez realizadas las modificaciones que necesites, hacé click en "Descargar Excel Actualizado"</h6>
+            <form action="/descargar_archivo_excel" method="POST" onsubmit="mostrarExito(event)"> 
+                <div style="display: flex; justify-content: center;">
+                    <h5 style="display: inline-block;"><button type="submit" name="accion" class="boton">Descargar Excel actualizado</button></h5>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/producto_servicio.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/visual/cambiar_tema.js') }}"></script>
+</body>
+</html>

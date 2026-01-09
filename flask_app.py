@@ -1,14 +1,15 @@
 from flask import Flask, send_file, render_template, request, make_response, redirect, url_for, Response, session, flash, jsonify
 
-from Facades.facade_google_apis import Facade_API_google
-from Facades.facade_facturacion import Facade_facturacion
-from Facades.facade_json import Facade_Json
-from Facades.facade_usuario import Facade_usuario_manager
-from Facades.facade_datos_factura import Facade_datos_factura
-from Facades.facade_dataframes import Facade_dataframe
-from Facades.facade_configuracion import Facade_Configuracion
-from Facades.facade_items import Facade_Items
-from Facades.facade_historial import Facade_Historial
+from Facades.Google_API.facade_google_apis import Facade_API_google
+from Facades.Facturacion.facade_facturacion import Facade_facturacion
+from Facades.JSON.facade_json import Facade_Json
+from Facades.Usuario.facade_usuario import Facade_usuario_manager
+from Facades.Facturacion.facade_datos_factura import Facade_datos_factura
+from Facades.Excel.facade_dataframes import Facade_dataframe
+from Facades.Configuraciones.facade_configuracion import Facade_Configuracion
+from Facades.Facturacion.facade_items import Facade_Items
+from Facades.Facturacion.facade_historial import Facade_Historial
+from Facades.Contactos_Frecuentes.facade_contactos_frecuentes import Facade_Clientes
 
 from Funciones.Obtener_datos_facturacion.obtenedor_FM import Obtenedor_FM
 from Funciones.Obtener_datos_facturacion.obtenedor_FU import Obtenedor_FU
@@ -19,7 +20,8 @@ from Funciones.Verificadores.verificar_formateo_datos import Verificador_Formate
 from Funciones.Verificadores.verificador_inicio_sesion import Verificador_Inicio_Sesion
 
 import interfaz_wsaa
-from Constantes import constantes
+from Constantes.Flask.constantes_flask import constantes_de_flask
+from Constantes.Facturacion.constantes_arrays import constantes_PDF
 
 import os
 import shutil
@@ -31,6 +33,11 @@ from datetime import datetime, timedelta
 
 import traceback
 from Exceptions.Exceptions_Custom.exception_error_factura import ErrorFacturacion
+
+from impresor_pdf.impresor_pdf import Impresor_PDF
+from Constantes.Facturacion.constantes_arrays import constantes_CAE
+
+from io import BytesIO
 
 app = Flask(__name__)
 app.secret_key = 'clave_030'
@@ -49,7 +56,7 @@ historial = Facade_Historial()
 API_Google = Facade_API_google()
 facturador = Facade_facturacion()
 json = Facade_Json()
-constantes_ = constantes
+constantes_ = constantes_de_flask
 
 # ELIMINA UN ARCHIVO EN LA RUTA ESPECIFICADA
 def delete_file_after_download(file_path):
@@ -158,8 +165,8 @@ def agregar_item():
     items = items_manager.obtener_productos_servicios(destination_path)
 
     embed_1_excel_id_0 = API_Google.subir_excel(destination_path, session.get('excel_name'))
-    session['excelID'] = embed_1_excel_id_0[0]
-    session['embed'] = embed_1_excel_id_0[1]
+    session['excelID'] = embed_1_excel_id_0[constantes_de_flask.excel_id]
+    session['embed'] = embed_1_excel_id_0[constantes_de_flask.embed]
     
 
     Thread(target=delete_file_after_download, args=(destination_path,)).start()
@@ -188,8 +195,8 @@ def modificar_item():
 
     embed_1_excel_id_0 = API_Google.subir_excel(destination_path, session.get('excel_name'))
     
-    session['excelID'] = embed_1_excel_id_0[0]
-    session['embed'] = embed_1_excel_id_0[1]
+    session['excelID'] = embed_1_excel_id_0[constantes_de_flask.excel_id]
+    session['embed'] = embed_1_excel_id_0[constantes_de_flask.embed]
 
     Thread(target=delete_file_after_download, args=(destination_path,)).start()
 
@@ -210,14 +217,113 @@ def eliminar_item():
 
     embed_1_excel_id_0 = API_Google.subir_excel(destination_path, session.get('excel_name'))
     
-    session['excelID'] = embed_1_excel_id_0[0]
-    session['embed'] = embed_1_excel_id_0[1]
+    session['excelID'] = embed_1_excel_id_0[constantes_de_flask.excel_id]
+    session['embed'] = embed_1_excel_id_0[constantes_de_flask.embed]
 
     Thread(target=delete_file_after_download, args=(destination_path,)).start()
 
     flash(constantes_.mensaje_accion_item("ELIMINADO"))
     
     return render_template('ProductoServicio.html', items = items)
+
+
+# RENDERIZA EL MENÚ PARA CONFIGURAR CLIENTES FRECUENTES
+@app.route('/menu_clientes')
+def menu_clientes():
+    clientes_manager = Facade_Clientes()
+    destination_path = API_Google.descargar_excel(constantes_.excel_sin_borrado_de_drive, session.get('excelID'), session.get('excel_name'))
+    clientes = clientes_manager.obtener_clientes(destination_path)
+    Thread(target=delete_file_after_download, args=(destination_path,)).start()
+    return render_template('ProductoServicio.html', clientes = clientes)
+
+# AGREGA UN CLIENTE A LA PLANTILLA
+@app.route('/agregar_cliente', methods=['GET','POST'])
+def agregar_cliente():
+    clientes_manager = Facade_Clientes()
+
+    datos = []
+    datos.append(request.form.get("nombre_apellido"))
+    datos.append(request.form.get("tipo_doc"))
+    datos.append(request.form.get("nro_documento"))
+    datos.append(request.form.get("nro_telefono") or None)
+    datos.append(request.form.get("provincia") or None)
+    datos.append(request.form.get("localidad") or None)
+    datos.append(request.form.get("domicilio") or None)
+    datos.append(request.form.get("concepto_iva") or None)
+
+
+    destination_path = API_Google.descargar_excel(constantes_.excel_con_borrado_de_drive, session.get('excelID'), session.get('excel_name'))
+    clientes_manager.agregar_cliente(path_excel=destination_path, datos=datos)
+    clientes = clientes_manager.obtener_clientes(destination_path)
+
+    embed_1_excel_id_0 = API_Google.subir_excel(destination_path, session.get('excel_name'))
+    session['excelID'] = embed_1_excel_id_0[constantes_de_flask.excel_id]
+    session['embed'] = embed_1_excel_id_0[constantes_de_flask.embed]
+    
+
+    Thread(target=delete_file_after_download, args=(destination_path,)).start()
+    flash(constantes_.mensaje_accion_item("AGREGADO"))
+
+    return render_template('Clientes_Frecuentes.html', clientes = clientes)
+
+# MODIFICA UN CLIENTE DE LA PLANTILLA
+@app.route('/modificar_cliente', methods=['GET','POST'])
+def modificar_cliente():
+    clientes_manager = Facade_Clientes()
+
+    datos = []
+    datos.append(request.form.get("nombre_apellido"))
+    datos.append(request.form.get("tipo_doc"))
+    datos.append(request.form.get("nro_documento"))
+    datos.append(request.form.get("nro_telefono") or None)
+    datos.append(request.form.get("provincia") or None)
+    datos.append(request.form.get("localidad") or None)
+    datos.append(request.form.get("domicilio") or None)
+    datos.append(request.form.get("concepto_iva") or None)
+    selected_client = request.form.get("selected_client")
+
+    print(datos)
+
+    destination_path = API_Google.descargar_excel(constantes_.excel_con_borrado_de_drive, session.get('excelID'), session.get('excel_name'))
+
+    clientes_manager.modificar_cliente(destination_path, datos, selected_client)
+
+    clientes = clientes_manager.obtener_clientes(destination_path)
+
+    embed_1_excel_id_0 = API_Google.subir_excel(destination_path, session.get('excel_name'))
+    
+    session['excelID'] = embed_1_excel_id_0[constantes_de_flask.excel_id]
+    session['embed'] = embed_1_excel_id_0[constantes_de_flask.embed]
+
+    Thread(target=delete_file_after_download, args=(destination_path,)).start()
+
+    flash(constantes_.mensaje_accion_item("MODIFICADO"))
+    
+    return render_template('Clientes_Frecuentes.html', clientes = clientes)
+
+# ELIMINA UN CLIENTE DE LA PLANTILLA
+@app.route('/eliminar_cliente', methods=['GET','POST'])
+def eliminar_cliente():
+    clientes_manager = Facade_Clientes()
+    selected_client = request.form.get("selected_client")
+
+    destination_path = API_Google.descargar_excel(constantes_.excel_con_borrado_de_drive, session.get('excelID'), session.get('excel_name'))
+
+    clientes_manager.eliminar_cliente(destination_path, selected_client)
+
+    clientes = clientes_manager.obtener_clientes(destination_path)
+
+    embed_1_excel_id_0 = API_Google.subir_excel(destination_path, session.get('excel_name'))
+    
+    session['excelID'] = embed_1_excel_id_0[constantes_de_flask.excel_id]
+    session['embed'] = embed_1_excel_id_0[constantes_de_flask.embed]
+
+    Thread(target=delete_file_after_download, args=(destination_path,)).start()
+
+    flash(constantes_.mensaje_accion_item("ELIMINADO"))
+    
+    return render_template('ProductoServicio.html', clientes = clientes)
+
 
 @app.route('/descargar_archivo_excel', methods=['GET', 'POST'])
 def descargar_archivo_excel():
@@ -241,21 +347,37 @@ def load_facturador():
     session['excel_name'] = excel.filename
     embed_1_excel_id_0 = API_Google.subir_excel(path_excel, session.get('excel_name'))
     
-    session['excelID'] = embed_1_excel_id_0[0]
-    session['embed'] = embed_1_excel_id_0[1]
+    session['excelID'] = embed_1_excel_id_0[constantes_de_flask.excel_id]
+    session['embed'] = embed_1_excel_id_0[constantes_de_flask.embed]
 
     if action == "f_unico":
+        client_manager = Facade_Clientes()
+        clientes = client_manager.obtener_clientes(path_excel)
         items = items_manager.obtener_productos_servicios(path_excel)
+        historial = Facade_Historial()
+        ultimo_numero = historial.get_ultimo_ID_factura_usado(path_excel)
+        if(ultimo_numero == None):
+            ultimo_numero = "Todavía no hay facturas registradas en el historial de la plantilla"
         Thread(target=delete_file_after_download, args=(path_excel,)).start()
-        return render_template('FacturadorUnico.html', items=items, estado = session.get('descargar_excel'))
+        return render_template('FacturadorUnico.html', items=items, estado = session.get('descargar_excel'), ultimo_numero=ultimo_numero, clientes=clientes)
     elif action == "f_multiple":
+        historial = Facade_Historial()
+        ultimo_numero = historial.get_ultimo_ID_factura_usado(path_excel)
+        if(ultimo_numero == None):
+            ultimo_numero = "Todavía no hay facturas registradas en el historial de la plantilla"
         Thread(target=delete_file_after_download, args=(path_excel,)).start()
         return render_template('FacturadorMultiple.html', embed_link=session.get('embed'), estado = session.get('descargar_excel'))
     elif action == "menu_items":
         items = items_manager.obtener_productos_servicios(path_excel)
         Thread(target=delete_file_after_download, args=(path_excel,)).start()
         return render_template('ProductoServicio.html', items = items)
+    elif action == "clientes_frecuentes":
+        client_manager = Facade_Clientes()
+        clientes = client_manager.obtener_clientes(path_excel)
+        Thread(target=delete_file_after_download, args=(path_excel,)).start()
+        return render_template('Clientes_Frecuentes.html', clientes = clientes)
     elif action == "historial":
+        historial = Facade_Historial()
         historial_ = historial.obtener_historial(path_excel)
         Thread(target=delete_file_after_download, args=(path_excel,)).start()
         return render_template('Historial.html', historial = historial_)
@@ -280,7 +402,7 @@ def escribir_llave():
 
     return copy_path_llave
 
-# REALIZA LA FACTURACION DE UNA FACTURA
+# REALIZA LA FACTURACION
 @app.route('/facturacion', methods=['GET','POST'])
 def facturacion():
     modo_factura = request.form.get("modo_facturacion")
@@ -314,7 +436,7 @@ def facturacion():
             file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             file.write(" " + str(e))
             file.write(" " + traceback.format_exc())
-        flash(constantes.algo_salio_mal_alerta)
+        flash(constantes_.algo_salio_mal_alerta)
         return render_template('FacturadorMenu.html')
 
     if isinstance(datos_factura, dict):
@@ -342,11 +464,10 @@ def facturacion():
             file.write(ticket_content)
 
     dataframe_historial = dataframe_manager.obtener_dataframe_historial(destination_path)
-    
     try:
         zip_file = facturador.facturacion(destination_path, copy_path_llave, copy_path_certificado, datos_usuario, datos_factura, dataframe_historial)
     except ErrorFacturacion as e:
-        flash(str(e.mensaje))
+        flash(str(e))
         return render_template('FacturadorMenu.html')
     except Exception as e:
         path_log = 'Exceptions/log_exceptions.txt'
@@ -355,7 +476,7 @@ def facturacion():
             file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
             file.write(" " + str(e))
             file.write(" " + traceback.format_exc())
-        flash(constantes.algo_salio_mal_alerta)
+        flash(constantes_.algo_salio_mal_alerta)
         return render_template('FacturadorMenu.html')
 
     if session['ticket_creado'] == False:
@@ -370,6 +491,59 @@ def facturacion():
     zip_file.seek(0)
 
     return make_response(send_file(zip_file, as_attachment=True, download_name=constantes_.zip_name(session.get('CUIT'), datetime.now(), modo_factura)))
+
+#Descarga el PDF de una factura/nota existente en la plantilla de facturación del usuario
+@app.route('/rearmar_pdf', methods=['GET','POST'])
+def rearmar_pdf():
+    destination_path = API_Google.descargar_excel(constantes_.excel_con_borrado_de_drive, session.get('excelID'), session.get('excel_name'))
+    
+    datos_factura_manager = Facade_datos_factura()
+    usuario_manager = Facade_usuario_manager()
+
+    datos_usuario = usuario_manager.obtener_datos_usuario(destination_path)
+    datos_usuario = usuario_manager.armar_biblioteca_vendedor(datos_usuario)
+
+    data_source = request.form.get("selected_items_json")
+    obtenedor = Obtenedor_NC()
+    
+    try:
+        datos_factura = obtenedor.obtener_datos_facturacion(data_source, datos_factura_manager, datos_usuario)
+
+    except Exception as e:
+        path_log = 'Exceptions/log_exceptions.txt'
+        with open(path_log, 'a', encoding='utf-8') as file:
+            file.write("\n")
+            file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            file.write(" " + str(e))
+            file.write(" " + traceback.format_exc())
+        flash(constantes_.algo_salio_mal_alerta)
+        return render_template('FacturadorMenu.html')
+
+    verificador_formateo_datos_facturacion = Verificador_Formateo_Datos_Facturacion()
+    
+    if(verificador_formateo_datos_facturacion.verificar_formateo_datos(datos_factura) == False):
+        flash(constantes_.factura_datos_faltantes_alerta)
+        return render_template('FacturadorMenu.html')
+    
+    #datos_factura[""]
+    datos_CAE = [1, 2, 3]
+    impresor_pdf = Impresor_PDF()
+    pdf_contenido = impresor_pdf.generar_pdf_(
+        datos_factura,
+        datos_usuario,
+        datos_CAE
+    )
+        
+    Thread(target=delete_file_after_download, args=(destination_path,)).start()
+
+    pdf_io = BytesIO(pdf_contenido[constantes_PDF.pos_contenido_pdf.value])
+
+    return send_file(
+        pdf_io,
+        mimetype='application/pdf',
+        as_attachment=True,
+        download_name=f"{datos_CAE[constantes_CAE.CAE.value]}.pdf"
+    )
 
 # GENERA EL ARCHIVO DE LA LLAVE PRIVADA Y LO DESCARGA
 @app.route('/hacer_llave', methods=['POST'])
@@ -508,6 +682,12 @@ def save_configuracion_inicial():
 
     if session.get('CUIT') == None:
         session['CUIT'] = request.form['CUIT']
+
+    if session.get('Nombre') == None:
+        session['Nombre'] = request.form['nombre_apellido']
+
+    if session.get('Empresa') == None:
+        session['Empresa'] = request.form['nombre_empresa']
     
     output_file_name = constantes_.excel_name(config[1])
     copy_path = constantes_.get_copy_path(output_file_name)
@@ -523,7 +703,7 @@ def save_configuracion_inicial():
 
 #FUNCIONES DE MANEJO DE DATOS CERRAR / VOLVER A ABRIR SESION
 def eliminar_archivo():
-    time.sleep(5)
+    time.sleep(constantes_de_flask.sleep_time+3)
     os.remove('session_data.json')
 
 def default_serializer(obj):
@@ -533,12 +713,6 @@ def default_serializer(obj):
 
 @app.route('/borrar_sesion', methods=['POST'])
 def borrar_sesion():
-    session_data = dict(session)
-    with open('session_data.json', 'w') as file:
-        json.dump(session_data, file, default_serializer)
-
-    response = send_file('session_data.json', as_attachment=True)
-
     session['configuracion_inicial'] = False
     session['Nombre'] = None
     session['Empresa'] = None
@@ -552,12 +726,10 @@ def borrar_sesion():
     session['ticket_creado'] = False
     session['ticket_tiempo_creacion'] = None
 
-    response.set_cookie("cookies_aceptadas", "", expires=0)
+    flash(constantes_.datos_borrados_alerta)
+    
+    return render_template('IniciarSesion.html')
 
-    thread = Thread(target=eliminar_archivo)
-    thread.start()
-
-    return response
 
 EXPIRATION_MINUTES = 10
 CLEANUP_INTERVAL_SECONDS = 300  # cada 5 minutos

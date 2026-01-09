@@ -1,8 +1,13 @@
 import json
-from impresor_pdf.strategies.facturaC import Factura_C
-from impresor_pdf.strategies.notaCredito import Nota_Credito
-import urllib.parse
+from impresor_pdf.templates.facturaC import Factura_C
+from impresor_pdf.templates.notaCreditoC import Nota_Credito_C
+from impresor_pdf.templates.facturaA import Factura_A
+from impresor_pdf.templates.notaCreditoA import Nota_Credito_A
+from impresor_pdf.templates.facturaB import Factura_B
+from impresor_pdf.templates.notaCreditoB import Nota_Credito_B
 
+import urllib.parse
+from Constantes.ARCA.constantes_ids_ARCA import ID_Factura, ID_Nota_Credito
 class Impresor_PDF():
 	def __init__(self):
 		self
@@ -48,80 +53,43 @@ class Impresor_PDF():
 		biblioteca_datos_vendedor,
 		datos_CAE
 		):
-		
-		Identificador_factura = datos_CAE[2]
-		nombre_apellido_cliente =  datos_factura["Nombre_y_Apellido_Cliente"]
-		importe_total = datos_factura["Importe_Total"]
-		producto_servicio = datos_factura["items"]
-		nombre_facturante = biblioteca_datos_vendedor["Nombre"]
-		cuit_facturante = biblioteca_datos_vendedor["CUIT"]
-		nombre_fantasia_facturante = biblioteca_datos_vendedor["Nombre_Empresa"]
-		punto_venta = biblioteca_datos_vendedor["Punto_de_venta"]
-		razon_social_facturante = biblioteca_datos_vendedor["Razon_Social"]
-		domicilio_comercial_facturante = biblioteca_datos_vendedor["Domicilio"]
-		condicion_iva_facturante = biblioteca_datos_vendedor["Condicion_frente_al_IVA"]
-		ingresos_brutos_facturante = biblioteca_datos_vendedor["Ingresos_Brutos"]
-		fecha_inicio_actividad_facturante = biblioteca_datos_vendedor["Fecha_Inicio"]
-		condicion_venta_cliente = datos_factura["Condicion_de_venta_Cliente"]
-		condicion_iva_cliente = datos_factura["Condicion_frente_al_IVA_Cliente"]
-		cant_de_productos_servicios = len(datos_factura["items"])
-		fecha_limite_factura = datos_factura["Fecha_vencimiento_de_pago"]
-		importe_otros_tributos = datos_factura["Importe_Tributo"]
-		n_cae = datos_CAE[0]
-		fecha_vto_cae = datos_CAE[1]
-		tipo_factura_nota = datos_factura["ID_factura_nota"]
-		fecha_desde = datos_factura["Fecha_servicio_desde"]
-		tipo_documento_cliente = datos_factura["Tipo_Documento"]
-		numero_documento_cliente = datos_factura["Numero_de_documento_del_cliente"]
-		fecha_hasta = datos_factura["Fecha_servicio_hasta"]
-		fecha_emision = datos_factura["fecha_emision"]
 
 		qr_content = self.hacer_JSON(
-			fecha_emision,
-			cuit_facturante,
-			punto_venta,
-			tipo_factura_nota,
-			importe_total,
+			datos_factura["fecha_emision"],
+			biblioteca_datos_vendedor["CUIT"],
+			biblioteca_datos_vendedor["Punto_de_venta"],
+			datos_factura["ID_factura_nota"],
+			datos_factura["Importe_Total"],
 			"PES",
 			1.00,
-			tipo_documento_cliente,
-			numero_documento_cliente,
-			n_cae
+			datos_factura["Tipo_Documento"],
+			datos_factura["Numero_de_documento_del_cliente"],
+			datos_CAE[0]
 			)
 		
-		strategy = None
+		template = None
 		
-		if  tipo_factura_nota == 11:
-			strategy = Factura_C()
-		elif tipo_factura_nota == 13:
-			strategy = Nota_Credito()
-		
-		if strategy == None:
+		if  datos_factura["ID_factura_nota"] == ID_Factura.FACTURA_C.value:
+			template = Factura_C("C", "N 11", "Factura")
+		elif datos_factura["ID_factura_nota"] == ID_Nota_Credito.NOTA_C.value:
+			template = Nota_Credito_C("C", "N 13", "Nota de Crédito")
+		elif datos_factura["ID_factura_nota"] == ID_Factura.FACTURA_A.value:
+			template = Factura_A("A", "N 1", "Factura")
+		elif datos_factura["ID_factura_nota"] == ID_Nota_Credito.NOTA_A.value:
+			template = Nota_Credito_A("A", "N 3", "Nota de Crédito")
+		elif datos_factura["ID_factura_nota"] == ID_Factura.FACTURA_B.value:
+			template = Factura_B("B", "N 6", "Factura")
+		elif datos_factura["ID_factura_nota"] == ID_Nota_Credito.NOTA_B.value:
+			template = Nota_Credito_B("B", "N 8", "Nota de Crédito")
+
+
+		if template == None:
 			return
 		
-		return strategy.generar_pdf(
-			Identificador_factura,
-			nombre_apellido_cliente,
-			importe_total,
-			producto_servicio,
-			nombre_facturante,
-			cuit_facturante,
-			nombre_fantasia_facturante,
-			punto_venta,
-			razon_social_facturante,
-			domicilio_comercial_facturante,
-			condicion_iva_facturante,
-			ingresos_brutos_facturante,
-			fecha_inicio_actividad_facturante,
-			condicion_venta_cliente,
-			condicion_iva_cliente,
-			cant_de_productos_servicios,
-			fecha_limite_factura,
-			importe_otros_tributos,
-			n_cae,
-			fecha_vto_cae,
-			fecha_desde,
-			fecha_hasta,
+		return template.generar_pdf(
+			datos_factura,
+			biblioteca_datos_vendedor,
+			datos_CAE,
 			qr_content,
-			fecha_emision
+			f'temp_{biblioteca_datos_vendedor["CUIT"]}_qr.png' #qr filename
 			)

@@ -2,6 +2,7 @@ import importlib
 import datetime
 from interfaz_wsaa import InterfazWSAA
 from Exceptions.Exceptions_Custom.exception_error_factura import ErrorFacturacion
+from Constantes.Facturacion.constantes_wsfev1 import constantes_IVA_ID
 
 wsfev1_lib = importlib.import_module("PYAFIPWS.pyafipws.wsfev1")
 
@@ -243,6 +244,22 @@ class InterfazWSFEv1():
             condicion_iva_receptor_id=datos_factura["ID_IVA_cliente"]
         )
 
+        if(datos_factura["Importe_IVA_10.5%"] > 0):
+            #IVA 10.5%
+            wsfev1.AgregarIva(
+                constantes_IVA_ID.Diez_coma_cinco_porciento.value, #ID IVA
+                datos_factura["Base_Imponible_sin_10.5%"], #Base impositiva
+                datos_factura["Importe_IVA_10.5%"] #Importe
+            )
+
+        if(datos_factura["Importe_IVA_21%"] > 0):
+            #IVA 21%
+            wsfev1.AgregarIva(
+                constantes_IVA_ID.Veintiun_porciento.value, #ID IVA
+                datos_factura["Base_Imponible_sin_21%"], #Base impositiva
+                datos_factura["Importe_IVA_21%"] #Importe
+            )
+
         if tipo in (2, 3, 7, 8, 12, 13, 202, 203, 208, 213):
             self.hacer_nota_credito(
                 datos_factura["nro_cbte_anular"],
@@ -266,7 +283,7 @@ class InterfazWSFEv1():
         datosCAE=[wsfev1.CAE, wsfev1.Vencimiento, int(wsfev1.CompUltimoAutorizado(tipo, datos_basicos_vendedor["Punto_de_venta"]))]
         
         if datosCAE[0] == '':
-            raise ErrorFacturacion(wsfev1.Obs)
+            raise ErrorFacturacion(str(wsfev1.Obs))
 
         return datosCAE
 

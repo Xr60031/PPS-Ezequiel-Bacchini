@@ -4,54 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facturar único</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=League+Spartan:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" href="{{ url_for('static', filename='Facturador_Logo.jpg') }}" type="image/x-icon">
     <script src="/static/js/scriptGlobal.js"></script>
-    <script src="/static/js/pantalla_procesamiento_intermedio.js"></script>
+    <script src="/static/js/facturador/pantalla_procesamiento_intermedio.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <div class="pantalla_exito pantalla_exito-hidden">
-    <h2 id="mensaje_exito">Facturado Exitosamente</h2>
+    <h2 id="mensaje_exito" class="confirmacion-accion">Facturado Exitosamente</h2>
     <form id="formulario_exito" action="/menu_facturador" method="POST" onsubmit="mostrarLoader(event)" style="display: none;">
         <h5 style="display: inline-block;">
-            <button type="submit" name="accion" value="FM" class="enlaceAD boxAD alternativo animado">Aceptar</button>
+            <button type="submit" name="accion" value="FM" class="boton">Aceptar</button>
         </h5>
     </form>
 </div>
 <body>
+    <!--Seccion de enlaces y acceso directo-->
     <section class="AccesoDirecto">
-        <div class="container barranav">
-            <nav class="navbar navbar-expand-lg fixed-top" id="barraDeNavegacion">
-                <div class="container-fluid">
-                        <a class="navbar-brand" href="{{url_for('index_')}}"><h6 class="enlaceAD boxAD">Menú Principal</h6></a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="line"></span> 
-                            <span class="line"></span> 
-                            <span class="line"></span>
-                        </button>
-                        <div class="collapse navbar-collapse justify-content-center" id="navbarNav"> 
-                            <ul class="navbar-nav"> 
-                                <li class="nav-item"> <a class="nav-link" href="{{url_for('menu_facturador_')}}"><h6 class="enlaceAD boxAD">Menu Facturación</h6></a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{url_for('documentacion')}}" target="_blank"><h6 class="enlaceAD boxAD">Documentación y Tutoriales</h6></a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{url_for('sis_info')}}" target="_blank"><h6 class="enlaceAD boxAD">Información sobre el sistema</h6></a></li>
-                                <li class="nav-item"> <a class="nav-link" href="{{url_for('ayuda')}}" target="_blank"><h6 class="enlaceAD boxAD">Ayuda</h6></a></li>
+        <div class="container navbar">
+            <nav class="navbar-expand-lg fixed-top" id="barraDeNavegacion">
+				<div class="container-fluid">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarNav"> 
+                        <ul class="navbar-nav"> 
+                                <li class="nav-item"> <a class="nav-link" href="{{url_for('menu_facturador_')}}"><h6 class="barraNavegacion">Menu Facturación</h6></a></li>
+								<li class="nav-item"> <a class="nav-link" href="{{url_for('documentacion')}}" target="_blank"><h6 class="barraNavegacion">Tutoriales</h6></a></li>
+								<li class="nav-item"> <a class="nav-link" href="{{url_for('sis_info')}}" target="_blank"><h6 class="barraNavegacion">Sobre el sistema</h6></a></li>
+								<li class="nav-item"> <a class="nav-link" href="{{url_for('ayuda')}}" target="_blank"><h6 class="barraNavegacion">Ayuda</h6></a></li>
+                                <li class="nav-item"> <button id="toggleTheme" class="nav-link"><h6 class="barraNavegacion">Cambiar tema</h6></button></li>
                             </ul>
-                        </div>
-                </div>
+						</div>
+				</div>
             </nav>
         </div>
     </section>
     <!---->
-    <div class="marco_div">
+    <div class="marco_div texto_default">
         <h1>Facturador Único</h1>
         <h3>¿Como Facturar usando el facturador único?</h3>
         <p>Seguí el tutorial a continuación para aprender a facturar utilizando el facturador único</p>
         <div class="responsive-video">
             <iframe src="https://www.youtube.com/embed/dpCA2G5iOqQ" title="Facturacion Unica" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
-        <h4>¿Necesitas agregar, modificar o borrar un producto o servicio en tu plantilla? Haz click en "Menú Items" para hacerlo</h4>
-        <h5 style="display: flex; justify-content: center;"><a href="{{url_for('menu_items')}}" rel="noopener noreferrer" class="enlaceAD boxAD alternativo animado">Menú Items</a></h5>
+        <h4>¿Necesitas agregar, modificar o borrar un producto o servicio en tu plantilla? Haz click en "Menú Items"</h4>
+        <h5 style="display: flex; justify-content: center;"><a href="{{url_for('menu_items')}}" rel="noopener noreferrer" class="boton">Menú Items</a></h5>
+        
+        <h4>¿ Necesitas agendar clientes que compran con frecuencia? Hace click en "Clientes Frecuentes"</h4>
+        <h5 style="display: flex; justify-content: center;"><a href="{{url_for('menu_items')}}" rel="noopener noreferrer" class="boton">Clientes Frecuentes</a></h5>
         <br>
 
         <h2>Ingrese los datos a continuación para luego generar la factura:</h2>
@@ -60,18 +63,62 @@
             <input type="hidden" name="modo_facturacion" value="Factura Unico">
 
             <br>
-            <p>Un número con el que puedas identificar la factura, no puede ser igual a un identificador que ya hayas puesto</p>
+            <p>Un número que te deje identificar la factura (Último número que usaste: {{ ultimo_numero }})</p>
             <p>Ingrese el identificador de la factura <input type="number" name="id_factura" placeholder="Número ID de la factura:" required></p>
-
             <br>
 
             <label for="tipo_fac">Tipo de factura:</label>
-            <select name="tipo_factura" id="tipo_factura" required><option value="Factura C">Factura C (Factura que emiten los monotributistas y excentos en IVA cuando venden un producto o servicio. No incluye IVA, porque los estos no lo cobran.)</option></select>
-            
+            <select name="tipo_factura" id="tipo_factura" required>
+                <option value="Factura C">Factura C; Factura que emiten los <b>Monotributistas</b>A cualquier tipo de cliente.</option>
+                <option value="Factura A">Factura A; Factura que emiten los <b>Responsables Inscriptos</b> A otros Responsables Inscriptos.</option>
+                <option value="Factura B">Factura B; Factura que emiten los <b>Responsables Inscriptos</b> A Monotributistas, Consumidores Finales, Exentos o sujetos no inscriptos en IVA.</option>
+            </select>
             <br><br>
 
-            <p>Ingrese el nombre y apellido del cliente<input type="text" name="nombre_apellido_cliente" placeholder="Nombre y apellido del cliente:" required></p>
-            
+            <h3>Clientes frecuentes</h3>
+            <h4>Si seleccionas un cliente, el sistema se encarga de rellenar automaticamente los datos del cliente para vos para esta factura</h4>
+            <table class="tabla-centrada">
+                <thead>
+                    <tr>
+                        <th>Seleccionado</th>
+                        <th>Nombre y Apellido del Cliente</th>
+                        <th>Tipo de Documento</th>
+                        <th>Número de Documento del Cliente</th>
+                        <th>Número de Teléfono</th>
+                        <th>Provincia</th>
+                        <th>Localidad</th>
+                        <th>Domicilio</th>
+                        <th>Condición IVA Cliente</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for fila in clientes %}
+                    <tr>
+                        <td>
+                            <input type="radio" name="selected_client" class="cliente-radio"
+                            data-nombre="{{ fila[0] if fila[0] is not none else '' }}"
+                            data-tipo-doc="{{ fila[1] if fila[1] is not none else '' }}"
+                            data-num-doc="{{ fila[2] if fila[2] is not none else '' }}"
+                            data-telefono="{{ fila[3] if fila[3] is not none else '' }}"
+                            data-provincia="{{ fila[4] if fila[4] is not none else '' }}"
+                            data-localidad="{{ fila[5] if fila[5] is not none else '' }}"
+                            data-domicilio="{{ fila[6] if fila[6] is not none else '' }}"
+                            data-condicion-iva="{{ fila[7] if fila[7] is not none else '' }}">
+
+                        </td>
+                        <td>{{ fila[0] if fila[0] is not none else "" }}</td>
+                        <td>{{ fila[1] if fila[1] is not none else "" }}</td>
+                        <td>{{ fila[2] if fila[2] is not none else "" }}</td>
+                        <td>{{ fila[3] if fila[3] is not none else "" }}</td>
+                        <td>{{ fila[4] if fila[4] is not none else "" }}</td>
+                        <td>{{ fila[5] if fila[5] is not none else "" }}</td>
+                        <td>{{ fila[6] if fila[6] is not none else "" }}</td>
+                        <td>{{ fila[7] if fila[7] is not none else "" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
             <br>
 
             <label for="tipo_doc">Tipo Documento:</label>
@@ -79,14 +126,24 @@
                 <option value="CONSUMIDOR FINAL">Consumidor Final (No requiere ingresar número de documento)</option>
                 <option value="CUIT">CUIT </option>
                 <option value="DNI">DNI </option>
-                <option value="CDI">CDI (Es un número que se le asigna a los extranjeros que no tienen DNI o Cédula de Identidad argentina, pero necesitan realizar trámites fiscales en Argentina.)</option>
+                <option value="CDI">CDI (Es un número que se le asigna a los extranjeros que no tienen DNI, pero necesitan realizar trámites fiscales en Argentina.)</option>
                 <option value="CI EXTRANJERA">CI EXTRANJERA (Es un documento de identidad oficial para los extranjeros que viven en Argentina)</option>
                 <option value="PASAPORTE">PASAPORTE </option>
             </select>
             
             <br><br>
+
+            <p id="texto_nro_doc">Ingrese el número de documento del cliente <input type="number" id="numero_doc_cliente" name="numero_doc_cliente" placeholder="Número de documento:" value="00000000"></p>
+
+            <p id="texto_nombre_apellido">Ingrese el nombre y apellido del cliente <input type="text" id="nombre_apellido_cliente" name="nombre_apellido_cliente" placeholder="Nombre y apellido:" value="CONSUMIDOR FINAL"></p>
+
+            <p id="texto_nro_telefono">Ingrese el número de teléfono del cliente <input type="number" name="nro_telefono" id="numero_telefono" placeholder="Número de telefono:"></p>
             
-            <p id="nro_doc">Ingrese el número de documento del cliente <input type="number" id="numero_doc_cliente" name="numero_doc_cliente" placeholder="Número de documento:"></p>
+            <p id="texto_provincia">Ingrese la provincia del cliente <input type="text" name="provincia" id="provincia" placeholder="Provincia:"></p>
+
+            <p id="texto_localidad">Ingrese la localidad del cliente <input type="text" name="localidad" id="localidad" placeholder="Localidad:"></p>
+
+            <p id="texto_domicilio">Ingrese el domicilio del cliente <input type="text" name="domicilio" id="domicilio" placeholder="Domicilio:" ></p>
 
             <p>El concepto de venta son las condiciones del pago</p>
             <label for="concepto_venta">Concepto de venta cliente:</label>
@@ -109,6 +166,7 @@
                 <option value="Consumidor Final">Consumidor Final (Persona que compra para uso personal)</option>
                 <option value="Monotributista">Monotributista (Pequeño contribuyente que tributa un monto fijo mensual)</option>
                 <option value="Excento">Exento (Sujeto que no tributa IVA por su actividad)</option>
+                <option value="Responsable Inscripto">Responsable Inscripto (Sujeto que tributa IVA y debe discriminarlo en las facturas)</option>
             </select>
             
             <br><br>
@@ -211,124 +269,13 @@
             
             <div style="display: flex; justify-content: center;" id="inputs-container"></div>
 
-            <h5 style="display: flex; justify-content: center;"><input type="submit" value="Hacer Factura" class="enlaceAD boxAD alternativo animado"></h5>
+            <h5 style="display: flex; justify-content: center;"><input type="submit" value="Hacer Factura" class="boton"></h5>
         
             <input type="hidden" name="items_json" id="items-json">
         </form> 
     </div>
-    <script>
-        document.querySelectorAll('.product-checkbox').forEach(checkbox => {
-            const row = checkbox.closest('tr');
-            const quantityCell = row.querySelector('.quantity-cell');
-            const discountCell = row.querySelector('.discount-cell');
-            const quantityInput = row.querySelector('.quantity-input');
-            const discountInput = row.querySelector('.discount-input');
-
-            function updateValue() {
-                const data = {
-                codigo: checkbox.dataset.codigo,
-                nombre: checkbox.dataset.nombre,
-                descripcion_producto: checkbox.dataset.descripcion,
-                precio_unitario: parseFloat(checkbox.dataset.precio_unitario),
-                impuesto_adicional: (checkbox.dataset.impuesto_adicional && checkbox.dataset.impuesto_adicional !== 'None') ? checkbox.dataset.impuesto_adicional : null,
-                descripcion_impuesto_adicional: checkbox.dataset.descripcion_impuesto_adicional,
-                alicuota: (checkbox.dataset.alicuota && checkbox.dataset.alicuota !== 'None') ? checkbox.dataset.alicuota : null,
-                cantidad: parseInt(quantityInput.value) || 1,
-                porcentaje_bonificado: parseFloat(discountInput.value) || 0
-                };
-                checkbox.value = JSON.stringify(data);
-            }
-
-            checkbox.addEventListener('change', () => {
-                if (checkbox.checked) {
-                quantityCell.style.display = 'table-cell';
-                discountCell.style.display = 'table-cell';
-                } else {
-                quantityCell.style.display = 'none';
-                discountCell.style.display = 'none';
-                }
-                updateValue();
-            });
-
-            quantityInput.addEventListener('input', updateValue);
-            discountInput.addEventListener('input', updateValue);
-
-            if (checkbox.checked) {
-                quantityCell.style.display = 'table-cell';
-                discountCell.style.display = 'table-cell';
-            } else {
-                quantityCell.style.display = 'none';
-                discountCell.style.display = 'none';
-            }
-            updateValue();
-        });
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const tipo_doc = document.getElementById("tipo_doc");
-            const nro_doc = document.getElementById("nro_doc");
-            const nro_doc_content = document.getElementById("numero_doc_cliente");
-
-            function toggleDocFields() {
-                const valor = tipo_doc.value;
-                const mostrar = (valor !== "CONSUMIDOR FINAL");
-
-                nro_doc.style.display = mostrar ? "block" : "none";
-                nro_doc_content.required = mostrar;
-            }
-
-            tipo_doc.addEventListener("change", toggleDocFields);
-
-            toggleDocFields();
-        });
-    </script>
-    <script>
-        function filterItems() {
-            let searchQuery = document.getElementById("search-box").value.toLowerCase();
-            let rows = document.querySelectorAll("#items-container tbody tr");
-
-            rows.forEach(row => {
-                let input = row.querySelector("input.product-checkbox");
-                if (input) {
-                    let name = input.getAttribute("data-nombre") ? input.getAttribute("data-nombre").toLowerCase() : "";
-                    if (name.includes(searchQuery)) {
-                        row.style.display = "table-row";
-                    } else {
-                        row.style.display = "none";
-                    }
-                }
-            });
-        }
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const conceptoSelect = document.getElementById("concepto");
-
-            const fechaDesdeCont = document.getElementById("campo_fecha_desde");
-            const fechaHastaCont = document.getElementById("campo_fecha_hasta");
-            const fechaVtoCont = document.getElementById("campo_fecha_vto_pago");
-
-            const fechaDesde = document.getElementById("fecha_desde");
-            const fechaHasta = document.getElementById("fecha_hasta");
-            const fechaVto = document.getElementById("fecha_vto_pago");
-
-            function toggleFechaFields() {
-            const valor = conceptoSelect.value;
-            const mostrar = (valor === "SERVICIOS" || valor === "PRODUCTOS Y SERVICIOS");
-
-            fechaDesdeCont.style.display = mostrar ? "block" : "none";
-            fechaHastaCont.style.display = mostrar ? "block" : "none";
-            fechaVtoCont.style.display = mostrar ? "block" : "none";
-
-            fechaDesde.required = mostrar;
-            fechaHasta.required = mostrar;
-            fechaVto.required = mostrar;
-            }
-
-            conceptoSelect.addEventListener("change", toggleFechaFields);
-
-            toggleFechaFields();
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/filtro/filter.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/facturador/facturador_unico.js') }}" defer></script>
+    <script src="{{ url_for('static', filename='js/visual/cambiar_tema.js') }}"></script>
 </body>
 </html>

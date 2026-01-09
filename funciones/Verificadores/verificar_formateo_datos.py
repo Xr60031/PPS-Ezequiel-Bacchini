@@ -7,9 +7,13 @@ class Verificador_Formateo_Datos_Facturacion():
         return(
             isinstance(datos_factura["Identificador_Factura"],int) and
             isinstance(datos_factura["tipo_factura_nota"],str) and
-            isinstance(datos_factura["Nombre_y_Apellido_Cliente"],str) and
             isinstance(datos_factura["Tipo_Documento"],str) and
             isinstance(datos_factura["Numero_de_documento_del_cliente"],int) and
+            isinstance(datos_factura["Nombre_y_Apellido_Cliente"],str) and
+            isinstance(datos_factura["Telefono"],(str, int)) and
+            isinstance(datos_factura["Localidad"],str) and
+            isinstance(datos_factura["Provincia"],str) and
+            isinstance(datos_factura["Direccion"],str) and
             isinstance(datos_factura["Condicion_de_venta_Cliente"],str) and
             isinstance(datos_factura["Condicion_frente_al_IVA_Cliente"],str) and
             isinstance(datos_factura["Concepto"],str) and
