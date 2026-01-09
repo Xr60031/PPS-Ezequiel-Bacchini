@@ -4,53 +4,53 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facturador HelPy</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=League+Spartan:wght@400;700&display=swap" rel="stylesheet">
     <link rel="icon" href="{{ url_for('static', filename='Facturador_Logo.jpg') }}" type="image/x-icon">
     <script src="/static/js/scriptGlobal.js"></script>
     <script src="/static/js/crear_cuenta.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <!--Seccion de enlaces y acceso directo-->
     <section class="AccesoDirecto">
-        <div class="container barranav">
-            <nav class="navbar navbar-expand-lg fixed-top" id="barraDeNavegacion">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="{{url_for('index')}}"><h6 class="enlaceAD boxAD">Menú Principal</h6></a>
+        <div class="container navbar">
+            <nav class="navbar-expand-lg fixed-top" id="barraDeNavegacion">
+				<div class="container-fluid">
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="line"></span> 
-                        <span class="line"></span> 
-                        <span class="line"></span>
+                        <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse justify-content-center" id="navbarNav"> 
                         <ul class="navbar-nav"> 
-                            <li class="nav-item"> <a class="nav-link" href="{{url_for('documentacion')}}" target="_blank"><h6 class="enlaceAD boxAD">Documentación y Tutoriales</h6></a></li>
-                            <li class="nav-item"> <a class="nav-link" href="{{url_for('sis_info')}}" target="_blank"><h6 class="enlaceAD boxAD">Información sobre el sistema</h6></a></li>
-                            <li class="nav-item"> <a class="nav-link" href="{{url_for('ayuda')}}" target="_blank"><h6 class="enlaceAD boxAD">Ayuda</h6></a></li>
-                        </ul>
-                    </div>
-                </div>
+                                <li class="nav-item"> <a class="nav-link" href="{{ url_for('index') }}"><h6 class="barraNavegacion">Menú Principal</h6></a></li>
+								<li class="nav-item"> <a class="nav-link" href="{{url_for('documentacion')}}" target="_blank"><h6 class="barraNavegacion">Tutoriales</h6></a></li>
+								<li class="nav-item"> <a class="nav-link" href="{{url_for('sis_info')}}" target="_blank"><h6 class="barraNavegacion">Sobre el sistema</h6></a></li>
+								<li class="nav-item"> <a class="nav-link" href="{{url_for('ayuda')}}" target="_blank"><h6 class="barraNavegacion">Ayuda</h6></a></li>
+                                <li class="nav-item"> <button id="toggleTheme" class="nav-link"><h6 class="barraNavegacion">Cambiar tema</h6></button></li>
+                            </ul>
+						</div>
+				</div>
             </nav>
         </div>
     </section>
     <!---->
-    <div class="marco_div">
-        <h2><u>Comenzando a Facturar</u></h2>
+    <div class="marco_div texto_default">
+        <h1><u>Comenzando a Facturar como Monotributista</u></h1>
         <!-- Mostrar el mensaje flash con el botón -->
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div id="flash-message" style="background-color: #1a1a1a;  border: 1px solid red; padding: 10px; margin: 10px; display: inline-block;">
-                    <ul>
-                        {% for message in messages %}
-                            <li><h5>{{ message }}</h5></li>
-                        {% endfor %}
-                    </ul>
-                    <h5 style="display: flex; justify-content: center;"><button onclick="deleteMessage()" class="enlaceAD boxAD alternativo animado">Eliminar mensaje</button></h5>
-                </div>
-            {% endif %}
-        {% endwith %}
-        <br>
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div id="flash-message" class="flashalert">
+                        <ul>
+                            {% for message in messages %}
+                                <li><h5 class="flashmessage">{{ message }}</h5></li>
+                            {% endfor %}
+                        </ul>
+                        <h5 style="display: flex; justify-content: center;"><button onclick="deleteMessage()" class="boton flash">Eliminar mensaje</button></h5>
+                    </div>
+                {% endif %}
+            {% endwith %}
+            <br>
         <!---->
         <h3><u>Paso 1:</u> Verificar tu cuenta en AFIP/ARCA</h3>
         <h4>Antes de facturar, asegurate de que tu cuenta en AFIP/ARCA esté activa.</h4>
@@ -69,7 +69,7 @@
             <iframe src="https://www.youtube.com/embed/6zMctDRGgv8?si=SzoUrXbqUOlpQrnm" title="Llave y Pedido Certificado" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
         <h4>Para usar el sistema de facturación, primero necesitás:</h4>
-        <ul style="display: flex; justify-content: center; flex-direction: column; align-items: center; list-style-position: inside;">
+        <ul style="display: flex; justify-content: center; flex-direction: column; align-items: left; list-style-position: inside;">
             <li><p>• Generar tu llave privada</p></li>
             <li><p>• Solicitar un certificado</p></li>
         </ul>
@@ -87,7 +87,7 @@
             <p>Ingresá tu CUIT (sin espacios ni guiones) para descargar el archivo que tiene tu llave propia.</p>
             <input type="text" name="CUIT" placeholder="Tu CUIT:" required>
             <br><br>
-            <h5 style="display: flex; justify-content: center;"><button type="submit" value="Crear Llave" class="enlaceAD boxAD alternativo animado">Crear Llave</h5>
+            <h5 style="display: flex; justify-content: center;"><button type="submit" value="Crear Llave" class="boton">Crear Llave</h5>
         </form>
         <br>
         <!-- Formulario para generar el pedido de certificado -->
@@ -99,7 +99,7 @@
             
             <input type="text" name="Empresa" placeholder="El nombre de tu Empresa" required>
             <br><br>
-            <h5 style="display: flex; justify-content: center;"><button type="submit" class="enlaceAD boxAD alternativo animado">Crear Pedido Certificado</button></h5>
+            <h5 style="display: flex; justify-content: center;"><button type="submit" class="boton">Crear Pedido Certificado</button></h5>
         </form>
         <br>
         <h3><u>Paso 3:</u> Autorizar tu punto de venta</h3>
@@ -136,7 +136,8 @@
         <!--Aca habría un tutorial para la genraciòn del certificado-->
         <p>Ir al sitio de AFIP/ARCA: <a href="https://www.afip.gob.ar/" target="_blank" rel="noopener noreferrer">Hacé clic aquí</a></p>
         <!--Botón para ir a la sección de facturar-->
-        <h5 style="display: flex; justify-content: center;"><a href="{{url_for('inicio_sesion')}}" rel="noopener noreferrer" class="enlaceAD boxAD alternativo animado">Ir a iniciar sesion</a></h5>
+        <h5 style="display: flex; justify-content: center;"><a href="{{url_for('inicio_sesion')}}" rel="noopener noreferrer" class="boton">Ir a iniciar sesion</a></h5>
     </div>
+    <script src="{{ url_for('static', filename='js/visual/cambiar_tema.js') }}"></script>
 </body>
 </html>
