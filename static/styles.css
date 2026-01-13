@@ -543,3 +543,14 @@ ul {
   display: none; 
   border: 2px solid #4A90E2;
 }
+
+.confirmacion-accion {
+  color: #ffffff;
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-align: center;
+  text-shadow: 
+    0 0 5px rgba(0,0,0,0.5),
+    0 0 10px rgba(0,0,0,0.3);
+}

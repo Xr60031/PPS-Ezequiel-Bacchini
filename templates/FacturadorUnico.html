@@ -64,7 +64,7 @@
 
             <br>
             <p>Un número que te deje identificar la factura (Último número que usaste: {{ ultimo_numero }})</p>
-            <p>Ingrese el identificador de la factura <input type="number" name="id_factura" placeholder="Número ID de la factura:" required></p>
+            <p>Ingrese el identificador de la factura <input type="number" name="id_factura" placeholder="Número ID de la factura:" required min="{{ ultimo_numero + 1 }}"></p>
             <br>
 
             <label for="tipo_fac">Tipo de factura:</label>

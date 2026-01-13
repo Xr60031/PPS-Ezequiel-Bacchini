@@ -55,12 +55,11 @@
                     </h5>
                 </div>
             <div class="marco_div content-item" id="content-1">
-                <form action="/rearmar_pdf" method="POST" style="text-align: center;" onsubmit="mostrarExito(event)">
+                <form action="/rearmar_pdf" method="POST" style="text-align: center;" onsubmit="mostrarExito1(event)">
                     <div class="texto_default">
                         <label for="search-box">Buscar Identificador Factura:</label>
                         <input type="text" id="search-box-1" oninput="filterItems(1)" placeholder="ID Factura">
                         <p>(Si no ves uno de estos campos en tus productos o servicios significa que no lo tenía al momento de realizar la facturación/nota)</p>
-                        <p>(Cada fila que no tiene datos como el tipo de factura solo contiene datos de Productos o Servicios y el identificador de la factura)</p>
                     </div>
                     <div style="overflow-x: auto;">
                         <div id="items-container-1">
@@ -70,9 +69,13 @@
                                         <th>Descargar PDF</th>
                                         <th>Identificador Factura</th>
                                         <th>Tipo Factura/Nota</th>
-                                        <th>Nombre y apellido cliente</th>
                                         <th>Tipo de Documento</th>
                                         <th>Numero de documento cliente</th>
+                                        <th>Nombre y apellido cliente</th>
+                                        <th>Telefono</th>
+                                        <th>Provincia</th>
+                                        <th>Localidad</th>
+                                        <th>Domicilio</th>
                                         <th>Condicion de venta cliente</th>
                                         <th>Condicion IVA cliente</th>
                                         <th>Concepto</th>
@@ -91,7 +94,7 @@
                                         <th>Importe Neto</th>
                                         <th>Importe Total</th>
                                         <th>Importe Tributo</th>
-                                        <th>Descripcion</th>
+                                        <th>Descripcion Impuesto adicional</th>
                                         <th>Alicuota Impuesto Adicional</th>
                                         <th>Nombre Apellido Vendedor</th>
                                         <th>CUIT Vendedor</th>
@@ -108,8 +111,12 @@
                                         <th>CAE NÚMERO</th>
                                         <th>CAE FECHA VENCIMIENTO</th>
                                         <th>Número de comprobante</th>
-                                        <th>Alicuota 21%</th>
-                                        <th>Alicuota 10.5%</th>
+                                        <th>Base 21%</th>
+                                        <th>Base 10.5%</th>
+                                        <th>Base 0%</th>
+                                        <th>IVA 21%</th>
+                                        <th>IVA 10.5%</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -139,12 +146,12 @@
                 </form>
             </div>
             <div class="content-item" id="content-2">
-                <form action="/facturacion" method="POST" style="text-align: center;" onsubmit="mostrarExito(event)">
+                <form action="/facturacion" method="POST" style="text-align: center;" onsubmit="mostrarExito2(event)">
                     <div class="texto_default">
                         <label for="search-box">Buscar Identificador Factura:</label>
                         <input type="text" id="search-box-2" oninput="filterItems(2)" placeholder="ID Factura">
                         <p>(Si no ves uno de estos campos en tus productos o servicios significa que no lo tenía al momento de realizar la facturación/nota)</p>
-                        <p>(Cada fila que no tiene datos como el tipo de factura solo contiene datos de Productos o Servicios y el identificador de la factura)</p>
+                        <p>No se puden hacer Notas de Credito pasados los 15 dias de la emision de la factura</p>
                     </div>
 
                     <div style="overflow-x: auto;">
@@ -156,9 +163,13 @@
                                         <th>Hacer Nota de Crédito</th>
                                         <th>Identificador Factura</th>
                                         <th>Tipo Factura/Nota</th>
-                                        <th>Nombre y apellido cliente</th>
                                         <th>Tipo de Documento</th>
                                         <th>Numero de documento cliente</th>
+                                        <th>Nombre y apellido cliente</th>
+                                        <th>Telefono</th>
+                                        <th>Provincia</th>
+                                        <th>Localidad</th>
+                                        <th>Domicilio</th>
                                         <th>Condicion de venta cliente</th>
                                         <th>Condicion IVA cliente</th>
                                         <th>Concepto</th>
@@ -177,7 +188,7 @@
                                         <th>Importe Neto</th>
                                         <th>Importe Total</th>
                                         <th>Importe Tributo</th>
-                                        <th>Descripcion</th>
+                                        <th>Descripcion Impuesto adicional</th>
                                         <th>Alicuota Impuesto Adicional</th>
                                         <th>Nombre Apellido Vendedor</th>
                                         <th>CUIT Vendedor</th>
@@ -194,8 +205,11 @@
                                         <th>CAE NÚMERO</th>
                                         <th>CAE FECHA VENCIMIENTO</th>
                                         <th>Número de comprobante</th>
-                                        <th>Alicuota 21%</th>
-                                        <th>Alicuota 10.5%</th>
+                                        <th>Base 21%</th>
+                                        <th>Base 10.5%</th>
+                                        <th>Base 0%</th>
+                                        <th>IVA 21%</th>
+                                        <th>IVA 10.5%</th>
                                     </tr>
                                 </thead>
                                 <tbody id="items-container-facturas">

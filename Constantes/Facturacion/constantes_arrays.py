@@ -81,59 +81,6 @@ class constantes_armador_historial(Enum):
     columna_id_excel = 1
     #Columna de Producto/Servicio de factura en el Excel
     columna_item = PRODUCTOS_SERVICIOS
-    
-    #Cantidad de columnas de datos que posee la hoja de historial
-    cantidad_columnas_datos = 41
-
-class constantes_nota_credito(Enum):
-    IDENTIFICADOR_FACTURA = 0
-    TIPO_FACTURA_NOTA = auto()
-    TIPO_DE_DOCUMENTO = auto()
-    NUMERO_DE_DOCUMENTO_CLIENTE = auto()
-    NOMBRE_Y_APELLIDO_CLIENTE = auto()
-    TELEFONO = auto()
-    PROVINCIA = auto()
-    LOCALIDAD = auto()
-    DOMICILIO = auto()
-    CONDICION_DE_VENTA_CLIENTE = auto()
-    CONDICION_IVA_CLIENTE = auto()
-    CONCEPTO = auto()
-    FECHA_SERVICIO_DESDE = auto()
-    FECHA_SERVICIO_HASTA = auto()
-    FECHA_VENCIMIENTO_DE_PAGO = auto()
-    PRODUCTO_SERVICIO = auto()
-    PORCENTAJE_BONIFICADO = auto()
-    CANTIDAD = auto()
-    CODIGO_PRODUCTO = auto()
-    DESCRIPCION = auto()
-    PRECIO_UNITARIO = auto()
-    IMPUESTO_ADICIONAL = auto()
-    IMPORTE_BONIFICADO = auto()
-    SUBTOTAL = auto()
-    IMPORTE_NETO = auto()
-    IMPORTE_TOTAL = auto()
-    IMPORTE_TRIBUTO = auto()
-    DESCRIPCION_IMPUESTO_ADICIONAL = auto()
-    ALICUOTA_IMPUESTO_ADICIONAL = auto()
-    NOMBRE_APELLIDO_VENDEDOR = auto()
-    CUIT_VENDEDOR = auto()
-    NOMBRE_EMPRESA = auto()
-    PUNTO_DE_VENTA = auto()
-    RAZON_SOCIAL = auto()
-    DOMICILIO_EMPRESA = auto()
-    CONDICION_FRENTE_AL_IVA = auto()
-    INGRESOS_BRUTOS = auto()
-    FECHA_INICIO = auto()
-    IMPUESTO_ADICIONAL_GLOBAL = auto()
-    DESCRIPCION_IMPUESTO_ADICIONAL_GLOBAL = auto()
-    ALICUOTA_GLOBAL = auto()
-    CAE_NUMERO = auto()
-    CAE_FECHA_VENCIMIENTO = auto()
-    NUMERO_DE_COMPROBANTE = auto()
-    ALICUOTA_21 = auto()
-    ALICUOTA_10_5 = auto()
-
-
 
 class constantes_array_datos_factura(Enum):
     pos_ID = 0
@@ -216,6 +163,7 @@ class constantes_factura(Enum):
     importe_iva_21 = auto()
     base_imponible_sin_105 = auto()
     importe_iva_105 = auto()
+    base_imponible_0 = auto()
 
 class constantes_array_datos_factura_FM(Enum):
     #pos_tributos array position in datos_factura

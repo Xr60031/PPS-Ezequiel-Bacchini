@@ -23,6 +23,8 @@ class constantes_posicion_items(Enum):
     #Contiene la cantidad de datos que posee cada item (En donde se usa es -2 al ser cant total items +1 y empezando los arrays en 0)
     cantidad_total_datos_por_item = auto()
 
+    pos_alicuota_auxiliar = auto()
+
 class constantes_posicion_tributos(Enum):
     #ID_tributo array position in tributos
     pos_ID_tributo=0

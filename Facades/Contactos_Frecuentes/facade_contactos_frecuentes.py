@@ -95,7 +95,6 @@ class Facade_Clientes():
         row = clientes.max_row + 1
         column = constantes_genericas_excel.starting_colvar.value
 
-        print(datos)
         i = 0
         while i < constantes_clientes_frecuentes_excel.cantidad_total_variables_cliente.value-1:
             if datos[i] is not None:

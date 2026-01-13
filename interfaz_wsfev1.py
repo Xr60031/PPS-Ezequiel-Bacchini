@@ -207,7 +207,15 @@ class InterfazWSFEv1():
         cbt_desde = cbte_nro
         cbt_hasta = cbte_nro
         imp_tot_conc = "0.00"
-        imp_iva = "0.00"
+        
+        if datos_factura["tipo_factura_nota"]!="Factura C":
+            imp_iva = (
+                float(datos_factura["Importe_IVA_21%"]) +
+                float(datos_factura["Importe_IVA_10.5%"])
+            )
+        else:
+            imp_iva = 0.00
+        
         imp_op_ex = "0.00"
         cancela_misma_moneda_ext='N'
 
@@ -220,6 +228,8 @@ class InterfazWSFEv1():
             fecha_servicio_desde = datos_factura["Fecha_servicio_desde"]
             fecha_servicio_hasta = datos_factura["Fecha_servicio_hasta"]
 
+        
+
         wsfev1.CrearFactura(
             concepto=int(datos_factura["ID_concepto"]), # Concepto
             tipo_doc=int(datos_factura["ID_doc"]), # Tipo Documento
@@ -231,7 +241,7 @@ class InterfazWSFEv1():
             imp_total=str(datos_factura["Importe_Total"]), # Importe total
             imp_tot_conc=imp_tot_conc, # Importe total conc
             imp_neto=str(datos_factura["Importe_Neto"]), # Importe Neto
-            imp_iva=imp_iva, # Importe Iva
+            imp_iva=str(imp_iva), # Importe Iva
             imp_trib=str(datos_factura["Importe_Tributo"]), # Importe Tributo
             imp_op_ex=imp_op_ex, # Importe OP EX
             fecha_cbte=fecha, # Fecha comprobante
@@ -244,21 +254,31 @@ class InterfazWSFEv1():
             condicion_iva_receptor_id=datos_factura["ID_IVA_cliente"]
         )
 
-        if(datos_factura["Importe_IVA_10.5%"] > 0):
-            #IVA 10.5%
-            wsfev1.AgregarIva(
-                constantes_IVA_ID.Diez_coma_cinco_porciento.value, #ID IVA
-                datos_factura["Base_Imponible_sin_10.5%"], #Base impositiva
-                datos_factura["Importe_IVA_10.5%"] #Importe
-            )
+        if(datos_factura["tipo_factura_nota"]!="Factura C"):
 
-        if(datos_factura["Importe_IVA_21%"] > 0):
-            #IVA 21%
-            wsfev1.AgregarIva(
-                constantes_IVA_ID.Veintiun_porciento.value, #ID IVA
-                datos_factura["Base_Imponible_sin_21%"], #Base impositiva
-                datos_factura["Importe_IVA_21%"] #Importe
-            )
+            if(datos_factura["Base_Imponible_0%"] > 0):
+                #IVA 0%
+                wsfev1.AgregarIva(
+                    constantes_IVA_ID.cero_porciento.value, #ID IVA
+                    datos_factura["Base_Imponible_0%"], #Base impositiva
+                    0.00 #Importe
+                )
+
+            if(datos_factura["Base_Imponible_sin_10.5%"] > 0):
+                #IVA 10.5%
+                wsfev1.AgregarIva(
+                    constantes_IVA_ID.Diez_coma_cinco_porciento.value, #ID IVA
+                    datos_factura["Base_Imponible_sin_10.5%"], #Base impositiva
+                    datos_factura["Importe_IVA_10.5%"] #Importe
+                )
+
+            if(datos_factura["Base_Imponible_sin_21%"] > 0):
+                #IVA 21%
+                wsfev1.AgregarIva(
+                    constantes_IVA_ID.Veintiun_porciento.value, #ID IVA
+                    datos_factura["Base_Imponible_sin_21%"], #Base impositiva
+                    datos_factura["Importe_IVA_21%"] #Importe
+                )
 
         if tipo in (2, 3, 7, 8, 12, 13, 202, 203, 208, 213):
             self.hacer_nota_credito(
@@ -279,6 +299,8 @@ class InterfazWSFEv1():
                 )  
 
         wsfev1.CAESolicitar()
+
+        print(wsfev1.Obs)
 
         datosCAE=[wsfev1.CAE, wsfev1.Vencimiento, int(wsfev1.CompUltimoAutorizado(tipo, datos_basicos_vendedor["Punto_de_venta"]))]
         
