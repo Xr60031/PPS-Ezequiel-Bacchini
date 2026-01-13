@@ -19,3 +19,6 @@ class Facade_Json():
     
     def load(self, file):
         return json.load(file)
+    
+    def loads(self, file):
+        return json.loads(file)

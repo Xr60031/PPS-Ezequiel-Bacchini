@@ -56,6 +56,7 @@
                 </div>
             <div class="marco_div content-item" id="content-1">
                 <form action="/rearmar_pdf" method="POST" style="text-align: center;" onsubmit="mostrarExito1(event)">
+                    <input type="hidden" name="historial_completo" value='{{ historial|tojson|safe }}'>
                     <div class="texto_default">
                         <label for="search-box">Buscar Identificador Factura:</label>
                         <input type="text" id="search-box-1" oninput="filterItems(1)" placeholder="ID Factura">
@@ -124,16 +125,15 @@
                                         {% set fila_json = fila|tojson %}
                                         {% set clave = fila[0] if fila|length > 0 and fila[0] is not none else '' %}
                                         <tr class="checkbox" data-name="{{ clave }}">
-                                            <!-- Botón Hacer Nota -->
                                             <td>
-                                                <input type="hidden" name="selected_items_json" value='{{ fila_json|safe }}'>
-                                                <button type="submit" class="btn btn-primary">Descargar PDF</button>
+                                                <form action="/rearmar_pdf" method="POST" onsubmit="mostrarExito1(event)">
+                                                    <input type="hidden" name="historial_completo" value='{{ historial|tojson|safe }}'>
+                                                    <input type="hidden" name="selected_items_json" value='{{ fila_json|safe }}'>
+                                                    <button type="submit" class="btn btn-primary">Descargar PDF</button>
+                                                </form>
                                             </td>
 
-                                            <!-- Identificador Factura -->
                                             <td>{{ clave }}</td>
-
-                                            <!-- Resto de columnas dinámicas -->
                                             {% for celda in fila[1:] %}
                                                 <td>{{ celda if celda is not none else "" }}</td>
                                             {% endfor %}
@@ -147,6 +147,7 @@
             </div>
             <div class="content-item" id="content-2">
                 <form action="/facturacion" method="POST" style="text-align: center;" onsubmit="mostrarExito2(event)">
+                    <input type="hidden" name="historial_completo" value='{{ historial|tojson|safe }}'>
                     <div class="texto_default">
                         <label for="search-box">Buscar Identificador Factura:</label>
                         <input type="text" id="search-box-2" oninput="filterItems(2)" placeholder="ID Factura">
@@ -218,10 +219,14 @@
                                         {% set clave = fila[0] if fila|length > 0 and fila[0] is not none else '' %}
                                         <tr class="checkbox" data-name="{{ clave }}">
                                             <td>
-                                                <input type="hidden" name="modo_facturacion" value="Nota Credito">
-                                                <input type="hidden" name="selected_items_json" value='{{ fila_json|safe }}'>
-                                                <button type="submit" class="btn btn-primary">Hacer Nota</button>
+                                                <form action="/facturacion" method="POST" onsubmit="mostrarExito2(event)">
+                                                    <input type="hidden" name="historial_completo" value='{{ historial|tojson|safe }}'>
+                                                    <input type="hidden" name="modo_facturacion" value="Nota Credito">
+                                                    <input type="hidden" name="selected_items_json" value='{{ fila_json|safe }}'>
+                                                    <button type="submit" class="btn btn-primary">Hacer Nota</button>
+                                                </form>
                                             </td>
+
                                             <td>{{ clave }}</td>
                                             {% for celda in fila[1:] %}
                                                 <td>{{ celda if celda is not none else "" }}</td>

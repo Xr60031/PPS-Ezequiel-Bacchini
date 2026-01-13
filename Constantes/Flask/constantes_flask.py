@@ -27,6 +27,11 @@ class constantes_de_flask:
     @staticmethod
     def zip_name(CUIT, FECHA, ACCION):
         return f"{ACCION}_{CUIT}_{FECHA}.zip"
+    
+    #Devuelve el nombre del PDF
+    @staticmethod
+    def pdf_name(CUIT, FECHA, ACCION):
+        return f"{ACCION}_{CUIT}_{FECHA}.pdf"
 
     #Devuelve formateado el nombre del certificado
     @staticmethod

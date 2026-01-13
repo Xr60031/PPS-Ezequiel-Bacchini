@@ -104,8 +104,32 @@ class constantes_array_datos_factura(Enum):
     pos_tributos = auto()
     pos_items = auto()
 
-    #Ultima columna antes de datos de productos
-    pos_ultimo_dato_antes_de_productos = pos_Fecha_vencimiento_de_pago
+class constantes_array_biblioteca_factura(Enum):
+    identificador_factura = 0
+    tipo_factura_nota = auto()
+    tipo_documento = auto()
+    numero_de_documento_del_cliente = auto()
+    nombre_y_apellido_cliente = auto()
+    telefono = auto()
+    provincia = auto()
+    localidad = auto()
+    domicilio = auto()
+    condicion_de_venta_cliente = auto()
+    condicion_frente_al_iva_cliente = auto()
+    concepto = auto()
+    fecha_servicio_desde = auto()
+    fecha_servicio_hasta = auto()
+    fecha_vencimiento_de_pago = auto()
+    importe_neto = auto()
+    importe_total = auto()
+    importe_tributo = auto()
+    tributos = auto()
+    items = auto()
+    base_imponible_sin_21 = auto()
+    base_imponible_sin_105 = auto()
+    base_imponible_0 = auto()
+    importe_iva_21 = auto()
+    importe_iva_105 = auto()
 
 class constantes_vendedor(Enum):
     NOMBRE = 0
@@ -170,3 +194,7 @@ class constantes_array_datos_factura_FM(Enum):
     pos_tributos = 11
     #pos_items array position in datos_factura
     pos_items = auto()
+
+class constantes_data_source_NC(Enum):
+    fila_seleccionada = 0
+    historial = auto()

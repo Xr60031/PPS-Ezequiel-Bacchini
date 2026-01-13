@@ -16,12 +16,13 @@ from Funciones.Obtener_datos_facturacion.obtenedor_FU import Obtenedor_FU
 from Funciones.Obtener_datos_facturacion.obtenedor_NC import Obtenedor_NC
 
 from Funciones.Verificadores.verificador_CUIT import Verificador_CUIT
-from Funciones.Verificadores.verificar_formateo_datos import Verificador_Formateo_Datos_Facturacion
 from Funciones.Verificadores.verificador_inicio_sesion import Verificador_Inicio_Sesion
 
 import interfaz_wsaa
 from Constantes.Flask.constantes_flask import constantes_de_flask
-from Constantes.Facturacion.constantes_arrays import constantes_PDF
+from Constantes.Facturacion.constantes_arrays import constantes_data_source_NC, constantes_PDF
+from Constantes.Excel.constantes_excel import constantes_historial
+
 
 import os
 import shutil
@@ -35,9 +36,7 @@ import traceback
 from Exceptions.Exceptions_Custom.exception_error_factura import ErrorFacturacion
 
 from impresor_pdf.impresor_pdf import Impresor_PDF
-from Constantes.Facturacion.constantes_arrays import constantes_CAE
 
-from io import BytesIO
 
 app = Flask(__name__)
 app.secret_key = 'clave_030'
@@ -424,7 +423,9 @@ def facturacion():
         data_source = destination_path
         obtenedor = Obtenedor_FM()
     elif (modo_factura == "Nota Credito"):
-        data_source = request.form.get("selected_items_json")
+        data_source = []
+        data_source.append(json.loads(request.form["selected_items_json"]))
+        data_source.append(json.loads(request.form["historial_completo"]))
         obtenedor = Obtenedor_NC()
     
     try:
@@ -441,12 +442,6 @@ def facturacion():
 
     if isinstance(datos_factura, dict):
         datos_factura = [datos_factura]
-
-    verificador_formateo_datos_facturacion = Verificador_Formateo_Datos_Facturacion()
-    for datos_actual in datos_factura:
-        if(verificador_formateo_datos_facturacion.verificar_formateo_datos(datos_actual) == False):
-            flash(constantes_.factura_datos_faltantes_alerta)
-            return render_template('FacturadorMenu.html')
 
     copy_path_certificado = escribir_certificado()
     copy_path_llave = escribir_llave()
@@ -492,6 +487,7 @@ def facturacion():
 
     return make_response(send_file(zip_file, as_attachment=True, download_name=constantes_.zip_name(session.get('CUIT'), datetime.now(), modo_factura)))
 
+from io import BytesIO
 #Descarga el PDF de una factura/nota existente en la plantilla de facturación del usuario
 @app.route('/rearmar_pdf', methods=['GET','POST'])
 def rearmar_pdf():
@@ -503,12 +499,18 @@ def rearmar_pdf():
     datos_usuario = usuario_manager.obtener_datos_usuario(destination_path)
     datos_usuario = usuario_manager.armar_biblioteca_vendedor(datos_usuario)
 
-    data_source = request.form.get("selected_items_json")
+    data_source = []
+    data_source.append(json.loads(request.form["selected_items_json"]))
+    data_source.append(json.loads(request.form["historial_completo"]))
     obtenedor = Obtenedor_NC()
+
+    datos_CAE = []
+    datos_CAE.append(data_source[constantes_data_source_NC.fila_seleccionada.value][constantes_historial.pos_CAE_Numero.value-1])
+    datos_CAE.append(data_source[constantes_data_source_NC.fila_seleccionada.value][constantes_historial.pos_CAE_Fecha_Vencimiento.value-1])
+    datos_CAE.append(data_source[constantes_data_source_NC.fila_seleccionada.value][constantes_historial.pos_Numero_Comprobante.value-1])
     
     try:
         datos_factura = obtenedor.obtener_datos_facturacion(data_source, datos_factura_manager, datos_usuario)
-
     except Exception as e:
         path_log = 'Exceptions/log_exceptions.txt'
         with open(path_log, 'a', encoding='utf-8') as file:
@@ -519,30 +521,39 @@ def rearmar_pdf():
         flash(constantes_.algo_salio_mal_alerta)
         return render_template('FacturadorMenu.html')
 
-    verificador_formateo_datos_facturacion = Verificador_Formateo_Datos_Facturacion()
-    
-    if(verificador_formateo_datos_facturacion.verificar_formateo_datos(datos_factura) == False):
-        flash(constantes_.factura_datos_faltantes_alerta)
-        return render_template('FacturadorMenu.html')
-    
-    #datos_factura[""]
-    datos_CAE = [1, 2, 3]
-    impresor_pdf = Impresor_PDF()
-    pdf_contenido = impresor_pdf.generar_pdf_(
-        datos_factura,
-        datos_usuario,
-        datos_CAE
-    )
+    if isinstance(datos_factura, dict):
+        datos_factura = [datos_factura]
         
+    try:
+        impresor = Impresor_PDF()
+        pdf_contenido = impresor.generar_pdf_(datos_factura=datos_factura[0], biblioteca_datos_vendedor=datos_usuario, datos_CAE=datos_CAE)
+        pdf_bytes = pdf_contenido[constantes_PDF.pos_contenido_pdf.value]
+        pdf_buffer = BytesIO(pdf_bytes)
+    except ErrorFacturacion as e:
+        flash(str(e))
+        return render_template('FacturadorMenu.html')
+    except Exception as e:
+        path_log = 'Exceptions/log_exceptions.txt'
+        with open(path_log, 'a', encoding='utf-8') as file:
+            file.write("\n")
+            file.write(datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+            file.write(" " + str(e))
+            file.write(" " + traceback.format_exc())
+        flash(constantes_.algo_salio_mal_alerta)
+        return render_template('FacturadorMenu.html')
+        
+
     Thread(target=delete_file_after_download, args=(destination_path,)).start()
 
-    pdf_io = BytesIO(pdf_contenido[constantes_PDF.pos_contenido_pdf.value])
-
     return send_file(
-        pdf_io,
-        mimetype='application/pdf',
+        pdf_buffer,
         as_attachment=True,
-        download_name=f"{datos_CAE[constantes_CAE.CAE.value]}.pdf"
+        download_name=constantes_.pdf_name(
+            session.get('CUIT'),
+            datetime.now(),
+            datos_CAE[0]
+        ),
+        mimetype='application/pdf'
     )
 
 # GENERA EL ARCHIVO DE LA LLAVE PRIVADA Y LO DESCARGA

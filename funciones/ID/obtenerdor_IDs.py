@@ -48,6 +48,13 @@ class Obtenedor_ID():
             'Factura A' : ID_Nota_Credito.NOTA_A.value,
             'Factura B' : ID_Nota_Credito.NOTA_B.value
         }.get(tipo_factura)
+    
+    def obtener_Nombre_Nota(self, tipo_factura):
+        return{
+            'Factura C' : ID_Nota_Credito.NOTA_C_Nombre.value,
+            'Factura A' : ID_Nota_Credito.NOTA_A_Nombre.value,
+            'Factura B' : ID_Nota_Credito.NOTA_B_Nombre.value
+        }.get(tipo_factura)
 
     def obtener_ID_condicion_iva_cliente(self, tipo_iva):
         return{
