@@ -1,5 +1,6 @@
 from impresor_pdf.templates.template import Template
 from impresor_pdf.templates.enums import X_pos
+from Constantes.Facturacion.constantes_items import constantes_posicion_items
 
 class Factura_A(Template):
     def __init__(self, tipo_factura_nota, codigo_tipo_factura_nota, factura_nota):
@@ -53,7 +54,7 @@ class Factura_A(Template):
                 [
                     X_pos.SUBTOTAL.value,
                     20,
-                    str(datos_factura["items"][cant][9])
+                    str(datos_factura["items"][cant][constantes_posicion_items.pos_alicuota_auxiliar.value-1])
                 ]
             ])
 
@@ -72,7 +73,7 @@ class Factura_A(Template):
 
     def armar_subtotales_opcionales(self, datos_factura):
         subtotales_adicionales = [
-            f'Importe Neto Gravado: {int((datos_factura["Importe_Total"]-datos_factura["Importe_Tributo"])*100)/100}',
+            f'Importe Neto Gravado: {int((datos_factura["Base_Imponible_0%"]+datos_factura["Base_Imponible_sin_10.5%"]+datos_factura["Base_Imponible_sin_21%"]))}',
             f'IVA 21%: {datos_factura["Importe_IVA_21%"]}',
             f'IVA 10,5%: {datos_factura["Importe_IVA_10.5%"]}'
         ]

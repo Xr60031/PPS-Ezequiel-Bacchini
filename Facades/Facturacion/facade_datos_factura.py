@@ -6,7 +6,8 @@ from Funciones.ID.obtenerdor_IDs import Obtenedor_ID
 
 
 from Constantes.Facturacion.constantes_items import constantes_posicion_items
-from Constantes.Facturacion.constantes_arrays import constantes_nota_credito, constantes_array_datos_factura_FM
+from Constantes.Facturacion.constantes_arrays import constantes_array_datos_factura_FM
+from Constantes.Excel.constantes_excel import constantes_historial
 
 class Facade_datos_factura():
     def __init__(self):
@@ -52,34 +53,34 @@ class Facade_datos_factura():
         datos_listados = formateador_nota.transformar_a_lista(data_source)
         formateador_nota.transformar_a_tipos_correctos(datos_listados)
 
-        numero_comprobante = datos_listados[constantes_nota_credito.NUMERO_DE_COMPROBANTE.value]
+        numero_comprobante = datos_listados[constantes_historial.pos_Numero_Comprobante.value]
 
         datos_factura = []
-        datos_factura += datos_listados[:constantes_nota_credito.PRODUCTO_SERVICIO.value]
-        datos_factura += datos_listados[constantes_nota_credito.IMPORTE_NETO.value:constantes_nota_credito.DESCRIPCION_IMPUESTO_ADICIONAL.value]
+        datos_factura += datos_listados[:constantes_historial.pos_Producto_Servicio.value]
+        datos_factura += datos_listados[constantes_historial.pos_Importe_Neto.value:constantes_historial.pos_Descripcion_Impuesto_Adicional.value]
 
         items = []
         tributos = []
 
         i = 0
         item_actual = []
-        for dato in range(constantes_nota_credito.PRODUCTO_SERVICIO.value, constantes_nota_credito.IMPORTE_NETO.value):
+        for dato in range(constantes_historial.pos_Producto_Servicio.value, constantes_historial.pos_Importe_Neto.value):
             item_actual.append(datos_listados[dato])
             i+=1
         items.append(item_actual)
 
-        if(datos_listados[constantes_nota_credito.IMPUESTO_ADICIONAL.value]):
+        if(datos_listados[constantes_historial.pos_Impuesto_Adicional.value]):
             tributos.append([
-                obtenedor_ID.obtener_ID_tributo(datos_listados[constantes_nota_credito.IMPUESTO_ADICIONAL.value]), # ID impuesto adicional 
-                datos_listados[constantes_nota_credito.DESCRIPCION_IMPUESTO_ADICIONAL.value], # Descripcion 
-                datos_listados[constantes_nota_credito.SUBTOTAL.value], # Neto -> Subtotal
-                datos_listados[constantes_nota_credito.ALICUOTA_IMPUESTO_ADICIONAL.value], # Alicuota
-                datos_listados[constantes_nota_credito.SUBTOTAL.value] * datos_listados[constantes_nota_credito.ALICUOTA_IMPUESTO_ADICIONAL.value]/100, # Importe tributo -> Subtotal * Alicuota
+                obtenedor_ID.obtener_ID_tributo(datos_listados[constantes_historial.pos_Impuesto_Adicional.value]), # ID impuesto adicional 
+                datos_listados[constantes_historial.pos_Descripcion_Impuesto_Adicional.value], # Descripcion 
+                datos_listados[constantes_historial.pos_Subtotal.value], # Neto -> Subtotal
+                datos_listados[constantes_historial.pos_Alicuota_Impuesto_Adicional.value], # Alicuota
+                datos_listados[constantes_historial.pos_Subtotal.value] * datos_listados[constantes_historial.pos_Alicuota_Impuesto_Adicional.value]/100, # Importe tributo -> Subtotal * Alicuota
                 item_actual[constantes_posicion_items.pos_producto_servicio.value] # Identificador que relaciona el tributo al producto correspondiente
             ])
 
         if datos_usuario['iag']:
-            importe_neto = datos_listados[constantes_nota_credito.IMPORTE_NETO.value]
+            importe_neto = datos_listados[constantes_historial.pos_Importe_Neto.value]
             alicuota = datos_usuario['alicuota']
             tributos.append([
                 datos_usuario['id_tributo_global'], # Id 
@@ -89,8 +90,15 @@ class Facade_datos_factura():
                 importe_neto * alicuota / 100 # Importe Neto*Alicuota/100
             ])
 
+        print("DATOS LISTADOS", datos_listados)
+
         datos_factura.append(tributos)
         datos_factura.append(items)
+        datos_factura.append(datos_listados[constantes_historial.pos_base_21.value])
+        datos_factura.append(datos_listados[constantes_historial.pos_base_105.value])
+        datos_factura.append(datos_listados[constantes_historial.pos_base_0.value])
+        datos_factura.append(datos_listados[constantes_historial.pos_Alicuota_21.value])
+        datos_factura.append(datos_listados[constantes_historial.pos_Alicuota_10_5.value])
 
         return datos_factura, numero_comprobante
         

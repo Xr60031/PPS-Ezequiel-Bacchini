@@ -49,10 +49,11 @@ class obtenedor_datos_facturacion(ABC):
             "fecha_emision" : datetime.now().strftime('%Y%m%d'),
             "nro_CAE": None,
             "fecha_vto_CAE": None,
-            "Base_Imponible_sin_21%": constantes_factura.base_imponible_sin_21.value,
-            "Base_Imponible_sin_10.5%": constantes_factura.base_imponible_sin_105.value,
-            "Importe_IVA_21%": constantes_factura.importe_iva_21.value,
-            "Importe_IVA_10.5%": constantes_factura.importe_iva_105.value,
+            "Base_Imponible_sin_21%": self.truncar_a_dos_decimales(datos_factura[constantes_factura.base_imponible_sin_21.value]),
+            "Base_Imponible_sin_10.5%": self.truncar_a_dos_decimales(datos_factura[constantes_factura.base_imponible_sin_105.value]),
+            "Base_Imponible_0%": self.truncar_a_dos_decimales(datos_factura[constantes_factura.base_imponible_0.value]),
+            "Importe_IVA_21%": self.truncar_a_dos_decimales(datos_factura[constantes_factura.importe_iva_21.value]),
+            "Importe_IVA_10.5%": self.truncar_a_dos_decimales(datos_factura[constantes_factura.importe_iva_105.value]),
         }
         return datos_factura
     
@@ -64,34 +65,78 @@ class obtenedor_datos_facturacion(ABC):
         importe_iva_21 = 0
         base_imponible_sin_105 = 0
         importe_iva_105 = 0
+        base_imponible_0 = 0
+        iva_21_actual = 0
+        iva_105_actual = 0
+        bonificado_actual = 0
+        precio_unitario_21 = 0
+        precio_unitario_105 = 0
+        es_factura_C = datos_factura[constantes_factura.tipo_factura_nota.value] == "Factura C"
 
         for item in productos_servicios:
-            neto = item[constantes_posicion_items.pos_cantidad.value]*item[constantes_posicion_items.pos_precio_unitario.value]
-            importe_bonificado = neto * (item[constantes_posicion_items.pos_porcentaje_bonificado.value])/100
+            cantidad = item[constantes_posicion_items.pos_cantidad.value]
+            precio_unitario = item[constantes_posicion_items.pos_precio_unitario.value]
+            bonif_pct = item[constantes_posicion_items.pos_porcentaje_bonificado.value]
+
+            neto = cantidad * precio_unitario
+            importe_bonificado = neto * bonif_pct / 100
             subtotal = neto - importe_bonificado
-            alicuota = 0
-            tributo_found = False
-            j = 0
-            while j < len(tributos) and tributo_found == False:
-                if(tributos[j][constantes_posicion_tributos.pos_id_relacionado_tributo.value] == item[constantes_posicion_items.pos_producto_servicio.value]):
+
+            iva_detectado = False
+
+            for j in range(len(tributos)):
+                if tributos[j][constantes_posicion_tributos.pos_id_relacionado_tributo.value] == item[constantes_posicion_items.pos_producto_servicio.value]:
+
                     alicuota = tributos[j][constantes_posicion_tributos.pos_alicuota_impuesto_adicional.value]
-                    imp_tributo = subtotal*alicuota/100
-                    ### AGREGADO PARA EL IVA
+
                     if alicuota == 21:
                         base_imponible_sin_21 += subtotal
-                        importe_iva_21 += subtotal*alicuota/100
-                    elif alicuota == 10.5 :
+                        importe_iva_21 += subtotal * 21 / 100
+                        iva_21_actual = subtotal * 21 / 100
+                        bonificado_actual = importe_bonificado * 1.21
+                        precio_unitario_21 = item[constantes_posicion_items.pos_precio_unitario.value] * 21/100
+                        iva_detectado = True
+                        item.append(21)
+
+                    elif alicuota == 10.5:
                         base_imponible_sin_105 += subtotal
-                        importe_iva_105 += subtotal*alicuota/100
-                    ###
-                    imp_tributo_total += imp_tributo
-                    tributos[j][constantes_posicion_tributos.pos_importe_tributo.value] = imp_tributo
-                    tributo_found = True
-                j+=1
+                        importe_iva_105 += subtotal * 10.5 / 100
+                        iva_105_actual = subtotal * 10.5 / 100
+                        bonificado_actual = importe_bonificado * 1.105
+                        precio_unitario_105 = item[constantes_posicion_items.pos_precio_unitario.value] * 10.5/100
+                        iva_detectado = True
+                        item.append(10.5)
+                            
 
-            item[constantes_posicion_items.pos_importe_bonificado.value] = importe_bonificado
-            item[constantes_posicion_items.pos_subtotal.value] = subtotal
+                    elif alicuota == 0:
+                        base_imponible_0 += subtotal
+                        iva_detectado = True
+                        item.append(0)
+                            
 
+                    else:
+                        imp_tributo = subtotal * alicuota / 100
+                        imp_tributo_total += imp_tributo
+                        tributos[j][constantes_posicion_tributos.pos_importe_tributo.value] = imp_tributo
+
+            if not iva_detectado:
+                base_imponible_0 += subtotal
+
+            if es_factura_C:
+                item[constantes_posicion_items.pos_subtotal.value] = subtotal
+                item[constantes_posicion_items.pos_subtotal.value] += iva_21_actual
+                item[constantes_posicion_items.pos_subtotal.value] += iva_105_actual
+                item[constantes_posicion_items.pos_importe_bonificado.value] = bonificado_actual
+                item[constantes_posicion_items.pos_precio_unitario.value] += precio_unitario_21
+                item[constantes_posicion_items.pos_precio_unitario.value] += precio_unitario_105
+                precio_unitario_21 = 0
+                precio_unitario_105 = 0
+                iva_21_actual = 0
+                iva_105_actual = 0
+                bonificado_actual = 0
+            else:
+                item[constantes_posicion_items.pos_subtotal.value] = subtotal
+                item[constantes_posicion_items.pos_importe_bonificado.value] = importe_bonificado
             imp_neto += subtotal
 
         if biblioteca_datos_vendedor["id_tributo_global"]:
@@ -109,8 +154,13 @@ class obtenedor_datos_facturacion(ABC):
                 None #No está relacionada con ningún producto particular
             ])
             imp_tributo_total += imp_neto*(biblioteca_datos_vendedor["alicuota"] or 0)/100
+        
+        imp_iva = importe_iva_21 + importe_iva_105
+        imp_total = imp_neto + imp_tributo_total + imp_iva
+        
+        if datos_factura[constantes_factura.tipo_factura_nota.value] == "Factura C":
+            imp_neto += imp_iva
 
-        imp_total = imp_neto + imp_tributo_total
 
         datos_calculados = []
         datos_calculados += datos_factura
@@ -123,6 +173,10 @@ class obtenedor_datos_facturacion(ABC):
         datos_calculados.append(importe_iva_21)
         datos_calculados.append(base_imponible_sin_105)
         datos_calculados.append(importe_iva_105)
+        datos_calculados.append(base_imponible_0)
+
+        print(productos_servicios)
+        
         
         return datos_calculados
 

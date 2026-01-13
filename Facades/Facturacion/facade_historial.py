@@ -1,6 +1,6 @@
 from openpyxl import load_workbook
 from Constantes.Facturacion.constantes_items import constantes_posicion_items, constantes_posicion_tributos
-from Constantes.Excel.constantes_excel import constantes_genericas_excel, workbooks
+from Constantes.Excel.constantes_excel import constantes_genericas_excel, workbooks, constantes_historial
 from Constantes.Facturacion.constantes_arrays import constantes_armador_historial
 class Facade_Historial():
     def __init__(self):
@@ -12,11 +12,11 @@ class Facade_Historial():
         datos_totales = []
         datos_actual = []
         row = constantes_genericas_excel.starting_row.value
-        while historial.cell(row=row, column=constantes_genericas_excel.starting_colvar.value).value:
+        while historial.cell(row=row, column=constantes_historial.pos_Producto_Servicio.value).value:
             columna = constantes_genericas_excel.starting_colvar.value
-            while(columna < constantes_armador_historial.cantidad_columnas_datos.value):
+            while columna < constantes_historial.pos_Ultimo_Dato.value:
                 datos_actual.append(historial.cell(row=row, column=columna).value)
-                columna += 1
+                columna+=1
             datos_totales.append(datos_actual)
             datos_actual = []
             row += 1
@@ -44,7 +44,6 @@ class Facade_Historial():
                 columna_numero += constantes_armador_historial.cant_datos_items.value
                 row = row_ant
             elif columna_numero == constantes_armador_historial.limite_hasta_tributos.value+constantes_armador_historial.distancia_entre_tributos_items.value and dato:
-                print("ingreso tributos", dato)
                 numero_columna_aux = columna_numero
                 row_ant = row
                 for item in productos_servicios:
@@ -70,7 +69,7 @@ class Facade_Historial():
 
     def obtener_row_historial(self, dataframe_historial):
         row = constantes_genericas_excel.starting_colvar.value
-        while dataframe_historial.cell(row=row, column=constantes_armador_historial.columna_id_excel.value).value or dataframe_historial.cell(row=row, column=constantes_armador_historial.columna_item.value).value:
+        while dataframe_historial.cell(row=row, column=constantes_historial.pos_Producto_Servicio.value).value:
             row += 1
         
         return row
@@ -83,7 +82,8 @@ class Facade_Historial():
         historial= excel_dataframe[workbooks.historial.value]
         row = constantes_genericas_excel.starting_row.value
         ultimo_ID = None
-        while historial.cell(row=row, column=constantes_genericas_excel.starting_colvar.value).value:
-            ultimo_ID = historial.cell(row=row, column=constantes_genericas_excel.starting_colvar.value).value
+        while historial.cell(row=row, column=constantes_historial.pos_Producto_Servicio.value).value:
+            if(historial.cell(row=row, column=constantes_genericas_excel.starting_colvar.value).value):
+                ultimo_ID = historial.cell(row=row, column=constantes_genericas_excel.starting_colvar.value).value
             row+=1
         return ultimo_ID

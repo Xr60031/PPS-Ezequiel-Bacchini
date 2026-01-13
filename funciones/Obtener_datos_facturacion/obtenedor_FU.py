@@ -9,5 +9,4 @@ class Obtenedor_FU(obtenedor_datos_facturacion):
         biblioteca_datos = datos_factura_manager.obtener_datos_factura_unica(data_source)
         datos = self.calcular_datos_items_tributos(biblioteca_datos['items'], biblioteca_datos['tributos'], biblioteca_datos['datos_factura'], datos_usuario)
         biblioteca_factura = self.armar_biblioteca_factura(datos)
-        print(biblioteca_factura)
         return biblioteca_factura

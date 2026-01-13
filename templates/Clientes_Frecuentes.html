@@ -96,15 +96,27 @@
                 <!--Agregar Cliente-->
                 <div class="texto_default">
                     <h3>Ingrese los datos a continuación para agregar un Cliente a tu sistema:</h2>
-                    <p>Tu cliente tiene que tener X.</p>
+                    <p>Tu cliente tiene que tener Nombre y Apellido / Razon Social, y Condición de IVA.</p>
                     <form action="/agregar_cliente" method="POST" onsubmit="mostrarAgregar(event)">
 
                         <input required type="text" name="nombre_apellido" placeholder="Nombre y apellido:">
 
                         <br><br>
+
+                        <p>El concepto del IVA para el cliente se refiere a cómo se detalla el Impuesto al Valor Agregado (IVA) en la factura.</p>
+                        <label for="concepto_iva">Concepto del IVA cliente:</label>
+                        <select name="concepto_iva" id="concepto_iva" required>
+                            <option value="Consumidor Final">Consumidor Final (Persona que compra para uso personal)</option>
+                            <option value="Monotributista">Monotributista (Pequeño contribuyente que tributa un monto fijo mensual)</option>
+                            <option value="Excento">Exento (Sujeto que no tributa IVA por su actividad)</option>
+                            <option value="Responsable Inscripto">Responsable Inscripto (Sujeto que tributa IVA y debe discriminarlo en las facturas)</option>
+                        </select>
+                        <br><br>
+                        <h5 style="display: flex; justify-content: center;"><button type="submit" value="Agregar Cliente" class="boton">Agregar cliente</h5>
+
+                        <br><br>
                         <label for="tipo_doc">Tipo Documento:</label>
-                        <select name="tipo_doc" id="tipo_doc" required>
-                            <option value="CONSUMIDOR FINAL">Consumidor Final (No requiere ingresar número de documento)</option>
+                        <select name="tipo_doc" id="tipo_doc">
                             <option value="CUIT">CUIT </option>
                             <option value="DNI">DNI </option>
                             <option value="CDI">CDI (Es un número que se le asigna a los extranjeros que no tienen DNI, pero necesitan realizar trámites fiscales en Argentina.)</option>
@@ -113,7 +125,7 @@
                         </select>
                         <br><br>
 
-                        <input required type="number" name="nro_documento" placeholder="Numero de documento:">
+                        <input type="number" name="nro_documento" placeholder="Numero de documento:">
 
                         <br><br>
 
@@ -130,19 +142,6 @@
                         <br><br>
 
                         <input type="text" name="domicilio" placeholder="Domicilio:">
-                        
-                        <br><br>
-                        
-                        <p>El concepto del IVA para el cliente se refiere a cómo se detalla el Impuesto al Valor Agregado (IVA) en la factura.</p>
-                        <label for="concepto_iva">Concepto del IVA cliente:</label>
-                        <select name="concepto_iva" id="concepto_iva" required>
-                            <option value="Consumidor Final">Consumidor Final (Persona que compra para uso personal)</option>
-                            <option value="Monotributista">Monotributista (Pequeño contribuyente que tributa un monto fijo mensual)</option>
-                            <option value="Excento">Exento (Sujeto que no tributa IVA por su actividad)</option>
-                            <option value="Responsable Inscripto">Responsable Inscripto (Sujeto que tributa IVA y debe discriminarlo en las facturas)</option>
-                        </select>
-                        <br><br>
-                        <h5 style="display: flex; justify-content: center;"><button type="submit" value="Agregar Cliente" class="boton">Agregar cliente</h5>
                     </form> 
                 </div>
             </div>
@@ -182,7 +181,7 @@
                                 {% for fila in clientes %}
                                 <tr>
                                     <td>
-                                        <input type="radio" name="selected_client" id="item{{ loop.index }}" class="product-checkbox"
+                                        <input required type="radio" name="selected_client" id="item{{ loop.index }}" class="product-checkbox"
                                             data-product="{{ loop.index }}"
                                             data-name="{{ fila[0] if fila[0] is not none else '' }}"
                                             value="{{ fila[0] if fila[0] is not none else '' }}">
@@ -210,7 +209,6 @@
                     <br><br>
                     <label for="tipo_doc">Tipo Documento:</label>
                     <select name="tipo_doc" id="tipo_doc">
-                        <option value="CONSUMIDOR FINAL">Consumidor Final (No requiere ingresar número de documento)</option>
                         <option value="CUIT">CUIT </option>
                         <option value="DNI">DNI </option>
                         <option value="CDI">CDI (Es un número que se le asigna a los extranjeros que no tienen DNI, pero necesitan realizar trámites fiscales en Argentina.)</option>
@@ -287,7 +285,7 @@
                                 {% for fila in clientes %}
                                 <tr>
                                     <td>
-                                        <input type="radio" name="selected_client" id="item{{ loop.index }}" class="product-checkbox"
+                                        <input required type="radio" name="selected_client" id="item{{ loop.index }}" class="product-checkbox"
                                             data-product="{{ loop.index }}"
                                             data-name="{{ fila[0] if fila[0] is not none else '' }}"
                                             value="{{ fila[0] if fila[0] is not none else '' }}">

@@ -40,6 +40,9 @@ class Armador_Historial():
         datos_historial.append(datos_cae[constantes_CAE.CAE.value]),
         datos_historial.append(datos_cae[constantes_CAE.CAE_vencimiento.value]),
         datos_historial.append(datos_cae[constantes_CAE.ultimo_comprobante_autorizado.value])
+        datos_historial.append(datos_factura["Base_Imponible_sin_21%"])
+        datos_historial.append(datos_factura["Base_Imponible_sin_10.5%"])
+        datos_historial.append(datos_factura["Base_Imponible_0%"])
         datos_historial.append(datos_factura["Importe_IVA_21%"])
         datos_historial.append(datos_factura["Importe_IVA_10.5%"])
         return

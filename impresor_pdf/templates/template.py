@@ -257,7 +257,7 @@ class Template(ABC):
                     str(datos_factura["items"][cant][3]) 
                 ],
                 [
-                    X_pos.ITEM.value, #A partir del segundo se le suma el valor de X anterior
+                    X_pos.ITEM.value,
                     20,
                     str(datos_factura["items"][cant][0])
                 ],
