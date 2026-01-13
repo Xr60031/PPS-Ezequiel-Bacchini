@@ -207,8 +207,15 @@ class InterfazWSFEv1():
         cbt_desde = cbte_nro
         cbt_hasta = cbte_nro
         imp_tot_conc = "0.00"
-        
-        if datos_factura["tipo_factura_nota"]!="Factura C":
+
+        base_0 = float(datos_factura["Base_Imponible_0%"])
+        base_105 = float(datos_factura["Base_Imponible_sin_10.5%"])
+        base_21 = float(datos_factura["Base_Imponible_sin_21%"])
+
+
+        tipo = datos_factura["tipo_factura_nota"].lower()
+
+        if tipo not in ("factura c", "nota credito c"):
             imp_iva = (
                 float(datos_factura["Importe_IVA_21%"]) +
                 float(datos_factura["Importe_IVA_10.5%"])
@@ -254,29 +261,29 @@ class InterfazWSFEv1():
             condicion_iva_receptor_id=datos_factura["ID_IVA_cliente"]
         )
 
-        if(datos_factura["tipo_factura_nota"]!="Factura C"):
+        if tipo not in ("factura c", "nota credito c"):
 
-            if(datos_factura["Base_Imponible_0%"] > 0):
+            if(base_0 > 0):
                 #IVA 0%
                 wsfev1.AgregarIva(
                     constantes_IVA_ID.cero_porciento.value, #ID IVA
-                    datos_factura["Base_Imponible_0%"], #Base impositiva
+                    base_0, #Base impositiva
                     0.00 #Importe
                 )
 
-            if(datos_factura["Base_Imponible_sin_10.5%"] > 0):
+            if(base_105 > 0):
                 #IVA 10.5%
                 wsfev1.AgregarIva(
                     constantes_IVA_ID.Diez_coma_cinco_porciento.value, #ID IVA
-                    datos_factura["Base_Imponible_sin_10.5%"], #Base impositiva
+                    base_105, #Base impositiva
                     datos_factura["Importe_IVA_10.5%"] #Importe
                 )
 
-            if(datos_factura["Base_Imponible_sin_21%"] > 0):
+            if(base_21 > 0):
                 #IVA 21%
                 wsfev1.AgregarIva(
                     constantes_IVA_ID.Veintiun_porciento.value, #ID IVA
-                    datos_factura["Base_Imponible_sin_21%"], #Base impositiva
+                    base_21, #Base impositiva
                     datos_factura["Importe_IVA_21%"] #Importe
                 )
 

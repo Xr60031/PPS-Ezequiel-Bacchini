@@ -40,6 +40,9 @@ class ID_Nota_Credito(Enum):
     NOTA_C = 13
     NOTA_A = 3
     NOTA_B = 8
+    NOTA_C_Nombre = "NOTA CREDITO C"
+    NOTA_A_Nombre = "NOTA CREDITO A"
+    NOTA_B_Nombre = "NOTA CREDITO B"
 
 # IDs de condición IVA cliente
 class ID_Condicion_IVA_Cliente(Enum):
