@@ -538,7 +538,6 @@ def rearmar_pdf():
     
 
     try:
-        print(datos_factura)
         impresor = Impresor_PDF()
         pdf_contenido = impresor.generar_pdf_(datos_factura=datos_factura[0], biblioteca_datos_vendedor=datos_usuario, datos_CAE=datos_CAE)
         pdf_bytes = pdf_contenido[constantes_PDF.pos_contenido_pdf.value]
