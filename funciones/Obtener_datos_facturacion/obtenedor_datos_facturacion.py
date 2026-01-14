@@ -173,10 +173,7 @@ class obtenedor_datos_facturacion(ABC):
         datos_calculados.append(importe_iva_21)
         datos_calculados.append(base_imponible_sin_105)
         datos_calculados.append(importe_iva_105)
-        datos_calculados.append(base_imponible_0)
-
-        print(productos_servicios)
-        
+        datos_calculados.append(base_imponible_0)     
         
         return datos_calculados
 

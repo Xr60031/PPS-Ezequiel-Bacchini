@@ -56,7 +56,7 @@ class Nota_Credito_A(Template):
                 [
                     X_pos.SUBTOTAL.value,
                     20,
-                    str(datos_factura["items"][cant][9])
+                    str(datos_factura["items"][cant][9] or "0")
                 ]
             ])
 

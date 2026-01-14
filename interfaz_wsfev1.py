@@ -235,13 +235,12 @@ class InterfazWSFEv1():
             fecha_servicio_desde = datos_factura["Fecha_servicio_desde"]
             fecha_servicio_hasta = datos_factura["Fecha_servicio_hasta"]
 
-        
 
         wsfev1.CrearFactura(
             concepto=int(datos_factura["ID_concepto"]), # Concepto
             tipo_doc=int(datos_factura["ID_doc"]), # Tipo Documento
             nro_doc=str(datos_factura["Numero_de_documento_del_cliente"]), # Numero Documento
-            tipo_cbte=int(tipo), # Tipo Comprobante
+            tipo_cbte=int(datos_factura["ID_factura_nota"]), # Tipo Comprobante
             punto_vta=int(datos_basicos_vendedor["Punto_de_venta"]), # Punto de Venta
             cbt_desde=cbt_desde + 1, # Comprobante desde
             cbt_hasta=cbt_hasta + 1, # Comprobante hasta
@@ -287,7 +286,7 @@ class InterfazWSFEv1():
                     datos_factura["Importe_IVA_21%"] #Importe
                 )
 
-        if tipo in (2, 3, 7, 8, 12, 13, 202, 203, 208, 213):
+        if int(datos_factura["ID_factura_nota"]) in (2, 3, 7, 8, 12, 13, 202, 203, 208, 213):
             self.hacer_nota_credito(
                 datos_factura["nro_cbte_anular"],
                 datos_basicos_vendedor["Punto_de_venta"],
@@ -309,7 +308,7 @@ class InterfazWSFEv1():
 
         print(wsfev1.Obs)
 
-        datosCAE=[wsfev1.CAE, wsfev1.Vencimiento, int(wsfev1.CompUltimoAutorizado(tipo, datos_basicos_vendedor["Punto_de_venta"]))]
+        datosCAE=[wsfev1.CAE, wsfev1.Vencimiento, int(wsfev1.CompUltimoAutorizado(int(datos_factura["ID_factura_nota"]), datos_basicos_vendedor["Punto_de_venta"]))]
         
         if datosCAE[0] == '':
             raise ErrorFacturacion(str(wsfev1.Obs))
