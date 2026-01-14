@@ -71,6 +71,7 @@ class obtenedor_datos_facturacion(ABC):
         bonificado_actual = 0
         precio_unitario_21 = 0
         precio_unitario_105 = 0
+        
         es_factura_C = datos_factura[constantes_factura.tipo_factura_nota.value] == "Factura C"
 
         for item in productos_servicios:
@@ -83,10 +84,11 @@ class obtenedor_datos_facturacion(ABC):
             subtotal = neto - importe_bonificado
 
             iva_detectado = False
+            tributo_detectado = False
 
             for j in range(len(tributos)):
                 if tributos[j][constantes_posicion_tributos.pos_id_relacionado_tributo.value] == item[constantes_posicion_items.pos_producto_servicio.value]:
-
+                    tributo_detectado = True
                     alicuota = tributos[j][constantes_posicion_tributos.pos_alicuota_impuesto_adicional.value]
 
                     if alicuota == 21:
@@ -97,7 +99,6 @@ class obtenedor_datos_facturacion(ABC):
                         precio_unitario_21 = item[constantes_posicion_items.pos_precio_unitario.value] * 21/100
                         iva_detectado = True
                         item.append(21)
-
                     elif alicuota == 10.5:
                         base_imponible_sin_105 += subtotal
                         importe_iva_105 += subtotal * 10.5 / 100
@@ -106,18 +107,18 @@ class obtenedor_datos_facturacion(ABC):
                         precio_unitario_105 = item[constantes_posicion_items.pos_precio_unitario.value] * 10.5/100
                         iva_detectado = True
                         item.append(10.5)
-                            
-
                     elif alicuota == 0:
                         base_imponible_0 += subtotal
                         iva_detectado = True
                         item.append(0)
-                            
-
                     else:
                         imp_tributo = subtotal * alicuota / 100
                         imp_tributo_total += imp_tributo
                         tributos[j][constantes_posicion_tributos.pos_importe_tributo.value] = imp_tributo
+            
+            if not tributo_detectado:
+                item.append("No Aplica")
+
 
             if not iva_detectado:
                 base_imponible_0 += subtotal
@@ -170,10 +171,10 @@ class obtenedor_datos_facturacion(ABC):
         datos_calculados.append(tributos)
         datos_calculados.append(productos_servicios)
         datos_calculados.append(base_imponible_sin_21)
-        datos_calculados.append(importe_iva_21)
         datos_calculados.append(base_imponible_sin_105)
-        datos_calculados.append(importe_iva_105)
         datos_calculados.append(base_imponible_0)     
+        datos_calculados.append(importe_iva_21)
+        datos_calculados.append(importe_iva_105)
         
         return datos_calculados
 
