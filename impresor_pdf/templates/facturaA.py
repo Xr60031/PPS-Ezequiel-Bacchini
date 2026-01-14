@@ -54,7 +54,7 @@ class Factura_A(Template):
                 [
                     X_pos.SUBTOTAL.value,
                     20,
-                    str(datos_factura["items"][cant][constantes_posicion_items.pos_alicuota_auxiliar.value-1])
+                    str(datos_factura["items"][cant][constantes_posicion_items.pos_alicuota_auxiliar.value-1] or "0")
                 ]
             ])
 
