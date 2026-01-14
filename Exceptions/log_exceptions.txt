@@ -1,6 +1,0 @@
-
-2026-01-13 17:52:59 'bytes' object has no attribute 'seek' Traceback (most recent call last):
-  File "c:\Users\eleze\Desktop\PPS\Facturador-Electronico-AFIP-ARCA\flask_app.py", line 530, in rearmar_pdf
-    pdf_buffer.seek(0)
-    ^^^^^^^^^^^^^^^
-AttributeError: 'bytes' object has no attribute 'seek'

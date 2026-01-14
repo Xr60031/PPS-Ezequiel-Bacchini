@@ -460,6 +460,7 @@ def facturacion():
 
     dataframe_historial = dataframe_manager.obtener_dataframe_historial(destination_path)
     try:
+        print(datos_factura)
         zip_file = facturador.facturacion(destination_path, copy_path_llave, copy_path_certificado, datos_usuario, datos_factura, dataframe_historial)
     except ErrorFacturacion as e:
         flash(str(e))

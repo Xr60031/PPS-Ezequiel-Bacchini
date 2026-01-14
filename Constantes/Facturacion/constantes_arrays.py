@@ -184,10 +184,10 @@ class constantes_factura(Enum):
     tributos = auto()
     items = auto()
     base_imponible_sin_21 = auto()
-    importe_iva_21 = auto()
     base_imponible_sin_105 = auto()
-    importe_iva_105 = auto()
     base_imponible_0 = auto()
+    importe_iva_21 = auto()
+    importe_iva_105 = auto()
 
 class constantes_array_datos_factura_FM(Enum):
     #pos_tributos array position in datos_factura
