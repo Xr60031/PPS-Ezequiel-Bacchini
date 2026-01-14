@@ -249,22 +249,37 @@ document.getElementById("tipo_factura").addEventListener("change", function () {
     const tipoDocSelect = document.getElementById("tipo_doc");
     const conceptoIvaSelect = document.getElementById("concepto_iva");
 
+    // Resetear todo primero
+    Array.from(tipoDocSelect.options).forEach(opt => opt.disabled = false);
+    Array.from(conceptoIvaSelect.options).forEach(opt => opt.disabled = false);
+
     if (tipoFactura === "Factura A") {
-        // --- Tipo Documento ---
         Array.from(tipoDocSelect.options).forEach(opt => {
             opt.disabled = opt.value !== "CUIT";
         });
         tipoDocSelect.value = "CUIT";
 
-        // --- Concepto IVA ---
+        // Solo Responsable Inscripto
         Array.from(conceptoIvaSelect.options).forEach(opt => {
             opt.disabled = opt.value !== "Responsable Inscripto";
         });
         conceptoIvaSelect.value = "Responsable Inscripto";
 
-    } else {
-        // Habilitar todo nuevamente
-        Array.from(tipoDocSelect.options).forEach(opt => opt.disabled = false);
-        Array.from(conceptoIvaSelect.options).forEach(opt => opt.disabled = false);
+    } else if (tipoFactura === "Factura B") {
+        // --- Tipo Documento ---
+        if (!tipoDocSelect.value) {
+            tipoDocSelect.value = "DNI";
+        }
+
+        // --- Condición IVA ---
+        Array.from(conceptoIvaSelect.options).forEach(opt => {
+            if (opt.value === "Responsable Inscripto") {
+                opt.disabled = true;
+            }
+        });
+
+        if (conceptoIvaSelect.value === "Responsable Inscripto") {
+            conceptoIvaSelect.value = "Consumidor Final";
+        }
     }
 });
