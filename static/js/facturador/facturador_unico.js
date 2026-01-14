@@ -243,3 +243,28 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 });
+
+document.getElementById("tipo_factura").addEventListener("change", function () {
+    const tipoFactura = this.value;
+    const tipoDocSelect = document.getElementById("tipo_doc");
+    const conceptoIvaSelect = document.getElementById("concepto_iva");
+
+    if (tipoFactura === "Factura A") {
+        // --- Tipo Documento ---
+        Array.from(tipoDocSelect.options).forEach(opt => {
+            opt.disabled = opt.value !== "CUIT";
+        });
+        tipoDocSelect.value = "CUIT";
+
+        // --- Concepto IVA ---
+        Array.from(conceptoIvaSelect.options).forEach(opt => {
+            opt.disabled = opt.value !== "Responsable Inscripto";
+        });
+        conceptoIvaSelect.value = "Responsable Inscripto";
+
+    } else {
+        // Habilitar todo nuevamente
+        Array.from(tipoDocSelect.options).forEach(opt => opt.disabled = false);
+        Array.from(conceptoIvaSelect.options).forEach(opt => opt.disabled = false);
+    }
+});
