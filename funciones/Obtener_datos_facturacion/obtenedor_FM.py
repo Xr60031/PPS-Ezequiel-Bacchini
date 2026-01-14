@@ -12,14 +12,14 @@ class Obtenedor_FM(obtenedor_datos_facturacion):
         i = 0
         while worksheet == None:
             factura_hoja=excel_dataframe[workbooks.facturaA.value]
-            if(factura_hoja.cell(row=constantes_genericas_excel.starting_row.value+i, column=constantes_genericas_excel.starting_colvar.value+i).value):
-                worksheet == excel_dataframe[workbooks.facturaA.value]
+            if(factura_hoja.cell(row=constantes_genericas_excel.starting_row.value+i, column=constantes_genericas_excel.starting_colvar.value).value):
+                worksheet = workbooks.facturaA.value
             factura_hoja=excel_dataframe[workbooks.facturaB.value]
-            if(factura_hoja.cell(row=constantes_genericas_excel.starting_row.value+i, column=constantes_genericas_excel.starting_colvar.value+i).value):
-                worksheet == excel_dataframe[workbooks.facturaB.value]
+            if(factura_hoja.cell(row=constantes_genericas_excel.starting_row.value+i, column=constantes_genericas_excel.starting_colvar.value).value):
+                worksheet = workbooks.facturaB.value
             factura_hoja=excel_dataframe[workbooks.facturaC.value]
-            if(factura_hoja.cell(row=constantes_genericas_excel.starting_row.value+i, column=constantes_genericas_excel.starting_colvar.value+i).value):
-                worksheet == excel_dataframe[workbooks.facturaC.value]
+            if(factura_hoja.cell(row=constantes_genericas_excel.starting_row.value+i, column=constantes_genericas_excel.starting_colvar.value).value):
+                worksheet = workbooks.facturaC.value
             
             i+=1
         
@@ -30,6 +30,6 @@ class Obtenedor_FM(obtenedor_datos_facturacion):
         worksheet = self.obtener_worksheet_facturacion(data_source)
         biblioteca_datos = datos_factura_manager.obtener_datos_factura_multiple(data_source, worksheet)
         for i in range(len(biblioteca_datos)):
-            datos = self.calcular_datos_items_tributos(biblioteca_datos[i]['items'], biblioteca_datos[i]['tributos'], biblioteca_datos[i]['datos_factura'], datos_usuario)
+            datos = self.calcular_datos_items_tributos(biblioteca_datos[i]["items"], biblioteca_datos[i]["tributos"], biblioteca_datos[i]["datos_factura"], datos_usuario)
             bibliotecas_facturas.append(self.armar_biblioteca_factura(datos))
         return bibliotecas_facturas

@@ -53,7 +53,7 @@ class constantes_posicion_datos_factura_excel(Enum):
     pos_Cantidad = auto()                         # Cantidad
 
     #Ultima columna previo a que las columnas esten vacias en la hoja de facturacion
-    col_ultimo_dato_facturacion = pos_Cantidad
+    col_ultimo_dato_facturacion = auto()
 
 class constantes_posicion_items_excel(Enum):
     pos_Producto_Servicio = 1      # Producto/Servicio

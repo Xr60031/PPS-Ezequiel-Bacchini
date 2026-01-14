@@ -89,46 +89,56 @@ class Facade_API_google():
             media_body=media,
             fields='id'
         ).execute()
-        
+
         file_id = uploaded_file.get("id")
-        
-        file_id_embed = []
-        file_id_embed.append(file_id)
 
         spreadsheet = self.sheets_service.spreadsheets().get(spreadsheetId=file_id).execute()
-        sheet_id = spreadsheet['sheets'][0]['properties']['sheetId']
+        sheets = spreadsheet['sheets']
 
-        requests = [
-            {
-                "setDataValidation": {
-                    "range": {
-                        "sheetId": sheet_id,
-                        "startRowIndex": 1,
-                        "startColumnIndex": constantes_posicion_datos_factura_excel.pos_Producto_Servicio.value-1,
-                        "endColumnIndex": constantes_posicion_datos_factura_excel.pos_Producto_Servicio.value
-                    },
-                    "rule": {
-                        "condition": {
-                            "type": "ONE_OF_RANGE",
-                            "values": [{"userEnteredValue": "=Items!$A$2:$A$101"}]
+        requests = []
+
+        hojas_objetivo = ["factura_a", "factura_b", "factura_c"]
+
+        for sheet in sheets:
+            sheet_title = sheet['properties']['title']
+            sheet_id = sheet['properties']['sheetId']
+
+            if sheet_title.strip().lower() in hojas_objetivo:
+                requests.append({
+                    "setDataValidation": {
+                        "range": {
+                            "sheetId": sheet_id,
+                            "startRowIndex": 1,
+                            "startColumnIndex": constantes_posicion_datos_factura_excel.pos_Producto_Servicio.value - 1,
+                            "endColumnIndex": constantes_posicion_datos_factura_excel.pos_Producto_Servicio.value
                         },
-                        "showCustomUi": True
+                        "rule": {
+                            "condition": {
+                                "type": "ONE_OF_RANGE",
+                                "values": [
+                                    {"userEnteredValue": "=Items!$A$2:$A$101"}
+                                ]
+                            },
+                            "showCustomUi": True
+                        }
                     }
-                }
-            }
-        ]
+                })
 
-        self.sheets_service.spreadsheets().batchUpdate(
-            spreadsheetId=file_id,
-            body={"requests": requests}
-        ).execute()
+        if requests:
+            self.sheets_service.spreadsheets().batchUpdate(
+                spreadsheetId=file_id,
+                body={"requests": requests}
+            ).execute()
 
         self.drive_service.permissions().create(
             fileId=file_id,
             body={"role": "writer", "type": "anyone"}
         ).execute()
 
+        file_id_embed = []
+        file_id_embed.append(file_id)
         file_id_embed.append(f"https://docs.google.com/spreadsheets/d/{file_id}/edit?usp=sharing&rm=minimal")
+
         return file_id_embed
     
     def download_file_from_drive(self, service, file_id, destination_path):

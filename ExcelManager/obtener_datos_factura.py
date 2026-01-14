@@ -2,9 +2,8 @@ from openpyxl import load_workbook
 from ExcelManager.obtenedor_datos_excel import Obtenedor_Datos_Excel
 from Funciones.Ensambladores.armar_item import Armador_Item
 
-from Constantes.Excel.constantes_excel import constantes_genericas_excel, workbooks
+from Constantes.Excel.constantes_excel import constantes_genericas_excel, workbooks, constantes_posicion_datos_factura_excel
 from Constantes.Facturacion.constantes_arrays import constantes_array_datos_factura
-
 class Obtenedor_Datos_Factura():
     def __init__(self):
         self
@@ -43,7 +42,7 @@ class Obtenedor_Datos_Factura():
         while ID:
             datos_factura = []
             if ID != ID_anterior:
-                while cant_var < constantes_array_datos_factura.pos_ultimo_dato_antes_de_productos.value:
+                while cant_var < constantes_posicion_datos_factura_excel.pos_Fecha_vencimiento_de_pago.value+1:
                     datos_factura.append(factura_hoja.cell(row=row, column=cant_var).value)
                     cant_var+=1
                 

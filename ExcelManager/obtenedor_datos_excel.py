@@ -5,7 +5,7 @@ class Obtenedor_Datos_Excel():
         self
 
     def obtener_datos_hoja_factura_item_actual(self, factura_hoja, row):
-        cantidad = float(factura_hoja.cell(row=row, column=constantes_posicion_datos_factura_excel.pos_Cantidad.value).value or 0)
+        cantidad = float(factura_hoja.cell(row=row, column=constantes_posicion_datos_factura_excel.pos_Cantidad.value).value or 1)
         porcentaje_bonificado = factura_hoja.cell(row=row, column=constantes_posicion_datos_factura_excel.pos_Porcentaje_bonificado.value).value
         nombre_producto_servicio = factura_hoja.cell(row=row, column=constantes_posicion_datos_factura_excel.pos_Producto_Servicio.value).value
 

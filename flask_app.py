@@ -14,6 +14,7 @@ from Facades.Contactos_Frecuentes.facade_contactos_frecuentes import Facade_Clie
 from Funciones.Obtener_datos_facturacion.obtenedor_FM import Obtenedor_FM
 from Funciones.Obtener_datos_facturacion.obtenedor_FU import Obtenedor_FU
 from Funciones.Obtener_datos_facturacion.obtenedor_NC import Obtenedor_NC
+from Funciones.Obtener_datos_facturacion.obtenedor_PDF import Obtenedor_PDF
 
 from Funciones.Verificadores.verificador_CUIT import Verificador_CUIT
 from Funciones.Verificadores.verificador_inicio_sesion import Verificador_Inicio_Sesion
@@ -281,8 +282,6 @@ def modificar_cliente():
     datos.append(request.form.get("concepto_iva") or None)
     selected_client = request.form.get("selected_client")
 
-    print(datos)
-
     destination_path = API_Google.descargar_excel(constantes_.excel_con_borrado_de_drive, session.get('excelID'), session.get('excel_name'))
 
     clientes_manager.modificar_cliente(destination_path, datos, selected_client)
@@ -365,7 +364,7 @@ def load_facturador():
         if(ultimo_numero == None):
             ultimo_numero = "Todavía no hay facturas registradas en el historial de la plantilla"
         Thread(target=delete_file_after_download, args=(path_excel,)).start()
-        return render_template('FacturadorMultiple.html', embed_link=session.get('embed'), estado = session.get('descargar_excel'))
+        return render_template('FacturadorMultiple.html', embed_link=session.get('embed'), estado = session.get('descargar_excel'), ultimo_numero=ultimo_numero)
     elif action == "menu_items":
         items = items_manager.obtener_productos_servicios(path_excel)
         Thread(target=delete_file_after_download, args=(path_excel,)).start()
@@ -423,9 +422,14 @@ def facturacion():
         data_source = destination_path
         obtenedor = Obtenedor_FM()
     elif (modo_factura == "Nota Credito"):
+        historial = Facade_Historial()
+        ultimo_numero = historial.get_ultimo_ID_factura_usado(destination_path)
+        if(ultimo_numero == None):
+            ultimo_numero = "Todavía no hay facturas registradas en el historial de la plantilla"
         data_source = []
         data_source.append(json.loads(request.form["selected_items_json"]))
         data_source.append(json.loads(request.form["historial_completo"]))
+        data_source.append(ultimo_numero+1)
         obtenedor = Obtenedor_NC()
     
     try:
@@ -501,9 +505,14 @@ def rearmar_pdf():
     datos_usuario = usuario_manager.armar_biblioteca_vendedor(datos_usuario)
 
     data_source = []
+    historial = Facade_Historial()
+    ultimo_numero = historial.get_ultimo_ID_factura_usado(destination_path)
+    if(ultimo_numero == None):
+        ultimo_numero = "Todavía no hay facturas registradas en el historial de la plantilla"
+    data_source = []
     data_source.append(json.loads(request.form["selected_items_json"]))
     data_source.append(json.loads(request.form["historial_completo"]))
-    obtenedor = Obtenedor_NC()
+    obtenedor = Obtenedor_PDF()
 
     datos_CAE = []
     datos_CAE.append(data_source[constantes_data_source_NC.fila_seleccionada.value][constantes_historial.pos_CAE_Numero.value-1])
@@ -525,7 +534,11 @@ def rearmar_pdf():
     if isinstance(datos_factura, dict):
         datos_factura = [datos_factura]
         
+
+    
+
     try:
+        print(datos_factura)
         impresor = Impresor_PDF()
         pdf_contenido = impresor.generar_pdf_(datos_factura=datos_factura[0], biblioteca_datos_vendedor=datos_usuario, datos_CAE=datos_CAE)
         pdf_bytes = pdf_contenido[constantes_PDF.pos_contenido_pdf.value]

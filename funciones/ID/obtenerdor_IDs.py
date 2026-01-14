@@ -50,11 +50,11 @@ class Obtenedor_ID():
         }.get(tipo_factura)
     
     def obtener_Nombre_Nota(self, tipo_factura):
-        return{
-            'Factura C' : ID_Nota_Credito.NOTA_C_Nombre.value,
-            'Factura A' : ID_Nota_Credito.NOTA_A_Nombre.value,
-            'Factura B' : ID_Nota_Credito.NOTA_B_Nombre.value
-        }.get(tipo_factura)
+            return{
+                'Factura C' : ID_Nota_Credito.NOTA_C_Nombre.value,
+                'Factura A' : ID_Nota_Credito.NOTA_A_Nombre.value,
+                'Factura B' : ID_Nota_Credito.NOTA_B_Nombre.value
+            }.get(tipo_factura)
 
     def obtener_ID_condicion_iva_cliente(self, tipo_iva):
         return{
@@ -63,3 +63,13 @@ class Obtenedor_ID():
             'Excento' : ID_Condicion_IVA_Cliente.EXCENTO.value,
             'Responsable Inscripto': ID_Condicion_IVA_Cliente.RESPONSABLE_INSCRIPTO.value,
         }.get(tipo_iva)
+    
+    def obtener_ID_PDF(self, tipo_factura):
+        return{
+            'NOTA CREDITO C' : ID_Nota_Credito.NOTA_C.value,
+            'NOTA CREDITO A' : ID_Nota_Credito.NOTA_A.value,
+            'NOTA CREDITO B' : ID_Nota_Credito.NOTA_B.value,
+            'Factura C' : ID_Factura.FACTURA_C.value,
+            'Factura A' : ID_Factura.FACTURA_A.value,
+            'Factura B' : ID_Factura.FACTURA_B.value
+        }.get(tipo_factura)

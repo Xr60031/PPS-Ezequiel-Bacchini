@@ -190,11 +190,25 @@ class constantes_factura(Enum):
     importe_iva_105 = auto()
 
 class constantes_array_datos_factura_FM(Enum):
-    #pos_tributos array position in datos_factura
-    pos_tributos = 11
-    #pos_items array position in datos_factura
+    pos_Identificador_Factura = 0                # Identificador Factura 
+    pos_Tipo_de_Factura = auto()                 # Tipo de Factura 
+    pos_Tipo_Documento = auto()                  # Tipo Documento 
+    pos_Numero_de_documento_del_cliente = auto() # Número de documento del cliente 
+    pos_Nombre_y_Apellido_Cliente = auto()       # Nombre y Apellido Cliente 
+    pos_Telefono = auto()                         # Telefono 
+    pos_Provincia = auto()                        # Provincia 
+    pos_Localidad = auto()                        # Localidad 
+    pos_Direccion = auto()                        # Dirección 
+    pos_Condicion_venta_cliente = auto()         # Condicion venta cliente 
+    pos_Condicion_IVA_cliente = auto()           # Condicion IVA cliente 
+    pos_Concepto = auto()                        # Concepto 
+    pos_Fecha_servicio_desde = auto()            # Fecha Servicio desde 
+    pos_Fecha_servicio_hasta = auto()            # Fecha servicio hasta 
+    pos_Fecha_vencimiento_de_pago = auto()   
+    pos_tributos = auto()
     pos_items = auto()
 
 class constantes_data_source_NC(Enum):
     fila_seleccionada = 0
     historial = auto()
+    identificador = auto()
