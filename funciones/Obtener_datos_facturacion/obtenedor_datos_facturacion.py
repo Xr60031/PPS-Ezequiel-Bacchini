@@ -186,3 +186,6 @@ class obtenedor_datos_facturacion(ABC):
 
     def set_numero_comprobante(self, datos_factura, nro_cbte):
         datos_factura["nro_cbte"] = nro_cbte
+
+    def set_identificador_factura(self, datos_factura, identificador):
+            datos_factura["Identificador_Factura"] = identificador
